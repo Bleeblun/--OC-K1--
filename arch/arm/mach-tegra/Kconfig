@@ -318,9 +318,7 @@ config TEGRA_GPU_OVERCLOCK
 	bool "Enable Tegra K1 GPU overclocking to 924 MHz"
 	default n
 	help
-	  This option enables Tegra K1 GPU Overclocking to 960 MHz.
-	  In order for this to work, make sure the edp-limit
-	  is set high enough.
+	  This option enables Tegra K1 GPU Overclocking to 924 MHz.
 
 config TEGRA_THERMAL_THROTTLE
 	bool "Enable throttling of CPU speed on overtemp"
