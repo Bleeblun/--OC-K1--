@@ -786,7 +786,7 @@ static int resolve_core_override(int min_override_mv)
 static unsigned long gpu_max_freq[] = {
 /* speedo_id 0	1		 2	 	  3		  4		  5		  6*/
 #if defined(CONFIG_TEGRA_GPU_OVERCLOCK)
-		648000, 1008000, 1008000, 780000, 804000, 756000, 1008000
+		648000, 924000, 1008000, 780000, 804000, 756000, 924000
 #else
 		648000, 852000, 1008000, 780000, 804000, 756000, 852000
 #endif
