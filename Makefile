@@ -243,7 +243,7 @@ HOSTCC       = gcc
 HOSTCXX      = g++
 HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
 HOSTCXXFLAGS = -Ofast
-KERNELFLAGS  = -mcpu=cortex-a15 -mtune=cortex-a15 -marm -mfpu=neon-vfpv4 -fgcse-las
+KERNELFLAGS  = -mtune=cortex-a15 -marm -mfpu=neon-vfpv4 -fgcse-las
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
