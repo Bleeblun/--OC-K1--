@@ -508,7 +508,6 @@ static void mmc_run_queue(struct mmc_host *host, int from)
 		mmc_host_clk_release(host);
 	}
 }
-
 static struct mmc_request *mmc_issue_check(struct mmc_host *host, enum transfer_flags flags)
 {
 	memset(&host->que_cmd, 0, sizeof(struct mmc_command));
