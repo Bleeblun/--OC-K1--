@@ -49,17 +49,13 @@ static int set_bits_ll(unsigned long *addr, unsigned long mask_to_set)
 	unsigned long val, nval;
 
 	nval = *addr;
-	val = nval;
-	if (val & mask_to_set)
-		return -EBUSY;
-	cpu_relax();
-	while ((nval = cmpxchg(addr, val, val | mask_to_set)) != val) {
-		cpu_relaxed_read_long(addr);
+	do {
 		val = nval;
 		if (val & mask_to_set)
 			return -EBUSY;
-		cpu_read_relax();
-	}
+		cpu_relax();
+	} while ((nval = cmpxchg(addr, val, val | mask_to_set)) != val);
+
 	return 0;
 }
 
@@ -68,17 +64,13 @@ static int clear_bits_ll(unsigned long *addr, unsigned long mask_to_clear)
 	unsigned long val, nval;
 
 	nval = *addr;
-	val = nval;
-	if ((val & mask_to_clear) != mask_to_clear)
-		return -EBUSY;
-	cpu_relax();
-	while ((nval = cmpxchg(addr, val, val & ~mask_to_clear)) != val) {
-		cpu_relaxed_read_long(addr);
+	do {
 		val = nval;
 		if ((val & mask_to_clear) != mask_to_clear)
 			return -EBUSY;
-		cpu_read_relax();
-	}
+		cpu_relax();
+	} while ((nval = cmpxchg(addr, val, val & ~mask_to_clear)) != val);
+
 	return 0;
 }
 
@@ -293,9 +285,6 @@ unsigned long gen_pool_alloc_addr(struct gen_pool *pool, size_t size,
 #endif
 
 	if (size == 0)
-		return 0;
-
-	if (alloc_addr & (1 << order) - 1)
 		return 0;
 
 	nbits = (size + (1UL << order) - 1) >> order;
