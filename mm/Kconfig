@@ -317,6 +317,16 @@ config KSM
 	  until a program has madvised that an area is MADV_MERGEABLE, and
 	  root has set /sys/kernel/mm/ksm/run to 1 (if CONFIG_SYSFS is set).
 
+config KSM_MEMCMP
+	bool "memcmp for KSM"
+	depends on KSM
+	default n
+	help
+	  The current ksm is using memcmp to insert and search 'rb_tree'.
+	  It does cause very expensive computation cost.
+	  In order to reduce the time of this operation,
+	  we have added a checksum to traverse before memcmp operation.
+
 config DEFAULT_MMAP_MIN_ADDR
         int "Low address space to protect from user allocation"
 	depends on MMU
