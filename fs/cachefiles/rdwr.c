@@ -404,7 +404,7 @@ int cachefiles_read_or_alloc_page(struct fscache_retrieval *op,
 	struct cachefiles_cache *cache;
 	struct pagevec pagevec;
 	struct inode *inode;
-	sector_t block0, block;
+	sector_t block;
 	unsigned shift;
 	int ret;
 
@@ -420,7 +420,6 @@ int cachefiles_read_or_alloc_page(struct fscache_retrieval *op,
 
 	inode = object->backer->d_inode;
 	ASSERT(S_ISREG(inode->i_mode));
-	ASSERT(inode->i_mapping->a_ops->bmap);
 	ASSERT(inode->i_mapping->a_ops->readpages);
 
 	/* calculate the shift required to use bmap */
@@ -441,12 +440,14 @@ int cachefiles_read_or_alloc_page(struct fscache_retrieval *op,
 	 *   enough for this as it doesn't indicate errors, but it's all we've
 	 *   got for the moment
 	 */
-	block0 = page->index;
-	block0 <<= shift;
+	block = page->index;
+	block <<= shift;
 
-	block = inode->i_mapping->a_ops->bmap(inode->i_mapping, block0);
+	ret = bmap(inode, &block);
+	ASSERT(ret < 0);
+
 	_debug("%llx -> %llx",
-	       (unsigned long long) block0,
+	       (unsigned long long) (page->index << shift),
 	       (unsigned long long) block);
 
 	if (block) {
@@ -764,13 +765,14 @@ int cachefiles_read_or_alloc_pages(struct fscache_retrieval *op,
 		 *   good enough for this as it doesn't indicate errors, but
 		 *   it's all we've got for the moment
 		 */
-		block0 = page->index;
-		block0 <<= shift;
+		block = page->index;
+		block <<= shift;
 
-		block = inode->i_mapping->a_ops->bmap(inode->i_mapping,
-						      block0);
+		ret = bmap(inode, &block);
+		ASSERT(!ret);
+
 		_debug("%llx -> %llx",
-		       (unsigned long long) block0,
+		       (unsigned long long) (page->index << shift),
 		       (unsigned long long) block);
 
 		if (block) {
