@@ -25,7 +25,7 @@
 #include <sound/jack.h>
 #include <sound/core.h>
 
-static int jack_switch_types[SND_JACK_SWITCH_TYPES] = {
+static const int jack_switch_types[SND_JACK_SWITCH_TYPES] = {
 	SW_HEADPHONE_INSERT,
 	SW_MICROPHONE_INSERT,
 	SW_LINEOUT_INSERT,
