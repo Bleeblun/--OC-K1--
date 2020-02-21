@@ -181,6 +181,7 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 				"select '%s' (%d), adj %hd, size %d, to kill\n",
 				p->comm, p->pid, oom_score_adj, tasksize);
 	}
+	if (selected) {
 		lowmem_print(1, jiffies_lowmem_ts,
 				"Killing '%s' (%d), adj %hd,\n" \
 				"   to free %ldkB on behalf of '%s' (%d) because\n" \
@@ -327,4 +328,3 @@ module_init(lowmem_init);
 module_exit(lowmem_exit);
 
 MODULE_LICENSE("GPL");
-
