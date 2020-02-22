@@ -800,7 +800,7 @@ static void bdi_update_write_bandwidth(struct backing_dev_info *bdi,
 	bw = written - min(written, bdi->written_stamp);
 	bw *= HZ;
 	if (unlikely(elapsed > period)) {
-		do_div(bw, elapsed);
+		bw = div64_ul(bw, elapsed);
 		avg = bw;
 		goto out;
 	}
