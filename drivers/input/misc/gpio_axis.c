@@ -25,7 +25,7 @@ struct gpio_axis_state {
 	uint32_t pos;
 };
 
-uint16_t gpio_axis_4bit_gray_map_table[] = {
+uint16_t const gpio_axis_4bit_gray_map_table[] = {
 	[0x0] = 0x0, [0x1] = 0x1, /* 0000 0001 */
 	[0x3] = 0x2, [0x2] = 0x3, /* 0011 0010 */
 	[0x6] = 0x4, [0x7] = 0x5, /* 0110 0111 */
@@ -40,7 +40,7 @@ uint16_t gpio_axis_4bit_gray_map(struct gpio_event_axis_info *info, uint16_t in)
 	return gpio_axis_4bit_gray_map_table[in];
 }
 
-uint16_t gpio_axis_5bit_singletrack_map_table[] = {
+uint16_t const gpio_axis_5bit_singletrack_map_table[] = {
 	[0x10] = 0x00, [0x14] = 0x01, [0x1c] = 0x02, /*     10000 10100 11100 */
 	[0x1e] = 0x03, [0x1a] = 0x04, [0x18] = 0x05, /*     11110 11010 11000 */
 	[0x08] = 0x06, [0x0a] = 0x07, [0x0e] = 0x08, /*    01000 01010 01110  */
