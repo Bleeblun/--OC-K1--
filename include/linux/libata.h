@@ -1385,6 +1385,29 @@ static inline unsigned int ata_tag_internal(unsigned int tag)
 	return tag == ATA_TAG_INTERNAL;
 }
 
+#define __ata_qc_for_each(ap, qc, tag, max_tag, fn)		\
+	for ((tag) = 0; (tag) < (max_tag) &&			\
+	     ({ qc = fn((ap), (tag)); 1; }); (tag)++)		\
+
+/*
+ * Internal use only, iterate commands ignoring error handling and
+ * status of 'qc'.
+ */
+#define ata_qc_for_each_raw(ap, qc, tag)					\
+	__ata_qc_for_each(ap, qc, tag, ATA_MAX_QUEUE, __ata_qc_from_tag)
+
+/*
+ * Iterate all potential commands that can be queued
+ */
+#define ata_qc_for_each(ap, qc, tag)					\
+	__ata_qc_for_each(ap, qc, tag, ATA_MAX_QUEUE, ata_qc_from_tag)
+
+/*
+ * Like ata_qc_for_each, but with the internal tag included
+ */
+#define ata_qc_for_each_with_internal(ap, qc, tag)			\
+	__ata_qc_for_each(ap, qc, tag, ATA_MAX_QUEUE + 1, ata_qc_from_tag)
+
 /*
  * device helpers
  */
