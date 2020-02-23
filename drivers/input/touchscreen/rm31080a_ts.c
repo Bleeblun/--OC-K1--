@@ -3590,7 +3590,7 @@ struct rm_tch_ts *rm_tch_input_init(struct device *dev, unsigned int irq,
 	rm_tch_set_input_resolution(RM_INPUT_RESOLUTION_X,
 				RM_INPUT_RESOLUTION_Y);
 
-#if defined(GONFIG_TOUCHSCREEN_PREVENT_SLEEP)
+#if defined(CONFIG_TOUCHSCREEN_PREVENT_SLEEP)
 	err = request_threaded_irq(ts->irq, NULL, rm_tch_irq,
 			IRQF_TRIGGER_RISING | IRQF_ONESHOT | IRQF_NO_SUSPEND | IRQF_EARLY_RESUME , dev_name(dev), ts);
 #else
