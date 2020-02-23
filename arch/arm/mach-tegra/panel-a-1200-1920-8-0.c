@@ -33,10 +33,10 @@ static struct regulator *dvdd_lcd_1v8;
 static struct device *dc_dev;
 static u16 en_panel_rst;
 
-#ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
+#if defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
 	extern bool s2w_scr_suspended;
 #endif
-#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
+#if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
 	extern bool dt2w_scr_suspended;
 #endif
 
@@ -135,10 +135,10 @@ static int dsi_a_1200_1920_8_0_enable(struct device *dev)
 	}
 #endif
 	dc_dev = dev;
-#ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
+#if defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
 	s2w_scr_suspended = false;
 #endif
-#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
+#if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
 	dt2w_scr_suspended = false;
 #endif
 	return 0;
@@ -164,10 +164,10 @@ static int dsi_a_1200_1920_8_0_disable(struct device *dev)
 		regulator_disable(dvdd_lcd_1v8);
 
 	dc_dev = NULL;
-#ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
+#if defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
 	s2w_scr_suspended = true;
 #endif
-#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
+#if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
 	dt2w_scr_suspended = true;
 #endif
 	return 0;
