@@ -50,7 +50,7 @@ struct mmc_queue {
 	struct mmc_card		*card;
 	struct task_struct	*thread;
 	struct semaphore	thread_sem;
-	spinlock_t			cmdq_lock;
+	spinlock_t		cmdq_lock;
 	unsigned int		flags;
 #define MMC_QUEUE_SUSPENDED	(1 << 0)
 #define MMC_QUEUE_NEW_REQUEST	(1 << 1)
