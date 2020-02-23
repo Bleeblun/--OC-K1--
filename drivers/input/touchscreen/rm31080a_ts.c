@@ -118,9 +118,12 @@ enum RM_TEST_MODE {
 	RM_TEST_MODE_CALC_TIME_SHOW,
 	RM_TEST_MODE_MAX
 };
-
+#if defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
 extern int s2w_switch;
+#endif
+#if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
 extern int dt2w_switch;
+#endif
 
 #ifdef ENABLE_SMOOTH_LEVEL
 #define RM_SMOOTH_LEVEL_NORMAL		0
@@ -3335,12 +3338,13 @@ static void rm_tch_early_resume(struct early_suspend *es)
 {
 	struct rm_tch_ts *ts;
 	struct device *dev;
+	if(!s2w_switch && !dt2w_switch) {
+		ts = container_of(es, struct rm_tch_ts, early_suspend);
+		dev = ts->dev;
 
-	ts = container_of(es, struct rm_tch_ts, early_suspend);
-	dev = ts->dev;
-
-	if (rm_tch_resume(dev))
-		dev_err(dev, "Raydium - %s : failed\n", __func__);
+		if (rm_tch_resume(dev))
+			dev_err(dev, "Raydium - %s : failed\n", __func__);
+	}
 }
 #endif			/*CONFIG_HAS_EARLYSUSPEND*/
 #endif			/*CONFIG_PM*/
@@ -3592,7 +3596,7 @@ struct rm_tch_ts *rm_tch_input_init(struct device *dev, unsigned int irq,
 
 #if defined(CONFIG_TOUCHSCREEN_PREVENT_SLEEP)
 	err = request_threaded_irq(ts->irq, NULL, rm_tch_irq,
-			IRQF_TRIGGER_RISING | IRQF_ONESHOT | IRQF_NO_SUSPEND | IRQF_EARLY_RESUME , dev_name(dev), ts);
+			IRQF_TRIGGER_RISING | IRQF_ONESHOT | IRQF_IRQPOLL | IRQF_NO_SUSPEND | IRQF_EARLY_RESUME , dev_name(dev), ts);
 #else
 	err = request_threaded_irq(ts->irq, NULL, rm_tch_irq,
 			IRQF_TRIGGER_RISING | IRQF_ONESHOT, dev_name(dev), ts);
