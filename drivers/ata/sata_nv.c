@@ -1162,8 +1162,8 @@ static int nv_adma_port_start(struct ata_port *ap)
 	   These are allowed to fail since we store the value that ends up
 	   being used to set as the bounce limit in slave_config later if
 	   needed. */
-	pci_set_dma_mask(pdev, DMA_BIT_MASK(64));
-	pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(64));
+	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+
 	pp->adma_dma_mask = *dev->dma_mask;
 
 	mem = dmam_alloc_coherent(dev, NV_ADMA_PORT_PRIV_DMA_SZ,
