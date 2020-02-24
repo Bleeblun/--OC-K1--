@@ -23,6 +23,8 @@
 #include "board.h"
 #include "board-panel.h"
 #include "devices.h"
+#include <linux/input/sweep2wake.h>
+#include <linux/input/doubletap2wake.h>
 
 #define DSI_PANEL_RESET		1
 
@@ -33,13 +35,12 @@ static struct regulator *dvdd_lcd_1v8;
 static struct device *dc_dev;
 static u16 en_panel_rst;
 
-#if defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
+#ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
 	extern bool s2w_scr_suspended;
 #endif
-#if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
+#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
 	extern bool dt2w_scr_suspended;
 #endif
-
 
 static int dsi_a_1200_1920_8_0_regulator_get(struct device *dev)
 {
@@ -135,10 +136,10 @@ static int dsi_a_1200_1920_8_0_enable(struct device *dev)
 	}
 #endif
 	dc_dev = dev;
-#if defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
+#ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
 	s2w_scr_suspended = false;
 #endif
-#if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
+#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
 	dt2w_scr_suspended = false;
 #endif
 	return 0;
@@ -164,10 +165,10 @@ static int dsi_a_1200_1920_8_0_disable(struct device *dev)
 		regulator_disable(dvdd_lcd_1v8);
 
 	dc_dev = NULL;
-#if defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
+#ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
 	s2w_scr_suspended = true;
 #endif
-#if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
+#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
 	dt2w_scr_suspended = true;
 #endif
 	return 0;

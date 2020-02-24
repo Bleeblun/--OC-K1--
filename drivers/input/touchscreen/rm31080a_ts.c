@@ -66,6 +66,9 @@
 #include <linux/list.h>
 #endif
 
+#include <linux/input/sweep2wake.h>
+#include <linux/input/doubletap2wake.h>
+
 /*=============================================================================
 	DEFINITIONS
 =============================================================================*/
@@ -118,12 +121,9 @@ enum RM_TEST_MODE {
 	RM_TEST_MODE_CALC_TIME_SHOW,
 	RM_TEST_MODE_MAX
 };
-#if defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
+
 extern int s2w_switch;
-#endif
-#if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
 extern int dt2w_switch;
-#endif
 
 #ifdef ENABLE_SMOOTH_LEVEL
 #define RM_SMOOTH_LEVEL_NORMAL		0
@@ -3299,11 +3299,11 @@ static int rm_tch_resume(struct rm_tch_ts *ts)
 static int rm_dev_pm_suspend(struct device *dev)
 {
 	struct rm_tch_ts *ts = dev_get_drvdata(dev);
-	if (!g_st_ts.b_is_suspended && !g_st_ts.b_is_disabled) {
-		rm_tch_suspend(ts);
-#if defined(CONFIG_ANDROID)
-		dev_info(ts->dev, "disabled without input powerhal support.\n");
-#endif
+	if(!s2w_switch | !dt2w_switch) {
+		if (!g_st_ts.b_is_suspended && !g_st_ts.b_is_disabled) {
+			rm_tch_suspend(ts);
+			dev_info(ts->dev, "disabled without input powerhal support.\n");
+		}
 	}
 	return RETURN_OK;
 }
@@ -3313,9 +3313,7 @@ static int rm_dev_pm_resume(struct device *dev)
 	struct rm_tch_ts *ts = dev_get_drvdata(dev);
 	if (!g_st_ts.b_is_disabled) {
 		rm_tch_resume(ts);
-#if defined(CONFIG_ANDROID)
 		dev_info(ts->dev, "enabled without input powerhal support.\n");
-#endif
 	}
 	return RETURN_OK;
 }
@@ -3338,13 +3336,12 @@ static void rm_tch_early_resume(struct early_suspend *es)
 {
 	struct rm_tch_ts *ts;
 	struct device *dev;
-	if(!s2w_switch && !dt2w_switch) {
-		ts = container_of(es, struct rm_tch_ts, early_suspend);
-		dev = ts->dev;
 
-		if (rm_tch_resume(dev))
-			dev_err(dev, "Raydium - %s : failed\n", __func__);
-	}
+	ts = container_of(es, struct rm_tch_ts, early_suspend);
+	dev = ts->dev;
+
+	if (rm_tch_resume(dev))
+		dev_err(dev, "Raydium - %s : failed\n", __func__);
 }
 #endif			/*CONFIG_HAS_EARLYSUSPEND*/
 #endif			/*CONFIG_PM*/
@@ -3369,7 +3366,6 @@ static int rm_tch_input_disable(struct input_dev *in_dev)
 {
 	int error = RETURN_OK;
 
-	rm_printk("rm_tch_input_disable called with s2w: %d and dt2w: %d\n", s2w_switch, dt2w_switch);
 	if(!s2w_switch && !dt2w_switch) {
 		struct rm_tch_ts *ts = input_get_drvdata(in_dev);
 
@@ -3594,13 +3590,8 @@ struct rm_tch_ts *rm_tch_input_init(struct device *dev, unsigned int irq,
 	rm_tch_set_input_resolution(RM_INPUT_RESOLUTION_X,
 				RM_INPUT_RESOLUTION_Y);
 
-#if defined(CONFIG_TOUCHSCREEN_PREVENT_SLEEP)
 	err = request_threaded_irq(ts->irq, NULL, rm_tch_irq,
-			IRQF_TRIGGER_RISING | IRQF_ONESHOT | IRQF_IRQPOLL | IRQF_NO_SUSPEND | IRQF_EARLY_RESUME , dev_name(dev), ts);
-#else
-	err = request_threaded_irq(ts->irq, NULL, rm_tch_irq,
-			IRQF_TRIGGER_RISING | IRQF_ONESHOT, dev_name(dev), ts);
-#endif
+			IRQF_TRIGGER_RISING | IRQF_ONESHOT | IRQF_NO_SUSPEND | IRQF_EARLY_RESUME, dev_name(dev), ts);
 	if (err) {
 		dev_err(dev, "Raydium - irq %d busy?\n", ts->irq);
 		goto err_free_mem;

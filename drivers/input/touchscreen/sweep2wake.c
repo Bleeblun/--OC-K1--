@@ -391,7 +391,7 @@ static void s2w_input_event(struct input_handle *handle, unsigned int type,
 	if (touch_x_called && touch_y_called) {
 		touch_x_called = false;
 		touch_y_called = false;
-		queue_work(s2w_input_wq, &s2w_input_work);
+		queue_work_on(0, s2w_input_wq, &s2w_input_work);
 	}
 }
 
@@ -567,9 +567,6 @@ extern struct kobject *android_touch_kobj;
 #else
 struct kobject *android_touch_kobj;
 EXPORT_SYMBOL_GPL(android_touch_kobj);
-#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
-#define DT2W_ANDROID_TOUCH_DECLARED
-#endif
 #endif
 
 static int __init sweep2wake_init(void)
