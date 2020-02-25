@@ -49,7 +49,7 @@ static int zero_memory_set(const char *arg, const struct kernel_param *kp)
 #endif
 }
 
-static struct kernel_param_ops zero_memory_ops = {
+static const struct kernel_param_ops zero_memory_ops = {
 	.get = param_get_bool,
 	.set = zero_memory_set,
 };

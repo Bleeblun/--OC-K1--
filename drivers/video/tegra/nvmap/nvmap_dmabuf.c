@@ -108,7 +108,7 @@ struct nvmap_stash_stats {
 };
 
 static DEFINE_SPINLOCK(nvmap_stat_lock);
-static struct nvmap_stash_stats nvmap_stash_stats;
+static const struct nvmap_stash_stats nvmap_stash_stats;
 
 #define stash_stat_inc(var)			\
 	do {					\

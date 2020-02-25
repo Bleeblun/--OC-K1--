@@ -104,7 +104,7 @@ void nvmap_heap_debugfs_init(struct dentry *heap_root, struct nvmap_heap *heap)
 			heap_root, (u32 *)&heap->len);
 }
 
-static phys_addr_t nvmap_alloc_mem(struct nvmap_heap *h, size_t len,
+static const phys_addr_t nvmap_alloc_mem(struct nvmap_heap *h, size_t len,
 				   phys_addr_t *start)
 {
 	phys_addr_t pa;
@@ -204,7 +204,7 @@ fail_heap_block_alloc:
 	return NULL;
 }
 
-static struct list_block *do_heap_free(struct nvmap_heap_block *block)
+static const struct list_block *do_heap_free(struct nvmap_heap_block *block)
 {
 	struct list_block *b = container_of(block, struct list_block, block);
 	struct nvmap_heap *heap = b->heap;
