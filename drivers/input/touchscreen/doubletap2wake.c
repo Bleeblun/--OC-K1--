@@ -60,8 +60,8 @@ MODULE_LICENSE("GPL v2");
 #define DT2W_DEFAULT		0
 
 #define DT2W_PWRKEY_DUR		50
-#define DT2W_FEATHER		200
-#define DT2W_TIME		500
+#define DT2W_RADIUS		200
+#define DT2W_TIME		700
 
 /* Resources */
 int dt2w_switch = DT2W_DEFAULT;
@@ -123,13 +123,12 @@ static void doubletap2wake_pwrtrigger(void) {
         return;
 }
 
-/* unsigned */
-static unsigned int calc_feather(int coord, int prev_coord) {
-	int calc_coord = 0;
-	calc_coord = coord-prev_coord;
-	if (calc_coord < 0)
-		calc_coord = calc_coord * (-1);
-	return calc_coord;
+/* bool */
+static bool calc_within_range(int x_pre, int y_pre, int x_new, int y_new, int radius_max) {
+	int calc_radius = ((x_new-x_pre)*(x_new-x_pre)) + ((y_new-y_pre)*(y_new-y_pre)) ;
+    if (calc_radius < ((radius_max)*(radius_max)))
+        return true;
+    return false;
 }
 
 /* init a new touch */
@@ -153,10 +152,11 @@ static void detect_doubletap2wake(int x, int y, bool st)
 		if (touch_nr == 0) {
 			new_touch(x, y);
 		} else if (touch_nr == 1) {
-			if ((calc_feather(x, x_pre) < DT2W_FEATHER) &&
-			    (calc_feather(y, y_pre) < DT2W_FEATHER) &&
-			    ((ktime_to_ms(ktime_get())-tap_time_pre) < DT2W_TIME))
-				touch_nr++;
+			if ((calc_within_range(x_pre, y_pre,x,y, DT2W_RADIUS) == true) && ((ktime_to_ms(ktime_get())-tap_time_pre) < DT2W_TIME)){
+			    	exec_count = false;
+                		doubletap2wake_pwrtrigger();  // We queue the screen on first, as it takes more time to do than vibration.
+	    			doubletap2wake_reset();     // Here the touch number is also reset to 0, but the program executes as needed. See yourself.
+            		}
 			else {
 				doubletap2wake_reset();
 				new_touch(x, y);
