@@ -36,6 +36,8 @@
 #include <linux/earlysuspend.h>
 #endif
 #include <linux/hrtimer.h>
+#include <linux/spi/rm31080a_ts.h>
+#include <linux/spi/rm31080a_ctrl.h>
 
 /* uncomment since no touchscreen defines android touch, do that here */
 //#define ANDROID_TOUCH_DECLARED

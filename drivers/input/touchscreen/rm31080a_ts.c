@@ -89,9 +89,9 @@
 #define RM_NEED_TO_SEND_SCAN		0x01
 #define RM_NEED_TO_READ_RAW_DATA	0x02
 #define RM_NEED_TO_SEND_SIGNAL		0x04
-
+/* hide the timeout
 #define TCH_WAKE_LOCK_TIMEOUT		(HZ/2)
-
+*/
 #if ENABLE_FREQ_HOPPING  /*ENABLE_SCAN_DATA_HEADER*/
 #define QUEUE_HEADER_NUM			(8)
 #define SCAN_TYPE_MT				(1)
@@ -333,7 +333,6 @@ static void rm_tch_ctrl_slowscan(u32 level);
 	 Description:
 			RM31080 spi interface.
 	 Input:
-
 	 Output:
 			1:succeed
 			0:failed
@@ -386,7 +385,6 @@ static int rm_tch_spi_read(u8 u8addr, u8 *rxbuf, size_t len)
 	 Description:
 			RM31080 spi interface.
 	 Input:
-
 	 Output:
 			1:succeed
 			0:failed
@@ -424,7 +422,6 @@ static int rm_tch_spi_write(u8 *txbuf, size_t len)
 	 Description:
 			RM31080 spi interface.
 	 Input:
-
 	 Output:
 			1:succeed
 			0:failed
@@ -449,7 +446,6 @@ static int rm_tch_spi_burst_write(u8 reg, u8 *txbuf, size_t len)
 	 Description:
 			RM31080 spi interface.
 	 Input:
-
 	 Output:
 			1:succeed
 			0:failed
@@ -463,7 +459,6 @@ int rm_tch_spi_byte_read(unsigned char u8_addr, unsigned char *p_u8_value)
 	 Description:
 			RM31080 spi interface.
 	 Input:
-
 	 Output:
 			1:succeed
 			0:failed
@@ -920,7 +915,6 @@ static int rm_event_thread_function(void *data)
 #endif
 /*=============================================================================
 	 Description: Read Sensor Raw Data
-
 	 Input:
 			*p : Raw Data Buffer Address
 	 Output:
@@ -1681,7 +1675,6 @@ int rm_set_kernel_tbl(int i_func_idx, u8 *p_u8_src)
 	return RETURN_OK;
 }
 /*=============================================================================
-
 =============================================================================*/
 static void rm_tch_enter_manual_mode(void)
 {
@@ -3288,8 +3281,9 @@ static int rm_tch_resume(struct rm_tch_ts *ts)
 		dev_info(ts->dev, "Raydium - Enable input device\n");
 		if (wake_lock_active(&g_st_ts.wakelock_initialization))
 			wake_unlock(&g_st_ts.wakelock_initialization);
+	/* Hide The Time out Setting
 		wake_lock_timeout(&g_st_ts.wakelock_initialization,
-			TCH_WAKE_LOCK_TIMEOUT);
+			TCH_WAKE_LOCK_TIMEOUT); */
 		rm_ctrl_resume(ts);
 	}
 	return RETURN_OK;
@@ -3299,7 +3293,7 @@ static int rm_tch_resume(struct rm_tch_ts *ts)
 static int rm_dev_pm_suspend(struct device *dev)
 {
 	struct rm_tch_ts *ts = dev_get_drvdata(dev);
-	if(!s2w_switch | !dt2w_switch) {
+	if(!s2w_switch && !dt2w_switch) {
 		if (!g_st_ts.b_is_suspended && !g_st_ts.b_is_disabled) {
 			rm_tch_suspend(ts);
 			dev_info(ts->dev, "disabled without input powerhal support.\n");
@@ -3949,9 +3943,9 @@ static int rm_tch_spi_remove(struct spi_device *spi)
 	if (g_st_ts.rm_workqueue)
 		destroy_workqueue(g_st_ts.rm_workqueue);
 #endif
-
+	/* Hide Killing the Wakelock as i dont want it destroyed
 	if (&g_st_ts.wakelock_initialization)
-		wake_lock_destroy(&g_st_ts.wakelock_initialization);
+		wake_lock_destroy(&g_st_ts.wakelock_initialization); */
 
 	mutex_destroy(&g_st_ts.mutex_scan_mode);
 	mutex_destroy(&g_st_ts.mutex_ns_mode);
