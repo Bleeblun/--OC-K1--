@@ -2272,11 +2272,6 @@ static void rm_tch_enable_irq(struct rm_tch_ts *ts)
 	enable_irq(ts->irq);
 }
 
-static void rm_tch_disable_irq(struct rm_tch_ts *ts)
-{
-	disable_irq(ts->irq);
-}
-
 #ifdef ENABLE_SLOW_SCAN
 /*=============================================================================
  * Description:
@@ -2905,13 +2900,6 @@ static int rm_tch_input_open(struct input_dev *input)
 	rm_tch_enable_irq(ts);
 
 	return RETURN_OK;
-}
-
-static void rm_tch_input_close(struct input_dev *input)
-{
-	struct rm_tch_ts *ts = input_get_drvdata(input);
-
-	rm_tch_disable_irq(ts);
 }
 
 static irqreturn_t rm_tch_irq(int irq, void *handle)
@@ -3554,7 +3542,6 @@ struct rm_tch_ts *rm_tch_input_init(struct device *dev, unsigned int irq,
 	input_dev->disable = rm_tch_input_disable;
 	input_dev->enabled = true;
 	input_dev->open = rm_tch_input_open;
-	input_dev->close = rm_tch_input_close;
 	input_dev->hint_events_per_packet = 256U;
 
 	input_set_drvdata(input_dev, ts);
@@ -3603,8 +3590,6 @@ struct rm_tch_ts *rm_tch_input_init(struct device *dev, unsigned int irq,
 	ts->early_suspend.resume = rm_tch_early_resume;
 	register_early_suspend(&ts->early_suspend);
 #endif
-
-	rm_tch_disable_irq(ts);
 
 	err = sysfs_create_group(&dev->kobj, &rm_ts_attr_group);
 
