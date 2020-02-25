@@ -37,12 +37,12 @@ struct dbg_gpu_session_ops dbg_gpu_session_ops_gk20a = {
 
 /* silly allocator - just increment session id */
 static atomic_t session_id = ATOMIC_INIT(0);
-static int generate_session_id(void)
+static const int generate_session_id(void)
 {
 	return atomic_add_return(1, &session_id);
 }
 
-static int alloc_session(struct dbg_session_gk20a **_dbg_s)
+static const int alloc_session(struct dbg_session_gk20a **_dbg_s)
 {
 	struct dbg_session_gk20a *dbg_s;
 	*_dbg_s = NULL;
@@ -59,7 +59,7 @@ static int alloc_session(struct dbg_session_gk20a **_dbg_s)
 	return 0;
 }
 
-static int gk20a_dbg_gpu_do_dev_open(struct inode *inode,
+static const int gk20a_dbg_gpu_do_dev_open(struct inode *inode,
 		struct file *filp, bool is_profiler)
 {
 	struct dbg_session_gk20a *dbg_session;
@@ -162,7 +162,7 @@ static void gk20a_dbg_gpu_events_clear(struct dbg_session_gk20a *dbg_s)
 	gk20a_dbg_session_mutex_unlock(dbg_s);
 }
 
-static int gk20a_dbg_gpu_events_ctrl(struct dbg_session_gk20a *dbg_s,
+static const int gk20a_dbg_gpu_events_ctrl(struct dbg_session_gk20a *dbg_s,
 			  struct nvgpu_dbg_gpu_events_ctrl_args *args)
 {
 	int ret = 0;
@@ -265,7 +265,7 @@ void gk20a_dbg_gpu_post_events(struct channel_gk20a *ch)
 static int dbg_set_powergate(struct dbg_session_gk20a *dbg_s,
 				__u32  powermode);
 
-static int dbg_unbind_channel_gk20a(struct dbg_session_gk20a *dbg_s)
+static const int dbg_unbind_channel_gk20a(struct dbg_session_gk20a *dbg_s)
 {
 	struct channel_gk20a *ch_gk20a = dbg_s->ch;
 	struct gk20a *g = dbg_s->g;
@@ -315,7 +315,7 @@ int gk20a_dbg_gpu_dev_release(struct inode *inode, struct file *filp)
 	return 0;
 }
 
-static int dbg_bind_channel_gk20a(struct dbg_session_gk20a *dbg_s,
+static const int dbg_bind_channel_gk20a(struct dbg_session_gk20a *dbg_s,
 			  struct nvgpu_dbg_gpu_bind_channel_args *args)
 {
 	struct file *f;
@@ -378,7 +378,7 @@ static int gk20a_perfbuf_map(struct dbg_session_gk20a *dbg_s,
 static int gk20a_perfbuf_unmap(struct dbg_session_gk20a *dbg_s,
 		struct nvgpu_dbg_gpu_perfbuf_unmap_args *args);
 
-static int gk20a_dbg_pc_sampling(struct dbg_session_gk20a *dbg_s,
+static const int gk20a_dbg_pc_sampling(struct dbg_session_gk20a *dbg_s,
 			  struct nvgpu_dbg_gpu_pc_sampling_args *args)
 {
 	struct channel_gk20a *ch = dbg_s->ch;

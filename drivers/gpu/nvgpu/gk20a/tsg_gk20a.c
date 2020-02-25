@@ -52,7 +52,7 @@ static bool gk20a_is_channel_active(struct gk20a *g, struct channel_gk20a *ch)
  *
  * Note that channel is not runnable when we bind it to TSG
  */
-static int gk20a_tsg_bind_channel(struct tsg_gk20a *tsg, int ch_fd)
+static const int gk20a_tsg_bind_channel(struct tsg_gk20a *tsg, int ch_fd)
 {
 	struct file *f = fget(ch_fd);
 	struct channel_gk20a *ch;

@@ -167,7 +167,7 @@ fail:
  * This function returns the minimum emc clock based on gpu frequency
  */
 
-static unsigned long gk20a_tegra_get_emc_rate(struct gk20a *g,
+static const unsigned long gk20a_tegra_get_emc_rate(struct gk20a *g,
 				struct gk20a_emc_params *emc_params)
 {
 	unsigned long gpu_freq, gpu_fmax_at_vmin;
@@ -591,7 +591,7 @@ err_clk_on:
 }
 #endif
 
-static struct {
+static const struct {
 	char *name;
 	unsigned long default_rate;
 } tegra_gk20a_clocks[] = {
@@ -606,7 +606,7 @@ static struct {
  * the clock information to gk20a platform data.
  */
 
-static int gk20a_tegra_get_clocks(struct platform_device *pdev)
+static const int gk20a_tegra_get_clocks(struct platform_device *pdev)
 {
 	struct gk20a_platform *platform = platform_get_drvdata(pdev);
 	char devname[16];

@@ -23,17 +23,17 @@
 #include "hw_gr_gk20a.h"
 #include "hw_therm_gk20a.h"
 
-static int gk20a_init_therm_reset_enable_hw(struct gk20a *g)
+static const int gk20a_init_therm_reset_enable_hw(struct gk20a *g)
 {
 	return 0;
 }
 
-static int gk20a_init_therm_setup_sw(struct gk20a *g)
+static const int gk20a_init_therm_setup_sw(struct gk20a *g)
 {
 	return 0;
 }
 
-static int gk20a_init_therm_setup_hw(struct gk20a *g)
+static const int gk20a_init_therm_setup_hw(struct gk20a *g)
 {
 	u32 v;
 

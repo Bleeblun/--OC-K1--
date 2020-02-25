@@ -37,21 +37,21 @@
 #include "hw_mc_gk20a.h"
 #include "hw_gr_gk20a.h"
 
-static u32 ce2_nonblockpipe_isr(struct gk20a *g, u32 fifo_intr)
+static const u32 ce2_nonblockpipe_isr(struct gk20a *g, u32 fifo_intr)
 {
 	gk20a_dbg(gpu_dbg_intr, "ce2 non-blocking pipe interrupt\n");
 
 	return ce2_intr_status_nonblockpipe_pending_f();
 }
 
-static u32 ce2_blockpipe_isr(struct gk20a *g, u32 fifo_intr)
+static const u32 ce2_blockpipe_isr(struct gk20a *g, u32 fifo_intr)
 {
 	gk20a_dbg(gpu_dbg_intr, "ce2 blocking pipe interrupt\n");
 
 	return ce2_intr_status_blockpipe_pending_f();
 }
 
-static u32 ce2_launcherr_isr(struct gk20a *g, u32 fifo_intr)
+static const u32 ce2_launcherr_isr(struct gk20a *g, u32 fifo_intr)
 {
 	gk20a_dbg(gpu_dbg_intr, "ce2 launch error interrupt\n");
 

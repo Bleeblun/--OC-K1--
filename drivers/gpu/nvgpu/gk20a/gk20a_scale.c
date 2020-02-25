@@ -74,7 +74,7 @@ static int gk20a_scale_qos_notify(struct notifier_block *nb,
  * This function initialises the frequency table for the given device profile
  */
 
-static int gk20a_scale_make_freq_table(struct gk20a_scale_profile *profile)
+static const int gk20a_scale_make_freq_table(struct gk20a_scale_profile *profile)
 {
 	struct gk20a *g = get_gk20a(profile->pdev);
 	unsigned long *freqs;

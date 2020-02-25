@@ -494,7 +494,7 @@ next_hw_fifo_entry:
 	return 0;
 }
 
-static u32 css_gr_allocate_perfmon_ids(struct gk20a_cs_snapshot *data,
+static const u32 css_gr_allocate_perfmon_ids(struct gk20a_cs_snapshot *data,
 				       u32 count)
 {
 	u32 *pids = data->perfmon_ids;
@@ -534,7 +534,7 @@ static u32 css_gr_allocate_perfmon_ids(struct gk20a_cs_snapshot *data,
 	return 0;
 }
 
-static u32 css_gr_release_perfmon_ids(struct gk20a_cs_snapshot *data,
+static const u32 css_gr_release_perfmon_ids(struct gk20a_cs_snapshot *data,
 				      u32 start,
 				      u32 count)
 {
@@ -581,7 +581,7 @@ static int css_gr_free_client_data(struct gk20a_cs_snapshot *data,
 	return ret;
 }
 
-static int css_gr_create_client_data(struct gk20a_cs_snapshot *data,
+static const int css_gr_create_client_data(struct gk20a_cs_snapshot *data,
 			u32 dmabuf_fd, u32 perfmon_count,
 			struct gk20a_cs_snapshot_client **client)
 {

@@ -49,7 +49,7 @@ static inline bool gk20a_kind_work_creation(u8 k)
  */
 
 /* note: taken from the !2cs_compression case */
-static noinline_for_stack bool gk20a_kind_supported(u8 k)
+static const noinline_for_stack bool gk20a_kind_supported(u8 k)
 {
 	return gk20a_kind_work_creation(k) ||
 		(k == gmmu_pte_kind_invalid_v()) ||
@@ -98,7 +98,7 @@ static noinline_for_stack bool gk20a_kind_supported(u8 k)
 		(k == gmmu_pte_kind_pitch_no_swizzle_v());
 		}
 
-static noinline_for_stack bool gk20a_kind_z(u8 k)
+static const noinline_for_stack bool gk20a_kind_z(u8 k)
 {
 	return (k >= gmmu_pte_kind_z16_v() &&
 		k <= gmmu_pte_kind_v8z24_ms8_vc24_v()) ||
@@ -119,7 +119,7 @@ static noinline_for_stack bool gk20a_kind_z(u8 k)
 		k <= gmmu_pte_kind_xf32_x24s8_ms16_2cs_v())*/;
 }
 
-static noinline_for_stack bool gk20a_kind_c(u8 k)
+static const noinline_for_stack bool gk20a_kind_c(u8 k)
 {
 	return gk20a_kind_work_creation(k) ||
 		(k == gmmu_pte_kind_pitch_v()) ||
@@ -134,7 +134,7 @@ static noinline_for_stack bool gk20a_kind_c(u8 k)
 		 k <= gmmu_pte_kind_pitch_no_swizzle_v());
 }
 
-static noinline_for_stack bool gk20a_kind_compressible(u8 k)
+static const noinline_for_stack bool gk20a_kind_compressible(u8 k)
 {
 	return (k >= gmmu_pte_kind_z16_2c_v() &&
 		k <= gmmu_pte_kind_z16_ms16_4cz_v()) ||
@@ -172,7 +172,7 @@ static noinline_for_stack bool gk20a_kind_compressible(u8 k)
 		 k <= gmmu_pte_kind_c128_ms8_ms16_2cr_v());
 }
 
-static noinline_for_stack bool gk20a_kind_zbc(u8 k)
+static const noinline_for_stack bool gk20a_kind_zbc(u8 k)
 {
 	return (k >= gmmu_pte_kind_z16_2c_v() &&
 		k <= gmmu_pte_kind_z16_ms16_2c_v()) ||

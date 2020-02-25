@@ -49,7 +49,7 @@ static struct pll_parms gpc_pll_params = {
 static int clk_gk20a_debugfs_init(struct gk20a *g);
 #endif
 
-static u8 pl_to_div[] = {
+static const u8 pl_to_div[] = {
 /* PL:   0, 1, 2, 3, 4, 5, 6,  7,  8,  9, 10, 11, 12, 13, 14 */
 /* p: */ 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 12, 16, 20, 24, 32 };
 
@@ -185,7 +185,7 @@ found_match:
 	return 0;
 }
 
-static int clk_slide_gpc_pll(struct gk20a *g, u32 n)
+static const int clk_slide_gpc_pll(struct gk20a *g, u32 n)
 {
 	u32 data, coeff;
 	u32 nold;
@@ -258,7 +258,7 @@ static int clk_slide_gpc_pll(struct gk20a *g, u32 n)
 	return 0;
 }
 
-static int clk_program_gpc_pll(struct gk20a *g, struct clk_gk20a *clk,
+static const int clk_program_gpc_pll(struct gk20a *g, struct clk_gk20a *clk,
 			int allow_slide)
 {
 	u32 data, cfg, coeff, timeout;
@@ -376,7 +376,7 @@ pll_locked:
 	return clk_slide_gpc_pll(g, clk->gpc_pll.N);
 }
 
-static int clk_disable_gpcpll(struct gk20a *g, int allow_slide)
+static const int clk_disable_gpcpll(struct gk20a *g, int allow_slide)
 {
 	u32 cfg, coeff, m, nlo;
 	struct clk_gk20a *clk = &g->clk;
@@ -408,7 +408,7 @@ static int clk_disable_gpcpll(struct gk20a *g, int allow_slide)
 	return 0;
 }
 
-static int gk20a_init_clk_reset_enable_hw(struct gk20a *g)
+static const int gk20a_init_clk_reset_enable_hw(struct gk20a *g)
 {
 	gk20a_dbg_fn("");
 	return 0;
@@ -435,7 +435,7 @@ struct clk *gk20a_clk_get(struct gk20a *g)
 	return g->clk.tegra_clk;
 }
 
-static int gk20a_init_clk_setup_sw(struct gk20a *g)
+static const int gk20a_init_clk_setup_sw(struct gk20a *g)
 {
 	struct clk_gk20a *clk = &g->clk;
 	static int initialized;
@@ -482,7 +482,7 @@ static int gk20a_init_clk_setup_sw(struct gk20a *g)
 	return 0;
 }
 
-static int gk20a_init_clk_setup_hw(struct gk20a *g)
+static const int gk20a_init_clk_setup_hw(struct gk20a *g)
 {
 	u32 data;
 
@@ -501,7 +501,7 @@ static int gk20a_init_clk_setup_hw(struct gk20a *g)
 	return 0;
 }
 
-static int set_pll_target(struct gk20a *g, u32 freq, u32 old_freq)
+static const int set_pll_target(struct gk20a *g, u32 freq, u32 old_freq)
 {
 	struct clk_gk20a *clk = &g->clk;
 

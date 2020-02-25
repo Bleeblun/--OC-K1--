@@ -73,7 +73,7 @@ static void gk20a_ltc_set_zbc_depth_entry(struct gk20a *g,
 		     depth_val->depth);
 }
 
-static int gk20a_ltc_alloc_phys_cbc(struct gk20a *g,
+static const int gk20a_ltc_alloc_phys_cbc(struct gk20a *g,
 				    size_t compbit_backing_size)
 {
 	struct gr_gk20a *gr = &g->gr;
@@ -83,7 +83,7 @@ static int gk20a_ltc_alloc_phys_cbc(struct gk20a *g,
 				    &gr->compbit_store.mem);
 }
 
-static int gk20a_ltc_alloc_virt_cbc(struct gk20a *g,
+static const int gk20a_ltc_alloc_virt_cbc(struct gk20a *g,
 				    size_t compbit_backing_size)
 {
 	struct gr_gk20a *gr = &g->gr;

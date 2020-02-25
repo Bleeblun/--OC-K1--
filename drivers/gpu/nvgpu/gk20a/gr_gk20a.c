@@ -333,7 +333,7 @@ int gr_gk20a_wait_idle(struct gk20a *g, unsigned long end_jiffies,
 	return -EAGAIN;
 }
 
-static int gr_gk20a_wait_fe_idle(struct gk20a *g, unsigned long end_jiffies,
+static const int gr_gk20a_wait_fe_idle(struct gk20a *g, unsigned long end_jiffies,
 		u32 expect_delay)
 {
 	u32 val;
@@ -363,7 +363,7 @@ static int gr_gk20a_wait_fe_idle(struct gk20a *g, unsigned long end_jiffies,
 	return -EAGAIN;
 }
 
-static int gr_gk20a_ctx_wait_ucode(struct gk20a *g, u32 mailbox_id,
+static const int gr_gk20a_ctx_wait_ucode(struct gk20a *g, u32 mailbox_id,
 				   u32 *mailbox_ret, u32 opc_success,
 				   u32 mailbox_ok, u32 opc_fail,
 				   u32 mailbox_fail, bool sleepduringwait)
@@ -514,7 +514,7 @@ int gr_gk20a_submit_fecs_method_op(struct gk20a *g,
 	return ret;
 }
 
-static int gr_gk20a_ctrl_ctxsw(struct gk20a *g, u32 fecs_method, u32 *ret)
+static const int gr_gk20a_ctrl_ctxsw(struct gk20a *g, u32 fecs_method, u32 *ret)
 {
 	return gr_gk20a_submit_fecs_method_op(g,
 	      (struct fecs_method_op_gk20a) {
@@ -673,7 +673,7 @@ int gr_gk20a_ctx_patch_write(struct gk20a *g,
 	return 0;
 }
 
-static int gr_gk20a_fecs_ctx_bind_channel(struct gk20a *g,
+static const int gr_gk20a_fecs_ctx_bind_channel(struct gk20a *g,
 					struct channel_gk20a *c)
 {
 	u32 inst_base_ptr = u64_lo32(gk20a_mem_phys(&c->inst_block)
@@ -703,7 +703,7 @@ static int gr_gk20a_fecs_ctx_bind_channel(struct gk20a *g,
 	return ret;
 }
 
-static int gr_gk20a_ctx_zcull_setup(struct gk20a *g, struct channel_gk20a *c,
+static const int gr_gk20a_ctx_zcull_setup(struct gk20a *g, struct channel_gk20a *c,
 				    bool disable_fifo)
 {
 	struct channel_ctx_gk20a *ch_ctx = &c->ch_ctx;
@@ -837,7 +837,7 @@ static int gr_gk20a_commit_global_cb_manager(struct gk20a *g,
 	return 0;
 }
 
-static int gr_gk20a_commit_global_ctx_buffers(struct gk20a *g,
+static const int gr_gk20a_commit_global_ctx_buffers(struct gk20a *g,
 			struct channel_gk20a *c, bool patch)
 {
 	struct gr_gk20a *gr = &g->gr;
@@ -947,7 +947,7 @@ static void gr_gk20a_commit_global_bundle_cb(struct gk20a *g,
 
 }
 
-static int gr_gk20a_commit_global_timeslice(struct gk20a *g, struct channel_gk20a *c, bool patch)
+static const int gr_gk20a_commit_global_timeslice(struct gk20a *g, struct channel_gk20a *c, bool patch)
 {
 	struct gr_gk20a *gr = &g->gr;
 	struct channel_ctx_gk20a *ch_ctx = NULL;
@@ -1371,7 +1371,7 @@ static int gr_gk20a_ctx_state_floorsweep(struct gk20a *g)
 	return 0;
 }
 
-static int gr_gk20a_fecs_ctx_image_save(struct channel_gk20a *c, u32 save_type)
+static const int gr_gk20a_fecs_ctx_image_save(struct channel_gk20a *c, u32 save_type)
 {
 	struct gk20a *g = c->g;
 	int ret;
@@ -1402,7 +1402,7 @@ static int gr_gk20a_fecs_ctx_image_save(struct channel_gk20a *c, u32 save_type)
 	return ret;
 }
 
-static u32 gk20a_init_sw_bundle(struct gk20a *g)
+static const u32 gk20a_init_sw_bundle(struct gk20a *g)
 {
 	struct av_list_gk20a *sw_bundle_init = &g->gr.ctx_vars.sw_bundle_init;
 	u32 last_bundle_data = 0;
@@ -1733,7 +1733,7 @@ static void gr_gk20a_start_falcon_ucode(struct gk20a *g)
 	gk20a_dbg_fn("done");
 }
 
-static int gr_gk20a_init_ctxsw_ucode_vaspace(struct gk20a *g)
+static const int gr_gk20a_init_ctxsw_ucode_vaspace(struct gk20a *g)
 {
 	struct mm_gk20a *mm = &g->mm;
 	struct vm_gk20a *vm = &mm->pmu.vm;
@@ -1783,7 +1783,7 @@ static void gr_gk20a_init_ctxsw_ucode_segments(
 	gr_gk20a_init_ctxsw_ucode_segment(&segments->data, offset, data_size);
 }
 
-static int gr_gk20a_copy_ctxsw_ucode_segments(
+static const int gr_gk20a_copy_ctxsw_ucode_segments(
 	u8 *buf,
 	struct gk20a_ctxsw_ucode_segments *segments,
 	u32 *bootimage,
@@ -2152,7 +2152,7 @@ int gr_gk20a_load_ctxsw_ucode(struct gk20a *g)
 	return 0;
 }
 
-static int gr_gk20a_wait_ctxsw_ready(struct gk20a *g)
+static const int gr_gk20a_wait_ctxsw_ready(struct gk20a *g)
 {
 	u32 ret;
 
@@ -2236,7 +2236,7 @@ static void gk20a_gr_destroy_ctx_buffer(struct gk20a *g,
 	gk20a_gmmu_free_attr(g, DMA_ATTR_NO_KERNEL_MAPPING, &desc->mem);
 }
 
-static int gk20a_gr_alloc_ctx_buffer(struct gk20a *g,
+static const int gk20a_gr_alloc_ctx_buffer(struct gk20a *g,
 				     struct gr_ctx_buffer_desc *desc,
 				     size_t size)
 {
@@ -2524,7 +2524,7 @@ int gr_gk20a_alloc_gr_ctx(struct gk20a *g,
 	return err;
 }
 
-static int gr_gk20a_alloc_tsg_gr_ctx(struct gk20a *g,
+static const int gr_gk20a_alloc_tsg_gr_ctx(struct gk20a *g,
 			struct tsg_gk20a *tsg, u32 class, u32 padding)
 {
 	struct gr_ctx_desc **gr_ctx = &tsg->tsg_gr_ctx;
@@ -2946,7 +2946,7 @@ static void gr_gk20a_bundle_cb_defaults(struct gk20a *g)
 		gr_pd_ab_dist_cfg2_token_limit_init_v();
 }
 
-static int gr_gk20a_init_gr_config(struct gk20a *g, struct gr_gk20a *gr)
+static const int gr_gk20a_init_gr_config(struct gk20a *g, struct gr_gk20a *gr)
 {
 	u32 gpc_index, pes_index;
 	u32 pes_tpc_mask;
@@ -3130,7 +3130,7 @@ clean_up:
 	return -ENOMEM;
 }
 
-static int gr_gk20a_init_mmu_sw(struct gk20a *g, struct gr_gk20a *gr)
+static const int gr_gk20a_init_mmu_sw(struct gk20a *g, struct gr_gk20a *gr)
 {
 	int err;
 
@@ -3149,10 +3149,10 @@ static int gr_gk20a_init_mmu_sw(struct gk20a *g, struct gr_gk20a *gr)
 	return -ENOMEM;
 }
 
-static u32 prime_set[18] = {
+static const u32 prime_set[18] = {
 	2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61 };
 
-static int gr_gk20a_init_map_tiles(struct gk20a *g, struct gr_gk20a *gr)
+static const int gr_gk20a_init_map_tiles(struct gk20a *g, struct gr_gk20a *gr)
 {
 	s32 comm_denom;
 	s32 mul_factor;
@@ -3675,7 +3675,7 @@ int gr_gk20a_query_zbc(struct gk20a *g, struct gr_gk20a *gr,
 	return 0;
 }
 
-static int gr_gk20a_load_zbc_table(struct gk20a *g, struct gr_gk20a *gr)
+static const int gr_gk20a_load_zbc_table(struct gk20a *g, struct gr_gk20a *gr)
 {
 	int i, ret;
 
@@ -3776,7 +3776,7 @@ int gr_gk20a_load_zbc_default_table(struct gk20a *g, struct gr_gk20a *gr)
 	return 0;
 }
 
-static int _gk20a_gr_zbc_set_table(struct gk20a *g, struct gr_gk20a *gr,
+static const int _gk20a_gr_zbc_set_table(struct gk20a *g, struct gr_gk20a *gr,
 			struct zbc_entry *zbc_val)
 {
 	struct fifo_gk20a *f = &g->fifo;
@@ -3901,7 +3901,7 @@ void gr_gk20a_init_elcg_mode(struct gk20a *g, u32 mode, u32 engine)
 	gk20a_writel(g, therm_hubmmu_idle_filter_r(), idle_filter);
 }
 
-static int gr_gk20a_zcull_init_hw(struct gk20a *g, struct gr_gk20a *gr)
+static const int gr_gk20a_zcull_init_hw(struct gk20a *g, struct gr_gk20a *gr)
 {
 	u32 gpc_index, gpc_tpc_count, gpc_zcull_count;
 	u32 *zcull_map_tiles, *zcull_bank_counters;
@@ -4258,7 +4258,7 @@ static void gr_gk20a_load_gating_prod(struct gk20a *g)
 	g->ops.clock_gating.pg_gr_load_gating_prod(g, true);
 }
 
-static int gk20a_init_gr_prepare(struct gk20a *g)
+static const int gk20a_init_gr_prepare(struct gk20a *g)
 {
 	u32 gpfifo_ctrl, pmc_en;
 	u32 err = 0;
@@ -4295,7 +4295,7 @@ static int gk20a_init_gr_prepare(struct gk20a *g)
 	return err;
 }
 
-static int gr_gk20a_wait_mem_scrubbing(struct gk20a *g)
+static const int gr_gk20a_wait_mem_scrubbing(struct gk20a *g)
 {
 	int retries = GR_IDLE_CHECK_MAX / GR_IDLE_CHECK_DEFAULT;
 	bool fecs_scrubbing;
@@ -4324,7 +4324,7 @@ static int gr_gk20a_wait_mem_scrubbing(struct gk20a *g)
 	return -ETIMEDOUT;
 }
 
-static int gr_gk20a_init_ctxsw(struct gk20a *g)
+static const int gr_gk20a_init_ctxsw(struct gk20a *g)
 {
 	u32 err = 0;
 
@@ -4345,7 +4345,7 @@ out:
 	return err;
 }
 
-static int gk20a_init_gr_reset_enable_hw(struct gk20a *g)
+static const int gk20a_init_gr_reset_enable_hw(struct gk20a *g)
 {
 	struct av_list_gk20a *sw_non_ctx_load = &g->gr.ctx_vars.sw_non_ctx_load;
 	unsigned long end_jiffies = jiffies +
@@ -4398,7 +4398,7 @@ static u32 wl_addr_gk20a[] = {
 	0x419f78, /* gr_pri_gpcs_tpcs_sm_disp_ctrl     */
 };
 
-static int gr_gk20a_init_access_map(struct gk20a *g)
+static const int gr_gk20a_init_access_map(struct gk20a *g)
 {
 	struct gr_gk20a *gr = &g->gr;
 	void *data;
@@ -4435,7 +4435,7 @@ clean_up:
 	return 0;
 }
 
-static int gk20a_init_gr_setup_sw(struct gk20a *g)
+static const int gk20a_init_gr_setup_sw(struct gk20a *g)
 {
 	struct gr_gk20a *gr = &g->gr;
 	int err;
@@ -4881,7 +4881,7 @@ fail:
 	return -EINVAL;
 }
 
-static int gk20a_gr_handle_semaphore_timeout_pending(struct gk20a *g,
+static const int gk20a_gr_handle_semaphore_timeout_pending(struct gk20a *g,
 		  struct gr_isr_data *isr_data)
 {
 	struct fifo_gk20a *f = &g->fifo;
@@ -4894,7 +4894,7 @@ static int gk20a_gr_handle_semaphore_timeout_pending(struct gk20a *g,
 	return -EINVAL;
 }
 
-static int gk20a_gr_intr_illegal_notify_pending(struct gk20a *g,
+static const int gk20a_gr_intr_illegal_notify_pending(struct gk20a *g,
 		  struct gr_isr_data *isr_data)
 {
 	struct fifo_gk20a *f = &g->fifo;
@@ -4908,7 +4908,7 @@ static int gk20a_gr_intr_illegal_notify_pending(struct gk20a *g,
 	return -EINVAL;
 }
 
-static int gk20a_gr_handle_illegal_method(struct gk20a *g,
+static const int gk20a_gr_handle_illegal_method(struct gk20a *g,
 					  struct gr_isr_data *isr_data)
 {
 	int ret = g->ops.gr.handle_sw_method(g, isr_data->addr,
@@ -4922,7 +4922,7 @@ static int gk20a_gr_handle_illegal_method(struct gk20a *g,
 	return ret;
 }
 
-static int gk20a_gr_handle_illegal_class(struct gk20a *g,
+static const int gk20a_gr_handle_illegal_class(struct gk20a *g,
 					  struct gr_isr_data *isr_data)
 {
 	struct fifo_gk20a *f = &g->fifo;
@@ -4936,7 +4936,7 @@ static int gk20a_gr_handle_illegal_class(struct gk20a *g,
 	return -EINVAL;
 }
 
-static int gk20a_gr_handle_fecs_error(struct gk20a *g,
+static const int gk20a_gr_handle_fecs_error(struct gk20a *g,
 					  struct gr_isr_data *isr_data)
 {
 	struct fifo_gk20a *f = &g->fifo;
@@ -4959,7 +4959,7 @@ static int gk20a_gr_handle_fecs_error(struct gk20a *g,
 	return -EINVAL;
 }
 
-static int gk20a_gr_handle_class_error(struct gk20a *g,
+static const int gk20a_gr_handle_class_error(struct gk20a *g,
 					  struct gr_isr_data *isr_data)
 {
 	struct fifo_gk20a *f = &g->fifo;
@@ -4977,7 +4977,7 @@ static int gk20a_gr_handle_class_error(struct gk20a *g,
 	return -EINVAL;
 }
 
-static int gk20a_gr_handle_firmware_method(struct gk20a *g,
+static const int gk20a_gr_handle_firmware_method(struct gk20a *g,
 					     struct gr_isr_data *isr_data)
 {
 	struct fifo_gk20a *f = &g->fifo;
@@ -4994,7 +4994,7 @@ static int gk20a_gr_handle_firmware_method(struct gk20a *g,
 	return -EINVAL;
 }
 
-static int gk20a_gr_handle_semaphore_pending(struct gk20a *g,
+static const int gk20a_gr_handle_semaphore_pending(struct gk20a *g,
 					     struct gr_isr_data *isr_data)
 {
 	struct fifo_gk20a *f = &g->fifo;
@@ -5027,7 +5027,7 @@ static inline bool is_valid_cyclestats_bar0_offset_gk20a(struct gk20a *g,
 }
 #endif
 
-static int gk20a_gr_handle_notify_pending(struct gk20a *g,
+static const int gk20a_gr_handle_notify_pending(struct gk20a *g,
 					  struct gr_isr_data *isr_data)
 {
 	struct fifo_gk20a *f = &g->fifo;
@@ -5299,7 +5299,7 @@ channel_from_hw_chid(struct gk20a *g, u32 hw_chid)
 	return g->fifo.channel+hw_chid;
 }
 
-static int gk20a_gr_handle_sm_exception(struct gk20a *g, u32 gpc, u32 tpc,
+static const int gk20a_gr_handle_sm_exception(struct gk20a *g, u32 gpc, u32 tpc,
 		bool *post_event)
 {
 	int ret = 0;
@@ -5357,7 +5357,7 @@ static int gk20a_gr_handle_sm_exception(struct gk20a *g, u32 gpc, u32 tpc,
 	return ret;
 }
 
-static int gk20a_gr_handle_tpc_exception(struct gk20a *g, u32 gpc, u32 tpc,
+static const int gk20a_gr_handle_tpc_exception(struct gk20a *g, u32 gpc, u32 tpc,
 		bool *post_event)
 {
 	int ret = 0;
@@ -5379,7 +5379,7 @@ static int gk20a_gr_handle_tpc_exception(struct gk20a *g, u32 gpc, u32 tpc,
 	return ret;
 }
 
-static int gk20a_gr_handle_gpc_exception(struct gk20a *g, bool *post_event)
+static const int gk20a_gr_handle_gpc_exception(struct gk20a *g, bool *post_event)
 {
 	int ret = 0;
 	u32 gpc_offset, tpc_offset, gpc, tpc;
@@ -5759,7 +5759,7 @@ static int gr_gk20a_find_priv_offset_in_buffer(struct gk20a *g,
 					       u32 *priv_offset);
 
 /* This function will decode a priv address and return the partition type and numbers. */
-static int gr_gk20a_decode_priv_addr(struct gk20a *g, u32 addr,
+static const int gr_gk20a_decode_priv_addr(struct gk20a *g, u32 addr,
 			      int  *addr_type, /* enum ctxsw_addr_type */
 			      u32 *gpc_num, u32 *tpc_num, u32 *ppc_num, u32 *be_num,
 			      u32 *broadcast_flags)
@@ -5816,7 +5816,7 @@ static int gr_gk20a_decode_priv_addr(struct gk20a *g, u32 addr,
 	return -EINVAL;
 }
 
-static int gr_gk20a_split_ppc_broadcast_addr(struct gk20a *g, u32 addr,
+static const int gr_gk20a_split_ppc_broadcast_addr(struct gk20a *g, u32 addr,
 				      u32 gpc_num,
 				      u32 *priv_addr_table, u32 *t)
 {
@@ -5838,7 +5838,7 @@ static int gr_gk20a_split_ppc_broadcast_addr(struct gk20a *g, u32 addr,
  * GPC/TPC addresses.  The addresses generated by this function can be
  * successfully processed by gr_gk20a_find_priv_offset_in_buffer
  */
-static int gr_gk20a_create_priv_addr_table(struct gk20a *g,
+static const int gr_gk20a_create_priv_addr_table(struct gk20a *g,
 					   u32 addr,
 					   u32 *priv_addr_table,
 					   u32 *num_registers)
@@ -6059,7 +6059,7 @@ static void gr_gk20a_init_sm_dsm_reg_info(void)
  * which makes it impossible to know externally whether a ctx
  * write will actually occur. so later we should put a lazy,
  *  map-and-hold system in the patch write state */
-static int gr_gk20a_ctx_patch_smpc(struct gk20a *g,
+static const int gr_gk20a_ctx_patch_smpc(struct gk20a *g,
 			    struct channel_ctx_gk20a *ch_ctx,
 			    u32 addr, u32 data,
 			    u8 *context)
@@ -6202,7 +6202,7 @@ static void gr_gk20a_get_sm_dsm_perf_ctrl_regs(struct gk20a *g,
 	*ctrl_register_stride = ctxsw_prog_extended_sm_dsm_perf_counter_control_register_stride_v();
 }
 
-static int gr_gk20a_find_priv_offset_in_ext_buffer(struct gk20a *g,
+static const int gr_gk20a_find_priv_offset_in_ext_buffer(struct gk20a *g,
 						   u32 addr,
 						   bool is_quad, u32 quad,
 						   u32 *context_buffer,
@@ -6426,8 +6426,7 @@ static int gr_gk20a_find_priv_offset_in_ext_buffer(struct gk20a *g,
 	return 0;
 }
 
-
-static int
+static const int
 gr_gk20a_process_context_buffer_priv_segment(struct gk20a *g,
 					     int addr_type,/* enum ctxsw_addr_type */
 					     u32 pri_addr,
@@ -6541,7 +6540,7 @@ gr_gk20a_process_context_buffer_priv_segment(struct gk20a *g,
 	return -EINVAL;
 }
 
-static int gr_gk20a_determine_ppc_configuration(struct gk20a *g,
+static const int gr_gk20a_determine_ppc_configuration(struct gk20a *g,
 					       void *context,
 					       u32 *num_ppcs, u32 *ppc_mask,
 					       u32 *reg_ppc_count)

@@ -184,7 +184,7 @@ static void balloc_blist_rem(struct gk20a_allocator *a, struct gk20a_buddy *b)
 	a->buddy_list_len[b->order]--;
 }
 
-static u64 balloc_get_order(struct gk20a_allocator *a, u64 len)
+static const u64 balloc_get_order(struct gk20a_allocator *a, u64 len)
 {
 	if (len == 0)
 		return 0;
@@ -195,7 +195,7 @@ static u64 balloc_get_order(struct gk20a_allocator *a, u64 len)
 	return fls(len);
 }
 
-static u64 __balloc_max_order_in(struct gk20a_allocator *a, u64 start, u64 end)
+static const u64 __balloc_max_order_in(struct gk20a_allocator *a, u64 start, u64 end)
 {
 	u64 size = (end - start) >> a->blk_shift;
 
@@ -208,7 +208,7 @@ static u64 __balloc_max_order_in(struct gk20a_allocator *a, u64 start, u64 end)
 /*
  * Initialize the buddy lists.
  */
-static int balloc_init_lists(struct gk20a_allocator *a)
+static const int balloc_init_lists(struct gk20a_allocator *a)
 {
 	int i;
 	u64 bstart, bend, order;
@@ -459,7 +459,7 @@ static void balloc_coalesce(struct gk20a_allocator *a, struct gk20a_buddy *b)
  *
  * @a must be locked.
  */
-static int balloc_split_buddy(struct gk20a_allocator *a, struct gk20a_buddy *b,
+static const int balloc_split_buddy(struct gk20a_allocator *a, struct gk20a_buddy *b,
 			      int pte_size)
 {
 	struct gk20a_buddy *left, *right;
@@ -601,7 +601,7 @@ static struct gk20a_buddy *__balloc_find_buddy(struct gk20a_allocator *a,
  *
  * @a must be locked.
  */
-static u64 __balloc_do_alloc(struct gk20a_allocator *a, u64 order, int pte_size)
+static const u64 __balloc_do_alloc(struct gk20a_allocator *a, u64 order, int pte_size)
 {
 	u64 split_order;
 	struct gk20a_buddy *bud = NULL;
@@ -689,7 +689,7 @@ u64 gk20a_balloc(struct gk20a_allocator *a, u64 len)
  * TODO: Right now this uses the unoptimal approach of going through all
  * outstanding allocations and checking their base/ends. This could be better.
  */
-static int balloc_is_range_free(struct gk20a_allocator *a, u64 base, u64 end)
+static const int balloc_is_range_free(struct gk20a_allocator *a, u64 base, u64 end)
 {
 	struct rb_node *node;
 	struct gk20a_buddy *bud;
@@ -850,7 +850,7 @@ static struct gk20a_buddy *__balloc_make_fixed_buddy(struct gk20a_allocator *a,
 	return bud;
 }
 
-static u64 __balloc_do_alloc_fixed(struct gk20a_allocator *a,
+static const u64 __balloc_do_alloc_fixed(struct gk20a_allocator *a,
 				   struct gk20a_fixed_alloc *falloc,
 				   u64 base, u64 len)
 {

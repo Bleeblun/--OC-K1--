@@ -31,7 +31,7 @@
  * the clock information to gk20a platform data.
  */
 
-static int gk20a_generic_get_clocks(struct platform_device *pdev)
+static const int gk20a_generic_get_clocks(struct platform_device *pdev)
 {
 	struct gk20a_platform *platform = platform_get_drvdata(pdev);
 

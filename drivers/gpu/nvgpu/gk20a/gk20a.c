@@ -236,7 +236,7 @@ static void gk20a_remove_sim_support(struct sim_gk20a *s)
 	gk20a_free_sim_support(g);
 }
 
-static int alloc_and_kmap_iopage(struct device *d,
+static const int alloc_and_kmap_iopage(struct device *d,
 				 void **kvaddr,
 				 u64 *phys,
 				 struct page **page)
@@ -277,7 +277,7 @@ static void __iomem *gk20a_ioremap_resource(struct platform_device *dev, int i,
 }
 
 /* TBD: strip from released */
-static int gk20a_init_sim_support(struct platform_device *dev)
+static const int gk20a_init_sim_support(struct platform_device *dev)
 {
 	int err = 0;
 	struct gk20a *g = get_gk20a(dev);
@@ -395,7 +395,7 @@ static u32 *sim_send_ring_bfr(struct gk20a *g, u32 byte_offset)
 	return (u32 *)(g->sim.send_bfr.kvaddr + byte_offset);
 }
 
-static int rpc_send_message(struct gk20a *g)
+static const int rpc_send_message(struct gk20a *g)
 {
 	/* calculations done in units of u32s */
 	u32 send_base = sim_send_put_pointer_v(g->sim.send_ring_put) * 2;
@@ -431,7 +431,7 @@ static inline u32 *sim_recv_ring_bfr(struct gk20a *g, u32 byte_offset)
 	return (u32 *)(g->sim.recv_bfr.kvaddr + byte_offset);
 }
 
-static int rpc_recv_poll(struct gk20a *g)
+static const int rpc_recv_poll(struct gk20a *g)
 {
 	u64 recv_phys_addr;
 
@@ -479,7 +479,7 @@ static int rpc_recv_poll(struct gk20a *g)
 	return 0;
 }
 
-static int issue_rpc_and_wait(struct gk20a *g)
+static const int issue_rpc_and_wait(struct gk20a *g)
 {
 	int err;
 
@@ -620,7 +620,7 @@ static void gk20a_remove_support(struct platform_device *dev)
 	}
 }
 
-static int gk20a_init_support(struct platform_device *dev)
+static const int gk20a_init_support(struct platform_device *dev)
 {
 	int err = 0;
 	struct gk20a *g = get_gk20a(dev);
@@ -719,7 +719,7 @@ done:
 	return ret;
 }
 
-static int gk20a_detect_chip(struct gk20a *g)
+static const int gk20a_detect_chip(struct gk20a *g)
 {
 	struct nvgpu_gpu_characteristics *gpu = &g->gpu_characteristics;
 	u32 mc_boot_0_value;
@@ -907,7 +907,7 @@ done:
 	return err;
 }
 
-static struct of_device_id tegra_gk20a_of_match[] = {
+static const struct of_device_id tegra_gk20a_of_match[] = {
 #ifdef CONFIG_TEGRA_GK20A
 	{ .compatible = "nvidia,tegra124-gk20a",
 		.data = &gk20a_tegra_platform },
@@ -943,7 +943,7 @@ static struct of_device_id tegra_gk20a_of_match[] = {
 	{ },
 };
 
-static int gk20a_create_device(
+static const int gk20a_create_device(
 	struct platform_device *pdev, int devno, const char *cdev_name,
 	struct cdev *cdev, struct device **out,
 	const struct file_operations *ops)
@@ -1202,7 +1202,7 @@ static const struct dev_pm_ops gk20a_pm_ops = {
 };
 #endif
 
-static int _gk20a_pm_railgate(struct platform_device *pdev)
+static const int _gk20a_pm_railgate(struct platform_device *pdev)
 {
 	struct gk20a_platform *platform = platform_get_drvdata(pdev);
 	int ret = 0;
@@ -1220,7 +1220,7 @@ static int gk20a_pm_railgate(struct generic_pm_domain *domain)
 	return _gk20a_pm_railgate(g->dev);
 }
 
-static int _gk20a_pm_unrailgate(struct platform_device *pdev)
+static const int _gk20a_pm_unrailgate(struct platform_device *pdev)
 {
 	struct gk20a_platform *platform = platform_get_drvdata(pdev);
 	int ret = 0;
@@ -1270,7 +1270,7 @@ static int gk20a_pm_resume(struct device *dev)
 }
 
 #ifdef CONFIG_PM_GENERIC_DOMAINS_OF
-static int gk20a_pm_initialise_domain(struct platform_device *pdev)
+static const int gk20a_pm_initialise_domain(struct platform_device *pdev)
 {
 	struct gk20a_platform *platform = platform_get_drvdata(pdev);
 	struct dev_power_governor *pm_domain_gov = NULL;
@@ -1290,7 +1290,7 @@ static int gk20a_pm_initialise_domain(struct platform_device *pdev)
 }
 
 #else
-static int gk20a_pm_initialise_domain(struct platform_device *pdev)
+static const int gk20a_pm_initialise_domain(struct platform_device *pdev)
 {
 	struct gk20a_platform *platform = platform_get_drvdata(pdev);
 	struct dev_power_governor *pm_domain_gov = NULL;
@@ -1333,7 +1333,7 @@ static int gk20a_pm_initialise_domain(struct platform_device *pdev)
 }
 #endif
 
-static int gk20a_pm_init(struct platform_device *dev)
+static const int gk20a_pm_init(struct platform_device *dev)
 {
 	struct gk20a_platform *platform = platform_get_drvdata(dev);
 	int err = 0;
@@ -1367,7 +1367,7 @@ static int gk20a_pm_init(struct platform_device *dev)
 	return err;
 }
 
-static int gk20a_secure_page_alloc(struct platform_device *pdev)
+static const int gk20a_secure_page_alloc(struct platform_device *pdev)
 {
 	struct gk20a_platform *platform = platform_get_drvdata(pdev);
 	int err = 0;
@@ -1586,7 +1586,7 @@ static int gk20a_probe(struct platform_device *dev)
 	return 0;
 }
 
-static int __exit gk20a_remove(struct platform_device *dev)
+static const int __exit gk20a_remove(struct platform_device *dev)
 {
 	struct gk20a *g = get_gk20a(dev);
 	struct gk20a_platform *platform = gk20a_get_platform(dev);
@@ -1655,7 +1655,7 @@ static struct platform_driver gk20a_driver = {
 #ifdef CONFIG_PM_GENERIC_DOMAINS_OF
 
 
-static int _gk20a_init_domain(struct device_node *np,
+static const int _gk20a_init_domain(struct device_node *np,
 			      struct generic_pm_domain *gpd)
 {
 	bool is_off = false;
@@ -1683,7 +1683,7 @@ static int _gk20a_init_domain(struct device_node *np,
 	return 0;
 }
 
-static int gk20a_domain_init(struct of_device_id *matches)
+static const int gk20a_domain_init(struct of_device_id *matches)
 {
 	int ret = 0;
 	struct device_node *np;
@@ -1705,7 +1705,7 @@ static int gk20a_domain_init(struct of_device_id *matches)
 	return ret;
 }
 #else
-static int gk20a_domain_init(struct of_device_id *matches)
+static const int gk20a_domain_init(struct of_device_id *matches)
 {
 	return 0;
 }

@@ -69,7 +69,7 @@ static inline u32 gk20a_mmu_id_to_engine_id(u32 engine_id)
 }
 
 
-static int init_engine_info(struct fifo_gk20a *f)
+static const int init_engine_info(struct fifo_gk20a *f)
 {
 	struct gk20a *g = f->g;
 	struct device *d = dev_from_gk20a(g);
@@ -270,7 +270,7 @@ static void fifo_engine_exception_status(struct gk20a *g,
 		      e->faulted, e->idle,  e->ctxsw_in_progress);
 }
 
-static int init_runlist(struct gk20a *g, struct fifo_gk20a *f)
+static const int init_runlist(struct gk20a *g, struct fifo_gk20a *f)
 {
 	struct fifo_engine_info_gk20a *engine_info;
 	struct fifo_runlist_info_gk20a *runlist;
@@ -460,7 +460,7 @@ static void gk20a_init_fifo_pbdma_intr_descs(struct fifo_gk20a *f)
 		pbdma_intr_0_acquire_pending_f();
 }
 
-static int gk20a_init_fifo_setup_sw(struct gk20a *g)
+static const int gk20a_init_fifo_setup_sw(struct gk20a *g)
 {
 	struct fifo_gk20a *f = &g->fifo;
 	struct device *d = dev_from_gk20a(g);
@@ -568,7 +568,7 @@ static void gk20a_fifo_handle_runlist_event(struct gk20a *g)
 	gk20a_writel(g, fifo_intr_runlist_r(), runlist_event);
 }
 
-static int gk20a_init_fifo_setup_hw(struct gk20a *g)
+static const int gk20a_init_fifo_setup_hw(struct gk20a *g)
 {
 	struct fifo_gk20a *f = &g->fifo;
 
@@ -1168,7 +1168,7 @@ static void gk20a_fifo_trigger_mmu_fault(struct gk20a *g,
 		gk20a_writel(g, fifo_trigger_mmu_fault_r(engine_id), 0);
 }
 
-static u32 gk20a_fifo_engines_on_id(struct gk20a *g, u32 id, bool is_tsg)
+static const u32 gk20a_fifo_engines_on_id(struct gk20a *g, u32 id, bool is_tsg)
 {
 	int i;
 	u32 engines = 0;
@@ -1467,7 +1467,7 @@ err:
 	return ret;
 }
 
-static u32 fifo_error_isr(struct gk20a *g, u32 fifo_intr)
+static const u32 fifo_error_isr(struct gk20a *g, u32 fifo_intr)
 {
 	bool print_channel_reset_log = false;
 	struct device *dev = dev_from_gk20a(g);
@@ -1693,14 +1693,14 @@ static u32 gk20a_fifo_handle_pbdma_intr(struct device *dev,
 	return handled;
 }
 
-static u32 fifo_channel_isr(struct gk20a *g, u32 fifo_intr)
+static const u32 fifo_channel_isr(struct gk20a *g, u32 fifo_intr)
 {
 	gk20a_channel_semaphore_wakeup(g);
 	return fifo_intr_0_channel_intr_pending_f();
 }
 
 
-static u32 fifo_pbdma_isr(struct gk20a *g, u32 fifo_intr)
+static const u32 fifo_pbdma_isr(struct gk20a *g, u32 fifo_intr)
 {
 	struct device *dev = dev_from_gk20a(g);
 	struct fifo_gk20a *f = &g->fifo;
@@ -1772,7 +1772,7 @@ void gk20a_fifo_nonstall_isr(struct gk20a *g)
 	return;
 }
 
-static int __locked_fifo_preempt(struct gk20a *g, u32 id, bool is_tsg)
+static const int __locked_fifo_preempt(struct gk20a *g, u32 id, bool is_tsg)
 {
 	u32 delay = GR_IDLE_CHECK_DEFAULT;
 	unsigned long end_jiffies = jiffies
@@ -2074,7 +2074,7 @@ static void gk20a_fifo_runlist_reset_engines(struct gk20a *g, u32 runlist_id)
 		gk20a_fifo_recover(g, engines, ~(u32)0, false, false, true);
 }
 
-static int gk20a_fifo_runlist_wait_pending(struct gk20a *g, u32 runlist_id)
+static const int gk20a_fifo_runlist_wait_pending(struct gk20a *g, u32 runlist_id)
 {
 	struct fifo_runlist_info_gk20a *runlist;
 	unsigned long end_jiffies = jiffies +
