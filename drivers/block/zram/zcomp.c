@@ -189,7 +189,7 @@ static void zcomp_strm_multi_destroy(struct zcomp *comp)
 	kfree(zs);
 }
 
-static int zcomp_strm_multi_create(struct zcomp *comp, int max_strm)
+static const int zcomp_strm_multi_create(struct zcomp *comp, int max_strm)
 {
 	struct zcomp_strm *zstrm;
 	struct zcomp_strm_multi *zs;
@@ -245,7 +245,7 @@ static void zcomp_strm_single_destroy(struct zcomp *comp)
 	kfree(zs);
 }
 
-static int zcomp_strm_single_create(struct zcomp *comp)
+static const int zcomp_strm_single_create(struct zcomp *comp)
 {
 	struct zcomp_strm_single *zs;
 
