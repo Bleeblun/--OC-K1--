@@ -400,10 +400,10 @@ static ssize_t store_uevent(struct device *dev, struct device_attribute *attr,
 	return count;
 }
 
-static struct device_attribute uevent_attr =
+static const struct device_attribute uevent_attr =
 	__ATTR(uevent, S_IRUGO | S_IWUSR, show_uevent, store_uevent);
 
-static int device_add_attributes(struct device *dev,
+static const int device_add_attributes(struct device *dev,
 				 struct device_attribute *attrs)
 {
 	int error = 0;
@@ -432,7 +432,7 @@ static void device_remove_attributes(struct device *dev,
 			device_remove_file(dev, &attrs[i]);
 }
 
-static int device_add_bin_attributes(struct device *dev,
+static const int device_add_bin_attributes(struct device *dev,
 				     struct bin_attribute *attrs)
 {
 	int error = 0;
@@ -461,7 +461,7 @@ static void device_remove_bin_attributes(struct device *dev,
 			device_remove_bin_file(dev, &attrs[i]);
 }
 
-static int device_add_groups(struct device *dev,
+static const int device_add_groups(struct device *dev,
 			     const struct attribute_group **groups)
 {
 	int error = 0;
@@ -491,7 +491,7 @@ static void device_remove_groups(struct device *dev,
 			sysfs_remove_group(&dev->kobj, groups[i]);
 }
 
-static int device_add_attrs(struct device *dev)
+static const int device_add_attrs(struct device *dev)
 {
 	struct class *class = dev->class;
 	const struct device_type *type = dev->type;
@@ -554,7 +554,7 @@ static ssize_t show_dev(struct device *dev, struct device_attribute *attr,
 	return print_dev_t(buf, dev->devt);
 }
 
-static struct device_attribute devt_attr =
+static const struct device_attribute devt_attr =
 	__ATTR(dev, S_IRUGO, show_dev, NULL);
 
 /* /sys/devices/ */
@@ -844,7 +844,7 @@ static void cleanup_device_parent(struct device *dev)
 	cleanup_glue_dir(dev, dev->kobj.parent);
 }
 
-static int device_add_class_symlinks(struct device *dev)
+static const int device_add_class_symlinks(struct device *dev)
 {
 	int error;
 
@@ -942,7 +942,7 @@ static struct kobject *device_to_dev_kobj(struct device *dev)
 	return kobj;
 }
 
-static int device_create_sys_dev_entry(struct device *dev)
+static const int device_create_sys_dev_entry(struct device *dev)
 {
 	struct kobject *kobj = device_to_dev_kobj(dev);
 	int error = 0;
@@ -1748,7 +1748,7 @@ out:
 }
 EXPORT_SYMBOL_GPL(device_rename);
 
-static int device_move_class_links(struct device *dev,
+static const int device_move_class_links(struct device *dev,
 				   struct device *old_parent,
 				   struct device *new_parent)
 {

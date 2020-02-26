@@ -129,7 +129,7 @@ static void class_put(struct class *cls)
 		kset_put(&cls->p->subsys);
 }
 
-static int add_class_attrs(struct class *cls)
+static const int add_class_attrs(struct class *cls)
 {
 	int i;
 	int error = 0;

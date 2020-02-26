@@ -77,7 +77,7 @@ early_param("cma", early_cma);
 
 #ifdef CONFIG_CMA_SIZE_PERCENTAGE
 
-static phys_addr_t __init __maybe_unused cma_early_percent_memory(void)
+static const phys_addr_t __init __maybe_unused cma_early_percent_memory(void)
 {
 	struct memblock_region *reg;
 	unsigned long total_pages = 0;
@@ -142,7 +142,7 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
 
 static DEFINE_MUTEX(cma_mutex);
 
-static int __init cma_activate_area(struct cma *cma)
+static const int __init cma_activate_area(struct cma *cma)
 {
 	int bitmap_size = BITS_TO_LONGS(cma->count) * sizeof(long);
 	unsigned long base_pfn = cma->base_pfn, pfn = base_pfn;
