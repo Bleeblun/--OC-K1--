@@ -89,9 +89,9 @@
 #define RM_NEED_TO_SEND_SCAN		0x01
 #define RM_NEED_TO_READ_RAW_DATA	0x02
 #define RM_NEED_TO_SEND_SIGNAL		0x04
-/* hide the timeout
+
 #define TCH_WAKE_LOCK_TIMEOUT		(HZ/2)
-*/
+
 #if ENABLE_FREQ_HOPPING  /*ENABLE_SCAN_DATA_HEADER*/
 #define QUEUE_HEADER_NUM			(8)
 #define SCAN_TYPE_MT				(1)
@@ -3281,9 +3281,8 @@ static int rm_tch_resume(struct rm_tch_ts *ts)
 		dev_info(ts->dev, "Raydium - Enable input device\n");
 		if (wake_lock_active(&g_st_ts.wakelock_initialization))
 			wake_unlock(&g_st_ts.wakelock_initialization);
-	/* Hide The Time out Setting
 		wake_lock_timeout(&g_st_ts.wakelock_initialization,
-			TCH_WAKE_LOCK_TIMEOUT); */
+			TCH_WAKE_LOCK_TIMEOUT);
 		rm_ctrl_resume(ts);
 	}
 	return RETURN_OK;
@@ -3943,9 +3942,8 @@ static int rm_tch_spi_remove(struct spi_device *spi)
 	if (g_st_ts.rm_workqueue)
 		destroy_workqueue(g_st_ts.rm_workqueue);
 #endif
-	/* Hide Killing the Wakelock as i dont want it destroyed
 	if (&g_st_ts.wakelock_initialization)
-		wake_lock_destroy(&g_st_ts.wakelock_initialization); */
+		wake_lock_destroy(&g_st_ts.wakelock_initialization);
 
 	mutex_destroy(&g_st_ts.mutex_scan_mode);
 	mutex_destroy(&g_st_ts.mutex_ns_mode);
