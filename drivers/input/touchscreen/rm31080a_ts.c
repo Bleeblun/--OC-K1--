@@ -66,9 +66,10 @@
 #include <linux/list.h>
 #endif
 
+#ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
 #include <linux/input/sweep2wake.h>
 #include <linux/input/doubletap2wake.h>
-
+#endif
 /*=============================================================================
 	DEFINITIONS
 =============================================================================*/
@@ -122,10 +123,12 @@ enum RM_TEST_MODE {
 	RM_TEST_MODE_MAX
 };
 
+#ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
 extern int s2w_switch;
 extern bool s2w_scr_suspended;
 extern int dt2w_switch;
 extern bool dt2w_scr_suspended;
+#endif
 
 #ifdef ENABLE_SMOOTH_LEVEL
 #define RM_SMOOTH_LEVEL_NORMAL		0
@@ -3268,9 +3271,13 @@ static void rm_ctrl_suspend(struct rm_tch_ts *ts)
 static int rm_tch_suspend(struct rm_tch_ts *ts)
 {
 	if (g_st_ts.b_init_service) {
-		dev_info(ts->dev, "Raydium - Disable input device\n");
-		dev_info(ts->dev, "Raydium - Disable input device done\n");
-	rm_ctrl_resume(ts);
+		if (!s2w_switch && !dt2w_switch) {
+			rm_ctrl_resume(ts); 
+		}
+		else
+			dev_info(ts->dev, "Raydium - Disable input device\n");
+			rm_ctrl_suspend(ts);
+			dev_info(ts->dev, "Raydium - Disable input device done\n");
 	}
 	return RETURN_OK;
 }
@@ -3360,33 +3367,32 @@ static int rm_tch_input_disable(struct input_dev *in_dev)
 {
 	int error = RETURN_OK;
 
-	if(!s2w_switch && !dt2w_switch) {
-		struct rm_tch_ts *ts = input_get_drvdata(in_dev);
-
-		g_st_ts.b_is_disabled = false;
-		error = rm_tch_resume(ts);
-		if (error)
-			dev_err(ts->dev, "Raydium - %s : failed\n", __func__);
+	struct rm_tch_ts *ts = input_get_drvdata(in_dev);
+		if(!s2w_switch && !dt2w_switch) {
+			g_st_ts.b_is_disabled = false;
+			error = rm_tch_resume(ts);
+			if (error)
+				dev_err(ts->dev, "Raydium - %s : failed\n", __func__);
 	}
 	return error;
 }
 
 #if defined(CONFIG_TRUSTED_LITTLE_KERNEL)
-/*===========================================================================
- * void raydium_tlk_ns_touch_suspend(void)
- * {
- *	struct rm_tch_ts *ts = input_get_drvdata(g_input_dev);
- *
- *	rm_printk("tlk_ns_touch_suspend\n");
- *
- *	rm_tch_enter_manual_mode();
- *	mutex_lock(&g_st_ts.mutex_scan_mode);
- *	mutex_lock(&g_st_ts.mutex_ns_mode);
- *	rm_tch_cmd_process(0, g_st_rm_tlk_cmd, ts);
- * }
- * EXPORT_SYMBOL(raydium_tlk_ns_touch_suspend);
- *
-===========================================================================*/
+/*===========================================================================*/
+void raydium_tlk_ns_touch_suspend(void)
+{
+	struct rm_tch_ts *ts = input_get_drvdata(g_input_dev);
+
+	rm_printk("tlk_ns_touch_suspend\n");
+
+	rm_tch_enter_manual_mode();
+	mutex_lock(&g_st_ts.mutex_scan_mode);
+	mutex_lock(&g_st_ts.mutex_ns_mode);
+	rm_tch_cmd_process(0, g_st_rm_tlk_cmd, ts);
+}
+EXPORT_SYMBOL(raydium_tlk_ns_touch_suspend);
+
+/*===========================================================================*/
 void raydium_tlk_ns_touch_resume(void)
 {
 	struct rm_tch_ts *ts = input_get_drvdata(g_input_dev);
