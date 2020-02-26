@@ -66,6 +66,10 @@
 #include <linux/list.h>
 #endif
 
+#ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
+#include <linux/input/sweep2wake.h>
+#include <linux/input/doubletap2wake.h>
+#endif
 /*=============================================================================
 	DEFINITIONS
 =============================================================================*/
@@ -118,6 +122,13 @@ enum RM_TEST_MODE {
 	RM_TEST_MODE_CALC_TIME_SHOW,
 	RM_TEST_MODE_MAX
 };
+
+#ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
+extern int s2w_switch;
+extern bool s2w_scr_suspended;
+extern int dt2w_switch;
+extern bool dt2w_scr_suspended;
+#endif
 
 #ifdef ENABLE_SMOOTH_LEVEL
 #define RM_SMOOTH_LEVEL_NORMAL		0
@@ -3260,9 +3271,14 @@ static void rm_ctrl_suspend(struct rm_tch_ts *ts)
 static int rm_tch_suspend(struct rm_tch_ts *ts)
 {
 	if (g_st_ts.b_init_service) {
-		dev_info(ts->dev, "Raydium - Disable input device\n");
-		rm_ctrl_suspend(ts);
-		dev_info(ts->dev, "Raydium - Disable input device done\n");
+		if (!s2w_switch && !dt2w_switch) {
+			rm_ctrl_resume(ts); 
+
+		} else {
+			dev_info(ts->dev, "Raydium - Disable input device\n");
+			rm_ctrl_suspend(ts);
+			dev_info(ts->dev, "Raydium - Disable input device done\n");
+		}
 	}
 	return RETURN_OK;
 }
@@ -3284,11 +3300,9 @@ static int rm_tch_resume(struct rm_tch_ts *ts)
 static int rm_dev_pm_suspend(struct device *dev)
 {
 	struct rm_tch_ts *ts = dev_get_drvdata(dev);
-	if (!g_st_ts.b_is_suspended && !g_st_ts.b_is_disabled) {
-		rm_tch_suspend(ts);
-#if defined(CONFIG_ANDROID)
-		dev_info(ts->dev, "disabled without input powerhal support.\n");
-#endif
+		if (!g_st_ts.b_is_disabled) {
+			dev_info(ts->dev, "disabled without input powerhal support.\n");
+			rm_tch_resume(ts);
 	}
 	return RETURN_OK;
 }
@@ -3298,9 +3312,7 @@ static int rm_dev_pm_resume(struct device *dev)
 	struct rm_tch_ts *ts = dev_get_drvdata(dev);
 	if (!g_st_ts.b_is_disabled) {
 		rm_tch_resume(ts);
-#if defined(CONFIG_ANDROID)
 		dev_info(ts->dev, "enabled without input powerhal support.\n");
-#endif
 	}
 	return RETURN_OK;
 }
@@ -3310,12 +3322,13 @@ static void rm_tch_early_suspend(struct early_suspend *es)
 {
 	struct rm_tch_ts *ts;
 	struct device *dev;
+	if (!s2w_switch && !dt2w_switch) {
+		ts = container_of(es, struct rm_tch_ts, early_suspend);
+		dev = ts->dev;
 
-	ts = container_of(es, struct rm_tch_ts, early_suspend);
-	dev = ts->dev;
-
-	if (rm_tch_suspend(dev))
-		dev_err(dev, "Raydium - %s : failed\n", __func__);
+		if (rm_tch_suspend(dev))
+			dev_err(dev, "Raydium - %s : failed\n", __func__);
+	}
 }
 
 static void rm_tch_early_resume(struct early_suspend *es)
@@ -3323,11 +3336,13 @@ static void rm_tch_early_resume(struct early_suspend *es)
 	struct rm_tch_ts *ts;
 	struct device *dev;
 
-	ts = container_of(es, struct rm_tch_ts, early_suspend);
-	dev = ts->dev;
+	if (!s2w_switch && !dt2w_switch) {
+		ts = container_of(es, struct rm_tch_ts, early_suspend);
+		dev = ts->dev;
 
-	if (rm_tch_resume(dev))
-		dev_err(dev, "Raydium - %s : failed\n", __func__);
+		if (rm_tch_resume(dev))
+			dev_err(dev, "Raydium - %s : failed\n", __func__);
+	}
 }
 #endif			/*CONFIG_HAS_EARLYSUSPEND*/
 #endif			/*CONFIG_PM*/
@@ -3340,11 +3355,12 @@ static int rm_tch_input_enable(struct input_dev *in_dev)
 
 	struct rm_tch_ts *ts = input_get_drvdata(in_dev);
 
-	g_st_ts.b_is_disabled = false;
-	error = rm_tch_resume(ts);
-	if (error)
-		dev_err(ts->dev, "Raydium - %s : failed\n", __func__);
-
+		if (!s2w_switch && !dt2w_switch) {
+			g_st_ts.b_is_disabled = false;
+			error = rm_tch_resume(ts);
+			if (error)
+				dev_err(ts->dev, "Raydium - %s : failed\n", __func__);
+	}
 	return error;
 }
 
@@ -3352,13 +3368,14 @@ static int rm_tch_input_disable(struct input_dev *in_dev)
 {
 	int error = RETURN_OK;
 
-	struct rm_tch_ts *ts = input_get_drvdata(in_dev);
-
-	error = rm_tch_suspend(ts);
-	g_st_ts.b_is_disabled = true;
-	if (error)
-		dev_err(ts->dev, "Raydium - %s : failed\n", __func__);
-
+	struct	rm_tch_ts *ts = input_get_drvdata(in_dev);
+			
+		if (!s2w_switch && !dt2w_switch) {
+			g_st_ts.b_is_disabled = false;
+			error = rm_tch_resume(ts);
+			if (error)
+				dev_err(ts->dev, "Raydium - %s : failed\n", __func__);
+	}
 	return error;
 }
 
@@ -3576,7 +3593,7 @@ struct rm_tch_ts *rm_tch_input_init(struct device *dev, unsigned int irq,
 				RM_INPUT_RESOLUTION_Y);
 
 	err = request_threaded_irq(ts->irq, NULL, rm_tch_irq,
-			IRQF_TRIGGER_RISING | IRQF_ONESHOT, dev_name(dev), ts);
+			IRQF_TRIGGER_RISING | IRQF_ONESHOT | IRQF_EARLY_RESUME | IRQF_NO_SUSPEND, dev_name(dev), ts);
 	if (err) {
 		dev_err(dev, "Raydium - irq %d busy?\n", ts->irq);
 		goto err_free_mem;
@@ -3934,7 +3951,6 @@ static int rm_tch_spi_remove(struct spi_device *spi)
 	if (g_st_ts.rm_workqueue)
 		destroy_workqueue(g_st_ts.rm_workqueue);
 #endif
-
 	if (&g_st_ts.wakelock_initialization)
 		wake_lock_destroy(&g_st_ts.wakelock_initialization);
 
