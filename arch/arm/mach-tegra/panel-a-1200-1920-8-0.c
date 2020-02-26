@@ -36,15 +36,16 @@ static struct device *dc_dev;
 static u16 en_panel_rst;
 
 #ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
-	extern bool s2w_scr_suspended;
+extern bool s2w_scr_suspended;
 #endif
 #ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
-	extern bool dt2w_scr_suspended;
+extern bool dt2w_scr_suspended;
 #endif
 
 static int dsi_a_1200_1920_8_0_regulator_get(struct device *dev)
 {
 	int err = 0;
+
 
 	if (reg_requested)
 		return 0;
