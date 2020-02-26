@@ -84,7 +84,7 @@ void blk_recount_segments(struct request_queue *q, struct bio *bio)
 }
 EXPORT_SYMBOL(blk_recount_segments);
 
-static int blk_phys_contig_segment(struct request_queue *q, struct bio *bio,
+static const int blk_phys_contig_segment(struct request_queue *q, struct bio *bio,
 				   struct bio *nxt)
 {
 	if (!blk_queue_cluster(q))
@@ -308,7 +308,7 @@ int ll_front_merge_fn(struct request_queue *q, struct request *req,
 	return ll_new_hw_segment(q, req, bio);
 }
 
-static int ll_merge_requests_fn(struct request_queue *q, struct request *req,
+static const int ll_merge_requests_fn(struct request_queue *q, struct request *req,
 				struct request *next)
 {
 	int total_phys_segments;
@@ -399,7 +399,7 @@ static void blk_account_io_merge(struct request *req)
 /*
  * Has to be called with the request spinlock acquired
  */
-static int attempt_merge(struct request_queue *q, struct request *req,
+static const int attempt_merge(struct request_queue *q, struct request *req,
 			  struct request *next)
 {
 	if (!rq_mergeable(req) || !rq_mergeable(next))

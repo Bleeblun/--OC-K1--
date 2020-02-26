@@ -12,7 +12,7 @@
 
 static DECLARE_FAULT_ATTR(fail_io_timeout);
 
-static int __init setup_fail_io_timeout(char *str)
+static const int __init setup_fail_io_timeout(char *str)
 {
 	return setup_fault_attr(&fail_io_timeout, str);
 }
@@ -26,7 +26,7 @@ int blk_should_fake_timeout(struct request_queue *q)
 	return should_fail(&fail_io_timeout, 1);
 }
 
-static int __init fail_io_timeout_debugfs(void)
+static const int __init fail_io_timeout_debugfs(void)
 {
 	struct dentry *dir = fault_create_debugfs_attr("fail_io_timeout",
 						NULL, &fail_io_timeout);
