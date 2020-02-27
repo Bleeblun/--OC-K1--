@@ -28,7 +28,7 @@ static const u16 nla_attr_minlen[NLA_TYPE_MAX+1] = {
 	[NLA_S64]	= sizeof(s64),
 };
 
-static int validate_nla(const struct nlattr *nla, int maxtype,
+static const int validate_nla(const struct nlattr *nla, int maxtype,
 			const struct nla_policy *policy)
 {
 	const struct nla_policy *pt;

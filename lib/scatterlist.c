@@ -406,7 +406,7 @@ void __sg_page_iter_start(struct sg_page_iter *piter,
 }
 EXPORT_SYMBOL(__sg_page_iter_start);
 
-static int sg_page_count(struct scatterlist *sg)
+static const int sg_page_count(struct scatterlist *sg)
 {
 	return PAGE_ALIGN(sg->offset + sg->length) >> PAGE_SHIFT;
 }

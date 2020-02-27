@@ -302,7 +302,7 @@ static inline unsigned long radix_tree_maxindex(unsigned int height)
 /*
  *	Extend a radix tree so it can store key @index.
  */
-static int radix_tree_extend(struct radix_tree_root *root, unsigned long index)
+static const int radix_tree_extend(struct radix_tree_root *root, unsigned long index)
 {
 	struct radix_tree_node *node;
 	struct radix_tree_node *slot;

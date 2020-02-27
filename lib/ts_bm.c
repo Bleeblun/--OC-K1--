@@ -97,7 +97,7 @@ next:			bs = bm->bad_shift[text[shift-i]];
 	return UINT_MAX;
 }
 
-static int subpattern(u8 *pattern, int i, int j, int g)
+static const int subpattern(u8 *pattern, int i, int j, int g)
 {
 	int x = i+g-1, y = j+g-1, ret = 0;
 

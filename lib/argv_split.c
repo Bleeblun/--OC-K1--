@@ -8,7 +8,7 @@
 #include <linux/slab.h>
 #include <linux/export.h>
 
-static int count_argc(const char *str)
+static const int count_argc(const char *str)
 {
 	int count = 0;
 	bool was_space;

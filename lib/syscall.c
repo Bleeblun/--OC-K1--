@@ -3,7 +3,7 @@
 #include <linux/export.h>
 #include <asm/syscall.h>
 
-static int collect_syscall(struct task_struct *target, long *callno,
+static const int collect_syscall(struct task_struct *target, long *callno,
 			   unsigned long args[6], unsigned int maxargs,
 			   unsigned long *sp, unsigned long *pc)
 {

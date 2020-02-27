@@ -116,7 +116,7 @@ struct flex_array *flex_array_alloc(int element_size, unsigned int total,
 }
 EXPORT_SYMBOL(flex_array_alloc);
 
-static int fa_element_to_part_nr(struct flex_array *fa,
+static const int fa_element_to_part_nr(struct flex_array *fa,
 					unsigned int element_nr)
 {
 	return reciprocal_divide(element_nr, fa->reciprocal_elems);
@@ -349,7 +349,7 @@ void *flex_array_get_ptr(struct flex_array *fa, unsigned int element_nr)
 }
 EXPORT_SYMBOL(flex_array_get_ptr);
 
-static int part_is_free(struct flex_array_part *part)
+static const int part_is_free(struct flex_array_part *part)
 {
 	int i;
 

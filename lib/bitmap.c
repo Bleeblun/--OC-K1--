@@ -596,7 +596,7 @@ EXPORT_SYMBOL(bitmap_scnlistprintf);
  *    %-EINVAL: invalid character in string
  *    %-ERANGE: bit number specified too large for mask
  */
-static int __bitmap_parselist(const char *buf, unsigned int buflen,
+static const int __bitmap_parselist(const char *buf, unsigned int buflen,
 		int is_user, unsigned long *maskp,
 		int nmaskbits)
 {
@@ -727,7 +727,7 @@ EXPORT_SYMBOL(bitmap_parselist_user);
  *
  * The bit positions 0 through @bits are valid positions in @buf.
  */
-static int bitmap_pos_to_ord(const unsigned long *buf, int pos, int bits)
+static const int bitmap_pos_to_ord(const unsigned long *buf, int pos, int bits)
 {
 	int i, ord;
 
@@ -1051,7 +1051,7 @@ enum {
 	REG_OP_RELEASE,		/* clear all bits in region */
 };
 
-static int __reg_op(unsigned long *bitmap, int pos, int order, int reg_op)
+static const int __reg_op(unsigned long *bitmap, int pos, int order, int reg_op)
 {
 	int nbits_reg;		/* number of bits in region */
 	int index;		/* index first long of region in bitmap */

@@ -305,7 +305,7 @@ int __kfifo_to_user(struct __kfifo *fifo, void __user *to,
 }
 EXPORT_SYMBOL(__kfifo_to_user);
 
-static int setup_sgl_buf(struct scatterlist *sgl, void *buf,
+static const int setup_sgl_buf(struct scatterlist *sgl, void *buf,
 		int nents, unsigned int len)
 {
 	int n;
