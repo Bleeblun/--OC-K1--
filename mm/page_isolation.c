@@ -169,7 +169,7 @@ int undo_isolate_page_range(unsigned long start_pfn, unsigned long end_pfn,
  *
  * Returns 1 if all pages in the range are isolated.
  */
-static int
+static const int
 __test_page_isolated_in_pageblock(unsigned long pfn, unsigned long end_pfn,
 				  bool skip_hwpoisoned_pages)
 {

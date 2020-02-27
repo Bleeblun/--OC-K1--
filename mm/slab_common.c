@@ -28,7 +28,7 @@ DEFINE_MUTEX(slab_mutex);
 struct kmem_cache *kmem_cache;
 
 #ifdef CONFIG_DEBUG_VM
-static int kmem_cache_sanity_check(struct mem_cgroup *memcg, const char *name,
+static const int kmem_cache_sanity_check(struct mem_cgroup *memcg, const char *name,
 				   size_t size)
 {
 	struct kmem_cache *s = NULL;
@@ -591,7 +591,7 @@ int cache_show(struct kmem_cache *s, struct seq_file *m)
 	return 0;
 }
 
-static int s_show(struct seq_file *m, void *p)
+static const int s_show(struct seq_file *m, void *p)
 {
 	struct kmem_cache *s = list_entry(p, struct kmem_cache, list);
 

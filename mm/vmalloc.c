@@ -1935,7 +1935,7 @@ EXPORT_SYMBOL(vmalloc_32_user);
  * If the page is not present, fill zero.
  */
 
-static int aligned_vread(char *buf, char *addr, unsigned long count)
+static const int aligned_vread(char *buf, char *addr, unsigned long count)
 {
 	struct page *p;
 	int copied = 0;

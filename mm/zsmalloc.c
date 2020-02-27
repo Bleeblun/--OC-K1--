@@ -242,12 +242,12 @@ struct mapping_area {
 /* per-cpu VM mapping areas for zspage accesses that cross page boundaries */
 static DEFINE_PER_CPU(struct mapping_area, zs_map_area);
 
-static int is_first_page(struct page *page)
+static const int is_first_page(struct page *page)
 {
 	return PagePrivate(page);
 }
 
-static int is_last_page(struct page *page)
+static const int is_last_page(struct page *page)
 {
 	return PagePrivate2(page);
 }
@@ -274,7 +274,7 @@ static void set_zspage_mapping(struct page *page, unsigned int class_idx,
 	page->mapping = (struct address_space *)m;
 }
 
-static int get_size_class_index(int size)
+static const int get_size_class_index(int size)
 {
 	int idx = 0;
 
@@ -379,7 +379,7 @@ out:
  * link together 3 PAGE_SIZE sized pages to form a zspage
  * since then we can perfectly fit in 8 such objects.
  */
-static int get_pages_per_zspage(int class_size)
+static const int get_pages_per_zspage(int class_size)
 {
 	int i, max_usedpc = 0;
 	/* zspage order which gives maximum used size per KB */

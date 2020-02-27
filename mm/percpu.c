@@ -198,20 +198,20 @@ static bool pcpu_addr_in_reserved_chunk(void *addr)
 		addr < first_start + pcpu_reserved_chunk_limit;
 }
 
-static int __pcpu_size_to_slot(int size)
+static const int __pcpu_size_to_slot(int size)
 {
 	int highbit = fls(size);	/* size is in bytes */
 	return max(highbit - PCPU_SLOT_BASE_SHIFT + 2, 1);
 }
 
-static int pcpu_size_to_slot(int size)
+static const int pcpu_size_to_slot(int size)
 {
 	if (size == pcpu_unit_size)
 		return pcpu_nr_slots - 1;
 	return __pcpu_size_to_slot(size);
 }
 
-static int pcpu_chunk_slot(const struct pcpu_chunk *chunk)
+static const int pcpu_chunk_slot(const struct pcpu_chunk *chunk)
 {
 	if (chunk->free_size < sizeof(int) || chunk->contig_hint < sizeof(int))
 		return 0;
@@ -231,7 +231,7 @@ static struct pcpu_chunk *pcpu_get_page_chunk(struct page *page)
 	return (struct pcpu_chunk *)page->index;
 }
 
-static int __maybe_unused pcpu_page_idx(unsigned int cpu, int page_idx)
+static const int __maybe_unused pcpu_page_idx(unsigned int cpu, int page_idx)
 {
 	return pcpu_unit_map[cpu] * pcpu_unit_pages + page_idx;
 }
@@ -352,7 +352,7 @@ static void pcpu_chunk_relocate(struct pcpu_chunk *chunk, int oslot)
  * New target map allocation length if extension is necessary, 0
  * otherwise.
  */
-static int pcpu_need_to_extend(struct pcpu_chunk *chunk)
+static const int pcpu_need_to_extend(struct pcpu_chunk *chunk)
 {
 	int new_alloc;
 
@@ -379,7 +379,7 @@ static int pcpu_need_to_extend(struct pcpu_chunk *chunk)
  * RETURNS:
  * 0 on success, -errno on failure.
  */
-static int pcpu_extend_area_map(struct pcpu_chunk *chunk, int new_alloc)
+static const int pcpu_extend_area_map(struct pcpu_chunk *chunk, int new_alloc)
 {
 	int *old = NULL, *new = NULL;
 	size_t old_size = 0, new_size = new_alloc * sizeof(new[0]);
@@ -480,7 +480,7 @@ static void pcpu_split_block(struct pcpu_chunk *chunk, int i,
  * Allocated offset in @chunk on success, -1 if no matching area is
  * found.
  */
-static int pcpu_alloc_area(struct pcpu_chunk *chunk, int size, int align)
+static const int pcpu_alloc_area(struct pcpu_chunk *chunk, int size, int align)
 {
 	int oslot = pcpu_chunk_slot(chunk);
 	int max_contig = 0;

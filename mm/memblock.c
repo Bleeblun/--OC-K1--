@@ -188,7 +188,7 @@ phys_addr_t __init_memblock get_allocated_memblock_reserved_regions_info(
  * RETURNS:
  * 0 on success, -1 on failure.
  */
-static int __init_memblock memblock_double_array(struct memblock_type *type,
+static const int __init_memblock memblock_double_array(struct memblock_type *type,
 						phys_addr_t new_area_start,
 						phys_addr_t new_area_size)
 {
@@ -361,7 +361,7 @@ static void __init_memblock memblock_insert_region(struct memblock_type *type,
  * RETURNS:
  * 0 on success, -errno on failure.
  */
-static int __init_memblock memblock_add_region(struct memblock_type *type,
+static const int __init_memblock memblock_add_region(struct memblock_type *type,
 				phys_addr_t base, phys_addr_t size, int nid)
 {
 	bool insert = false;
@@ -463,7 +463,7 @@ int __init_memblock memblock_add(phys_addr_t base, phys_addr_t size)
  * RETURNS:
  * 0 on success, -errno on failure.
  */
-static int __init_memblock memblock_isolate_range(struct memblock_type *type,
+static const int __init_memblock memblock_isolate_range(struct memblock_type *type,
 					phys_addr_t base, phys_addr_t size,
 					int *start_rgn, int *end_rgn)
 {
@@ -521,7 +521,7 @@ static int __init_memblock memblock_isolate_range(struct memblock_type *type,
 	return 0;
 }
 
-static int __init_memblock __memblock_remove(struct memblock_type *type,
+static const int __init_memblock __memblock_remove(struct memblock_type *type,
 					     phys_addr_t base, phys_addr_t size)
 {
 	int start_rgn, end_rgn;
@@ -905,7 +905,7 @@ void __init memblock_enforce_memory_limit(phys_addr_t limit)
 	__memblock_remove(&memblock.reserved, max_addr, (phys_addr_t)ULLONG_MAX);
 }
 
-static int __init_memblock memblock_search(struct memblock_type *type, phys_addr_t addr)
+static const int __init_memblock memblock_search(struct memblock_type *type, phys_addr_t addr)
 {
 	unsigned int left = 0, right = type->cnt;
 

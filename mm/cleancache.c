@@ -180,7 +180,7 @@ EXPORT_SYMBOL(__cleancache_init_shared_fs);
  * If the filesystem uses exportable filehandles, use the filehandle as
  * the key, else use the inode number.
  */
-static int cleancache_get_key(struct inode *inode,
+static const int cleancache_get_key(struct inode *inode,
 			      struct cleancache_filekey *key)
 {
 	int (*fhfn)(struct inode *, __u32 *fh, int *, struct inode *);
@@ -204,7 +204,7 @@ static int cleancache_get_key(struct inode *inode,
 /*
  * Returns a pool_id that is associated with a given fake poolid.
  */
-static int get_poolid_from_fake(int fake_pool_id)
+static const int get_poolid_from_fake(int fake_pool_id)
 {
 	if (fake_pool_id >= FAKE_SHARED_FS_POOLID_OFFSET)
 		return shared_fs_poolid_map[fake_pool_id -

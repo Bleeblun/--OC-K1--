@@ -25,7 +25,7 @@
  * take mmap_sem for writing. Others, which simply traverse vmas, need
  * to only take it for reading.
  */
-static int madvise_need_mmap_write(int behavior)
+static const int madvise_need_mmap_write(int behavior)
 {
 	switch (behavior) {
 	case MADV_REMOVE:
@@ -386,7 +386,7 @@ madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
 	}
 }
 
-static int
+static const int
 madvise_behavior_valid(int behavior)
 {
 	switch (behavior) {

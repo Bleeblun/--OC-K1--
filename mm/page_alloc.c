@@ -250,7 +250,7 @@ void set_pageblock_migratetype(struct page *page, int migratetype)
 bool oom_killer_disabled __read_mostly;
 
 #ifdef CONFIG_DEBUG_VM
-static int page_outside_zone_boundaries(struct zone *zone, struct page *page)
+static  const int page_outside_zone_boundaries(struct zone *zone, struct page *page)
 {
 	int ret = 0;
 	unsigned seq;
@@ -272,7 +272,7 @@ static int page_outside_zone_boundaries(struct zone *zone, struct page *page)
 	return ret;
 }
 
-static int page_is_consistent(struct zone *zone, struct page *page)
+static const int page_is_consistent(struct zone *zone, struct page *page)
 {
 	if (!pfn_valid_within(page_to_pfn(page)))
 		return 0;
@@ -284,7 +284,7 @@ static int page_is_consistent(struct zone *zone, struct page *page)
 /*
  * Temporary debugging check for pages not lying within a given zone.
  */
-static int bad_range(struct zone *zone, struct page *page)
+static const int bad_range(struct zone *zone, struct page *page)
 {
 	if (page_outside_zone_boundaries(zone, page))
 		return 1;
@@ -383,7 +383,7 @@ void prep_compound_page(struct page *page, unsigned long order)
 }
 
 /* update __split_huge_page_refcount if you change this function */
-static int destroy_compound_page(struct page *page, unsigned long order)
+static const int destroy_compound_page(struct page *page, unsigned long order)
 {
 	int i;
 	int nr_pages = 1 << order;
@@ -425,7 +425,7 @@ static inline void prep_zero_page(struct page *page, int order, gfp_t gfp_flags)
 #ifdef CONFIG_DEBUG_PAGEALLOC
 unsigned int _debug_guardpage_minorder;
 
-static int __init debug_guardpage_minorder_setup(char *buf)
+static const int __init debug_guardpage_minorder_setup(char *buf)
 {
 	unsigned long res;
 
@@ -873,7 +873,7 @@ static inline int check_new_page(struct page *page)
 	return 0;
 }
 
-static int prep_new_page(struct page *page, int order, gfp_t gfp_flags)
+static const int prep_new_page(struct page *page, int order, gfp_t gfp_flags)
 {
 	int i;
 
@@ -934,7 +934,7 @@ struct page *__rmqueue_smallest(struct zone *zone, unsigned int order,
  * This array describes the order lists are fallen back to when
  * the free lists for the desirable migrate type are depleted
  */
-static int fallbacks[MIGRATE_TYPES][4] = {
+static const int fallbacks[MIGRATE_TYPES][4] = {
 	[MIGRATE_UNMOVABLE]   = { MIGRATE_RECLAIMABLE, MIGRATE_MOVABLE,     MIGRATE_RESERVE },
 	[MIGRATE_RECLAIMABLE] = { MIGRATE_UNMOVABLE,   MIGRATE_MOVABLE,     MIGRATE_RESERVE },
 #ifdef CONFIG_CMA
@@ -1177,7 +1177,7 @@ retry_reserve:
  * a single hold of the lock, for efficiency.  Add them to the supplied list.
  * Returns the number of new pages which were placed at *list.
  */
-static int rmqueue_bulk(struct zone *zone, unsigned int order,
+static const int rmqueue_bulk(struct zone *zone, unsigned int order,
 			unsigned long count, struct list_head *list,
 			int migratetype, int cold)
 {
@@ -1452,7 +1452,7 @@ void split_page(struct page *page, unsigned int order)
 }
 EXPORT_SYMBOL_GPL(split_page);
 
-static int __isolate_free_page(struct page *page, unsigned int order)
+static const int __isolate_free_page(struct page *page, unsigned int order)
 {
 	unsigned long watermark;
 	struct zone *zone;
@@ -1609,7 +1609,7 @@ static struct {
 	.min_order = 1,
 };
 
-static int __init setup_fail_page_alloc(char *str)
+static const int __init setup_fail_page_alloc(char *str)
 {
 	return setup_fault_attr(&fail_page_alloc.attr, str);
 }
@@ -1631,7 +1631,7 @@ static bool should_fail_alloc_page(gfp_t gfp_mask, unsigned int order)
 
 #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
 
-static int __init fail_page_alloc_debugfs(void)
+static const int __init fail_page_alloc_debugfs(void)
 {
 	umode_t mode = S_IFREG | S_IRUSR | S_IWUSR;
 	struct dentry *dir;
@@ -1794,7 +1794,7 @@ static nodemask_t *zlc_setup(struct zonelist *zonelist, int alloc_flags)
  * We are low on memory in the second scan, and should leave no stone
  * unturned looking for a free page.
  */
-static int zlc_zone_worth_trying(struct zonelist *zonelist, struct zoneref *z,
+static const int zlc_zone_worth_trying(struct zonelist *zonelist, struct zoneref *z,
 						nodemask_t *allowednodes)
 {
 	struct zonelist_cache *zlc;	/* cached zonelist speedup info */
@@ -1869,7 +1869,7 @@ static nodemask_t *zlc_setup(struct zonelist *zonelist, int alloc_flags)
 	return NULL;
 }
 
-static int zlc_zone_worth_trying(struct zonelist *zonelist, struct zoneref *z,
+static const int zlc_zone_worth_trying(struct zonelist *zonelist, struct zoneref *z,
 				nodemask_t *allowednodes)
 {
 	return 1;
@@ -2294,7 +2294,7 @@ __alloc_pages_direct_compact(gfp_t gfp_mask, unsigned int order,
 #endif /* CONFIG_COMPACTION */
 
 /* Perform direct synchronous page reclaim */
-static int
+static const int
 __perform_reclaim(gfp_t gfp_mask, unsigned int order, struct zonelist *zonelist,
 		  nodemask_t *nodemask)
 {
@@ -3218,7 +3218,7 @@ static void zoneref_set_zone(struct zone *zone, struct zoneref *zoneref)
  *
  * Add all populated zones of a node to the zonelist.
  */
-static int build_zonelists_node(pg_data_t *pgdat, struct zonelist *zonelist,
+static const int build_zonelists_node(pg_data_t *pgdat, struct zonelist *zonelist,
 				int nr_zones, enum zone_type zone_type)
 {
 	struct zone *zone;
@@ -3262,7 +3262,7 @@ static char zonelist_order_name[3][8] = {"Default", "Node", "Zone"};
 
 #ifdef CONFIG_NUMA
 /* The value user specified ....changed by config */
-static int user_zonelist_order = ZONELIST_ORDER_DEFAULT;
+static const int user_zonelist_order = ZONELIST_ORDER_DEFAULT;
 /* string for sysctl */
 #define NUMA_ZONELIST_ORDER_LEN	16
 char numa_zonelist_order[16] = "default";
@@ -3275,7 +3275,7 @@ char numa_zonelist_order[16] = "default";
  *	= "[zZ]one      - order by zone, then by locality within zone
  */
 
-static int __parse_numa_zonelist_order(char *s)
+static const int __parse_numa_zonelist_order(char *s)
 {
 	if (*s == 'd' || *s == 'D') {
 		user_zonelist_order = ZONELIST_ORDER_DEFAULT;
@@ -3346,7 +3346,7 @@ out:
 
 
 #define MAX_NODE_LOAD (nr_online_nodes)
-static int node_load[MAX_NUMNODES];
+static const int node_load[MAX_NUMNODES];
 
 /**
  * find_next_best_node - find the next node that should appear in a given node's fallback list
@@ -3362,7 +3362,7 @@ static int node_load[MAX_NUMNODES];
  * on them otherwise.
  * It returns -1 if no node is found.
  */
-static int find_next_best_node(int node, nodemask_t *used_node_mask)
+static const int find_next_best_node(int node, nodemask_t *used_node_mask)
 {
 	int n, val;
 	int min_val = INT_MAX;
@@ -3448,7 +3448,7 @@ static void build_thisnode_zonelists(pg_data_t *pgdat)
  * exhausted, but results in overflowing to remote node while memory
  * may still exist in local DMA zone.
  */
-static int node_order[MAX_NUMNODES];
+static const int node_order[MAX_NUMNODES];
 
 static void build_zonelists_in_zone_order(pg_data_t *pgdat, int nr_nodes)
 {
@@ -3474,7 +3474,7 @@ static void build_zonelists_in_zone_order(pg_data_t *pgdat, int nr_nodes)
 	zonelist->_zonerefs[pos].zone_idx = 0;
 }
 
-static int default_zonelist_order(void)
+static const int default_zonelist_order(void)
 {
 	int nid, zone_type;
 	unsigned long low_kmem_size,total_size;
@@ -3878,7 +3878,7 @@ static inline unsigned long wait_table_bits(unsigned long size)
 /*
  * Check if a pageblock contains reserved pages
  */
-static int pageblock_is_reserved(unsigned long start_pfn, unsigned long end_pfn)
+static const int pageblock_is_reserved(unsigned long start_pfn, unsigned long end_pfn)
 {
 	unsigned long pfn;
 
@@ -4051,7 +4051,7 @@ static void __meminit zone_init_free_lists(struct zone *zone)
 	memmap_init_zone((size), (nid), (zone), (start_pfn), MEMMAP_EARLY)
 #endif
 
-static int __meminit zone_batchsize(struct zone *zone)
+static const int __meminit zone_batchsize(struct zone *zone)
 {
 #ifdef CONFIG_MMU
 	int batch;
@@ -4263,7 +4263,7 @@ int __meminit __early_pfn_to_nid(unsigned long pfn)
 	 * when the kernel is running single-threaded.
 	 */
 	static unsigned long __meminitdata last_start_pfn, last_end_pfn;
-	static int __meminitdata last_nid;
+	static const int __meminitdata last_nid;
 
 	if (last_start_pfn <= pfn && pfn < last_end_pfn)
 		return last_nid;
@@ -5181,7 +5181,7 @@ void __init free_area_init_nodes(unsigned long *max_zone_pfn)
 	}
 }
 
-static int __init cmdline_parse_core(char *p, unsigned long *core)
+static const int __init cmdline_parse_core(char *p, unsigned long *core)
 {
 	unsigned long long coremem;
 	if (!p)
@@ -5200,7 +5200,7 @@ static int __init cmdline_parse_core(char *p, unsigned long *core)
  * kernelcore=size sets the amount of memory for use for allocations that
  * cannot be reclaimed or migrated.
  */
-static int __init cmdline_parse_kernelcore(char *p)
+static const int __init cmdline_parse_kernelcore(char *p)
 {
 	return cmdline_parse_core(p, &required_kernelcore);
 }
@@ -5209,7 +5209,7 @@ static int __init cmdline_parse_kernelcore(char *p)
  * movablecore=size sets the amount of memory for use for allocations that
  * can be reclaimed or migrated.
  */
-static int __init cmdline_parse_movablecore(char *p)
+static const int __init cmdline_parse_movablecore(char *p)
 {
 	return cmdline_parse_core(p, &required_movablecore);
 }
@@ -5640,7 +5640,7 @@ int percpu_pagelist_fraction_sysctl_handler(ctl_table *table, int write,
 int hashdist = HASHDIST_DEFAULT;
 
 #ifdef CONFIG_NUMA
-static int __init set_hashdist(char *str)
+static const int __init set_hashdist(char *str)
 {
 	if (!str)
 		return 0;
@@ -5935,7 +5935,7 @@ static unsigned long pfn_max_align_up(unsigned long pfn)
 }
 
 /* [start, end) must belong to a single zone. */
-static int __alloc_contig_migrate_range(struct compact_control *cc,
+static const int __alloc_contig_migrate_range(struct compact_control *cc,
 					unsigned long start, unsigned long end)
 {
 	/* This function is based on compact_zone() from compaction.c. */
@@ -6122,7 +6122,7 @@ void free_contig_range(unsigned long pfn, unsigned nr_pages)
 #endif
 
 #ifdef CONFIG_MEMORY_HOTPLUG
-static int __meminit __zone_pcp_update(void *data)
+static const int __meminit __zone_pcp_update(void *data)
 {
 	struct zone *zone = data;
 	int cpu;
