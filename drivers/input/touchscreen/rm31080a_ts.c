@@ -66,6 +66,11 @@
 #include <linux/list.h>
 #endif
 
+#ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
+#include <linux/input/sweep2wake.h>
+#include <linux/input/doubletap2wake.h>
+#endif
+
 /*=============================================================================
 	DEFINITIONS
 =============================================================================*/
@@ -118,6 +123,13 @@ enum RM_TEST_MODE {
 	RM_TEST_MODE_CALC_TIME_SHOW,
 	RM_TEST_MODE_MAX
 };
+
+#ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
+extern int s2w_switch;
+extern bool s2w_scr_suspended;
+extern int dt2w_switch;
+extern bool dt2w_scr_suspended;
+#endif
 
 #ifdef ENABLE_SMOOTH_LEVEL
 #define RM_SMOOTH_LEVEL_NORMAL		0
@@ -3259,10 +3271,12 @@ static void rm_ctrl_suspend(struct rm_tch_ts *ts)
 
 static int rm_tch_suspend(struct rm_tch_ts *ts)
 {
-	if (g_st_ts.b_init_service) {
-		dev_info(ts->dev, "Raydium - Disable input device\n");
-		rm_ctrl_suspend(ts);
-		dev_info(ts->dev, "Raydium - Disable input device done\n");
+	if(!s2w_switch && !dt2w_switch) {
+		if (g_st_ts.b_init_service) {
+			dev_info(ts->dev, "Raydium - Disable input device\n");
+			rm_ctrl_suspend(ts);
+			dev_info(ts->dev, "Raydium - Disable input device done\n");
+		}
 	}
 	return RETURN_OK;
 }
@@ -3311,11 +3325,14 @@ static void rm_tch_early_suspend(struct early_suspend *es)
 	struct rm_tch_ts *ts;
 	struct device *dev;
 
-	ts = container_of(es, struct rm_tch_ts, early_suspend);
-	dev = ts->dev;
+	if(!s2w_switch && !dt2w_switch) {
+		ts = container_of(es, struct rm_tch_ts, early_suspend);
+		dev = ts->dev;
 
-	if (rm_tch_suspend(dev))
-		dev_err(dev, "Raydium - %s : failed\n", __func__);
+		if (rm_tch_suspend(dev))
+		
+	dev_err(dev, "Raydium - %s : failed\n", __func__);
+	}
 }
 
 static void rm_tch_early_resume(struct early_suspend *es)
@@ -3352,13 +3369,14 @@ static int rm_tch_input_disable(struct input_dev *in_dev)
 {
 	int error = RETURN_OK;
 
-	struct rm_tch_ts *ts = input_get_drvdata(in_dev);
+	if(!s2w_switch && !dt2w_switch) {
+		struct rm_tch_ts *ts = input_get_drvdata(in_dev);
 
-	error = rm_tch_suspend(ts);
-	g_st_ts.b_is_disabled = true;
-	if (error)
-		dev_err(ts->dev, "Raydium - %s : failed\n", __func__);
-
+		error = rm_tch_suspend(ts);
+		g_st_ts.b_is_disabled = true;
+		if (error)
+			dev_err(ts->dev, "Raydium - %s : failed\n", __func__);
+	}
 	return error;
 }
 
