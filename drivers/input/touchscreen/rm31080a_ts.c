@@ -3195,85 +3195,83 @@ static void rm_ctrl_suspend(struct rm_tch_ts *ts)
 #if (INPUT_PROTOCOL_CURRENT_SUPPORT == INPUT_PROTOCOL_TYPE_B)
 	int i;
 #endif
-	if(!s2w_switch && !dt2w_switch) {
-		if (g_st_ts.b_init_service) {
-			dev_info(ts->dev, "Raydium - Disable input device\n");
-			rm_ctrl_suspend(ts);
-			dev_info(ts->dev, "Raydium - Disable input device done\n");
-		}
-		if (g_st_ts.b_is_suspended == true)
-			return;
+	if (g_st_ts.b_init_service) {
+		dev_info(ts->dev, "Raydium - Disable input device\n");
+		rm_ctrl_suspend(ts);
+		dev_info(ts->dev, "Raydium - Disable input device done\n");
+	}
+	if (g_st_ts.b_is_suspended == true)
+		return;
 
-		g_st_ts.b_is_suspended = true;
-		g_st_ts.b_init_finish = 0;
+	g_st_ts.b_is_suspended = true;
+	g_st_ts.b_init_finish = 0;
 
-		if (g_st_ts.u8_scan_mode_state == RM_SCAN_IDLE_MODE)
-			rm_ctrl_pause_auto_mode();
+	if (g_st_ts.u8_scan_mode_state == RM_SCAN_IDLE_MODE)
+		rm_ctrl_pause_auto_mode();
 
-		rm_tch_ctrl_wait_for_scan_finish(0);
+	rm_tch_ctrl_wait_for_scan_finish(0);
 
 #if (ISR_POST_HANDLER == KTHREAD)
-		if (!IS_ERR(g_st_ts.rm_irq_post_thread)) {
-			g_st_ts.b_irq_thread_active = true;
-			wake_up_interruptible(&g_st_ts.rm_irq_thread_wait_q);
-			if (kthread_stop(g_st_ts.rm_irq_post_thread)) {
-				if (g_st_ctrl.u8_kernel_msg & DEBUG_KTHREAD)
-					rm_printk("Raydium - Kill IRQ poster failed!\n");
-			} else {
-				g_st_ts.b_irq_thread_alive = false;
-				if (g_st_ctrl.u8_kernel_msg & DEBUG_KTHREAD)
-					rm_printk("Raydium - Kill IRQ poster successfully!\n");
-			}
-		} else {
+	if (!IS_ERR(g_st_ts.rm_irq_post_thread)) {
+		g_st_ts.b_irq_thread_active = true;
+		wake_up_interruptible(&g_st_ts.rm_irq_thread_wait_q);
+		if (kthread_stop(g_st_ts.rm_irq_post_thread)) {
 			if (g_st_ctrl.u8_kernel_msg & DEBUG_KTHREAD)
-				rm_printk("Raydium - No IRQ poster exist!\n");
+				rm_printk("Raydium - Kill IRQ poster failed!\n");
+		} else {
+			g_st_ts.b_irq_thread_alive = false;
+			if (g_st_ctrl.u8_kernel_msg & DEBUG_KTHREAD)
+					rm_printk("Raydium - Kill IRQ poster successfully!\n");
 		}
+	} else {
+		if (g_st_ctrl.u8_kernel_msg & DEBUG_KTHREAD)
+			rm_printk("Raydium - No IRQ poster exist!\n");
+	}
 #endif
 
 #if ENABLE_EVENT_QUEUE
-		if (!IS_ERR(g_st_ts.rm_event_post_thread)) {
-			g_st_ts.b_event_thread_active = true;
-			wake_up_interruptible(&g_st_ts.rm_event_thread_wait_q);
-			if (kthread_stop(g_st_ts.rm_event_post_thread)) {
-				if (g_st_ctrl.u8_kernel_msg & DEBUG_KTHREAD)
-					rm_printk("Raydium - Kill Event poster failed!\n");
-			} else {
-				g_st_ts.b_event_thread_alive = false;
-				if (g_st_ctrl.u8_kernel_msg & DEBUG_KTHREAD)
-					rm_printk("Raydium - Kill Event poster successfully!\n");
-			}
-		} else {
+	if (!IS_ERR(g_st_ts.rm_event_post_thread)) {
+		g_st_ts.b_event_thread_active = true;
+		wake_up_interruptible(&g_st_ts.rm_event_thread_wait_q);
+		if (kthread_stop(g_st_ts.rm_event_post_thread)) {
 			if (g_st_ctrl.u8_kernel_msg & DEBUG_KTHREAD)
-				rm_printk("Raydium - No Event poster exist!\n");
+				rm_printk("Raydium - Kill Event poster failed!\n");
+		} else {
+			g_st_ts.b_event_thread_alive = false;
+			if (g_st_ctrl.u8_kernel_msg & DEBUG_KTHREAD)
+				rm_printk("Raydium - Kill Event poster successfully!\n");
 		}
+	} else {
+		if (g_st_ctrl.u8_kernel_msg & DEBUG_KTHREAD)
+			rm_printk("Raydium - No Event poster exist!\n");
+	}
 #endif
 
-		rm_tch_cmd_process(0, g_st_rm_suspend_cmd, ts);
-		rm_tch_ctrl_wait_for_scan_finish(0);
-		rm_tch_cmd_process(1, g_st_rm_suspend_cmd, ts);
+	rm_tch_cmd_process(0, g_st_rm_suspend_cmd, ts);
+	rm_tch_ctrl_wait_for_scan_finish(0);
+	rm_tch_cmd_process(1, g_st_rm_suspend_cmd, ts);
 
 #if (INPUT_PROTOCOL_CURRENT_SUPPORT == INPUT_PROTOCOL_TYPE_B)
-		for (i = 0; i < MAX_SLOT_AMOUNT; i++) {
-			input_mt_slot(g_input_dev, i);
+	for (i = 0; i < MAX_SLOT_AMOUNT; i++) {
+		input_mt_slot(g_input_dev, i);
 
-			input_mt_report_slot_state(
-				g_input_dev,
-				MT_TOOL_FINGER, false);
+		input_mt_report_slot_state(
+			g_input_dev,
+			MT_TOOL_FINGER, false);
 
-			input_report_key(
-				g_input_dev,
-				BTN_TOOL_RUBBER, false);
-		}
-		input_sync(g_input_dev);
-		g_st_ts.u8_last_touch_count = 0;
+		input_report_key(
+			g_input_dev,
+			BTN_TOOL_RUBBER, false);
+	}
+	input_sync(g_input_dev);
+	g_st_ts.u8_last_touch_count = 0;
 #endif
 
-		g_st_ts.u8_spi_locked = 1;
-		if (g_st_ctrl.u8_kernel_msg & DEBUG_DRIVER)
-			rm_printk("Raydium - SPI_LOCKED by suspend!!\n");
-		}
-
+	g_st_ts.u8_spi_locked = 1;
+	if (g_st_ctrl.u8_kernel_msg & DEBUG_DRIVER)
+		rm_printk("Raydium - SPI_LOCKED by suspend!!\n");
 }
+
 
 static int rm_tch_suspend(struct rm_tch_ts *ts)
 {
@@ -3305,8 +3303,8 @@ static int rm_dev_pm_suspend(struct device *dev)
 {
 	struct rm_tch_ts *ts = dev_get_drvdata(dev);
 	if(!s2w_switch && !dt2w_switch) {
-		if (!g_st_ts.b_is_suspended && !g_st_ts.b_is_disabled) {
-			rm_tch_resume(ts);
+		if (!g_st_ts.b_is_suspended) {
+			rm_tch_suspend(ts);
 #if defined(CONFIG_ANDROID)
 			dev_info(ts->dev, "disabled without input powerhal support.\n");
 #endif
@@ -3384,9 +3382,14 @@ static int rm_tch_input_disable(struct input_dev *in_dev)
 		g_st_ts.b_is_disabled = false;
 		if (error)
 			dev_err(ts->dev, "Raydium - %s : failed\n", __func__);
+	} else {
+		struct rm_tch_ts *ts = input_get_drvdata(in_dev);
 
+		error = rm_tch_suspend(ts);
+		g_st_ts.b_is_disabled = true;
+		if (error)
+			dev_err(ts->dev, "Raydium - %s : failed\n", __func__);
 	}
-
 	return error;
 }
 
@@ -3395,6 +3398,18 @@ static int rm_tch_input_disable(struct input_dev *in_dev)
 void raydium_tlk_ns_touch_suspend(void)
 {
 	if(!s2w_switch && !dt2w_switch) {
+		struct rm_tch_ts *ts = input_get_drvdata(g_input_dev);
+
+		rm_printk("tlk_ns_touch_resume\n");
+
+		rm_tch_ts_send_signal(g_st_ts.u32_hal_pid, 0x03);
+		rm_tch_cmd_process(1, g_st_rm_tlk_cmd, ts);
+
+		mutex_unlock(&g_st_ts.mutex_scan_mode);
+		mutex_unlock(&g_st_ts.mutex_ns_mode);
+
+	} else {
+
 		struct rm_tch_ts *ts = input_get_drvdata(g_input_dev);
 
 		rm_printk("tlk_ns_touch_suspend\n");
