@@ -42,7 +42,7 @@
  * the parent directory's parent as well, and so on recursively, if
  * they are also freshly created.
  */
-static int ext4_sync_parent(struct inode *inode)
+static const int ext4_sync_parent(struct inode *inode)
 {
 	struct dentry *dentry = NULL;
 	struct inode *next;

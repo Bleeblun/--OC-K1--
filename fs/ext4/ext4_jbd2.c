@@ -38,7 +38,7 @@ static void ext4_put_nojournal(handle_t *handle)
 /*
  * Wrappers for jbd2_journal_start/end.
  */
-static int ext4_journal_check_start(struct super_block *sb)
+static const int ext4_journal_check_start(struct super_block *sb)
 {
 	journal_t *journal;
 

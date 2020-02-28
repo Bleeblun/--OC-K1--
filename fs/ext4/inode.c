@@ -76,7 +76,7 @@ static __u32 ext4_inode_csum(struct inode *inode, struct ext4_inode *raw,
 	return csum;
 }
 
-static int ext4_inode_csum_verify(struct inode *inode, struct ext4_inode *raw,
+static const int ext4_inode_csum_verify(struct inode *inode, struct ext4_inode *raw,
 				  struct ext4_inode_info *ei)
 {
 	__u32 provided, calculated;
@@ -369,7 +369,7 @@ void ext4_da_update_reserve_space(struct inode *inode,
 		ext4_discard_preallocations(inode);
 }
 
-static int __check_block_validity(struct inode *inode, const char *func,
+static const int __check_block_validity(struct inode *inode, const char *func,
 				unsigned int line,
 				struct ext4_map_blocks *map)
 {
@@ -667,7 +667,7 @@ has_zeroout:
 /* Maximum number of blocks we map for direct IO at once. */
 #define DIO_MAX_BLOCKS 4096
 
-static int _ext4_get_block(struct inode *inode, sector_t iblock,
+static const int _ext4_get_block(struct inode *inode, sector_t iblock,
 			   struct buffer_head *bh, int flags)
 {
 	handle_t *handle = ext4_journal_current_handle();
@@ -1477,7 +1477,7 @@ static int ext4_bh_delay_or_unwritten(handle_t *handle, struct buffer_head *bh)
  * time. This function looks up the requested blocks and sets the
  * buffer delay bit under the protection of i_data_sem.
  */
-static int ext4_da_map_blocks(struct inode *inode, sector_t iblock,
+static const int ext4_da_map_blocks(struct inode *inode, sector_t iblock,
 			      struct ext4_map_blocks *map,
 			      struct buffer_head *bh)
 {

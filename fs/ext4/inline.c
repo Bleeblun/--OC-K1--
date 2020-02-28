@@ -24,7 +24,7 @@
 #define EXT4_INLINE_DOTDOT_OFFSET	2
 #define EXT4_INLINE_DOTDOT_SIZE		4
 
-static int ext4_get_inline_size(struct inode *inode)
+static const int ext4_get_inline_size(struct inode *inode)
 {
 	if (EXT4_I(inode)->i_inline_off)
 		return EXT4_I(inode)->i_inline_size;
@@ -32,7 +32,7 @@ static int ext4_get_inline_size(struct inode *inode)
 	return 0;
 }
 
-static int get_max_inline_xattr_value_size(struct inode *inode,
+static const int get_max_inline_xattr_value_size(struct inode *inode,
 					   struct ext4_iloc *iloc)
 {
 	struct ext4_xattr_ibody_header *header;
@@ -161,7 +161,7 @@ out:
 	return error;
 }
 
-static int ext4_read_inline_data(struct inode *inode, void *buffer,
+static const int ext4_read_inline_data(struct inode *inode, void *buffer,
 				 unsigned int len,
 				 struct ext4_iloc *iloc)
 {
@@ -243,7 +243,7 @@ static void ext4_write_inline_data(struct inode *inode, struct ext4_iloc *iloc,
 	       buffer, len);
 }
 
-static int ext4_create_inline_data(handle_t *handle,
+static const int ext4_create_inline_data(handle_t *handle,
 				   struct inode *inode, unsigned len)
 {
 	int error;
@@ -307,7 +307,7 @@ out:
 	return error;
 }
 
-static int ext4_update_inline_data(handle_t *handle, struct inode *inode,
+static const int ext4_update_inline_data(handle_t *handle, struct inode *inode,
 				   unsigned int len)
 {
 	int error;
@@ -371,7 +371,7 @@ out:
 	return error;
 }
 
-static int ext4_prepare_inline_data(handle_t *handle, struct inode *inode,
+static const int ext4_prepare_inline_data(handle_t *handle, struct inode *inode,
 				    unsigned int len)
 {
 	int ret, size;
@@ -396,7 +396,7 @@ static int ext4_prepare_inline_data(handle_t *handle, struct inode *inode,
 	return ret;
 }
 
-static int ext4_destroy_inline_data_nolock(handle_t *handle,
+static const int ext4_destroy_inline_data_nolock(handle_t *handle,
 					   struct inode *inode)
 {
 	struct ext4_inode_info *ei = EXT4_I(inode);
@@ -457,7 +457,7 @@ out:
 	return error;
 }
 
-static int ext4_read_inline_page(struct inode *inode, struct page *page)
+static const int ext4_read_inline_page(struct inode *inode, struct page *page)
 {
 	void *kaddr;
 	int ret = 0;
@@ -518,7 +518,7 @@ int ext4_readpage_inline(struct inode *inode, struct page *page)
 	return ret >= 0 ? 0 : ret;
 }
 
-static int ext4_convert_inline_data_to_extent(struct address_space *mapping,
+static const int ext4_convert_inline_data_to_extent(struct address_space *mapping,
 					      struct inode *inode,
 					      unsigned flags)
 {
@@ -784,7 +784,7 @@ ext4_journalled_write_inline_data(struct inode *inode,
  *    update and dirty so that ext4_da_writepages can handle it. We don't
  *    need to start the journal since the file's metatdata isn't changed now.
  */
-static int ext4_da_convert_inline_data_to_extent(struct address_space *mapping,
+static const int ext4_da_convert_inline_data_to_extent(struct address_space *mapping,
 						 struct inode *inode,
 						 unsigned flags,
 						 void **fsdata)
@@ -990,7 +990,7 @@ void ext4_show_inline_dir(struct inode *dir, struct buffer_head *bh,
  * It will return -ENOSPC if no space is available, and -EIO
  * and -EEXIST if directory entry already exists.
  */
-static int ext4_add_dirent_to_inline(handle_t *handle,
+static const int ext4_add_dirent_to_inline(handle_t *handle,
 				     struct ext4_filename *fname,
 				     struct inode *dir,
 				     struct inode *inode,
@@ -1072,7 +1072,7 @@ static void ext4_update_final_de(void *de_buf, int old_size, int new_size)
 	}
 }
 
-static int ext4_update_inline_dir(handle_t *handle, struct inode *dir,
+static const int ext4_update_inline_dir(handle_t *handle, struct inode *dir,
 				  struct ext4_iloc *iloc)
 {
 	int ret;
@@ -1103,7 +1103,7 @@ static void ext4_restore_inline_data(handle_t *handle, struct inode *inode,
 	ext4_set_inode_state(inode, EXT4_STATE_MAY_INLINE_DATA);
 }
 
-static int ext4_finish_convert_inline_dir(handle_t *handle,
+static const int ext4_finish_convert_inline_dir(handle_t *handle,
 					  struct inode *inode,
 					  struct buffer_head *dir_block,
 					  void *buf,
@@ -1151,7 +1151,7 @@ out:
 	return err;
 }
 
-static int ext4_convert_inline_data_nolock(handle_t *handle,
+static const int ext4_convert_inline_data_nolock(handle_t *handle,
 					   struct inode *inode,
 					   struct ext4_iloc *iloc)
 {

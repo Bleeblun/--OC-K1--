@@ -162,7 +162,7 @@ static void ext4_clear_io_unwritten_flag(ext4_io_end_t *io_end)
  * cannot get to ext4_ext_truncate() before all IOs overlapping that range are
  * completed (happens from ext4_free_ioend()).
  */
-static int ext4_end_io(ext4_io_end_t *io)
+static const int ext4_end_io(ext4_io_end_t *io)
 {
 	struct inode *inode = io->inode;
 	loff_t offset = io->offset;
@@ -230,7 +230,7 @@ static void ext4_add_complete_io(ext4_io_end_t *io_end)
 	spin_unlock_irqrestore(&ei->i_completed_io_lock, flags);
 }
 
-static int ext4_do_flush_completed_IO(struct inode *inode,
+static const int ext4_do_flush_completed_IO(struct inode *inode,
 				      struct list_head *head)
 {
 	ext4_io_end_t *io;
@@ -376,7 +376,7 @@ void ext4_io_submit_init(struct ext4_io_submit *io,
 	io->io_end = NULL;
 }
 
-static int io_submit_init_bio(struct ext4_io_submit *io,
+static const int io_submit_init_bio(struct ext4_io_submit *io,
 			      struct buffer_head *bh)
 {
 	int nvecs = bio_get_nr_vecs(bh->b_bdev);
@@ -394,7 +394,7 @@ static int io_submit_init_bio(struct ext4_io_submit *io,
 	return 0;
 }
 
-static int io_submit_add_bh(struct ext4_io_submit *io,
+static const int io_submit_add_bh(struct ext4_io_submit *io,
 			    struct inode *inode,
 			    struct page *page,
 			    struct buffer_head *bh)

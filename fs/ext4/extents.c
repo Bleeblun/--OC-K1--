@@ -68,7 +68,7 @@ static __le32 ext4_extent_block_csum(struct inode *inode,
 	return cpu_to_le32(csum);
 }
 
-static int ext4_extent_block_csum_verify(struct inode *inode,
+static const int ext4_extent_block_csum_verify(struct inode *inode,
 					 struct ext4_extent_header *eh)
 {
 	struct ext4_extent_tail *et;
@@ -111,7 +111,7 @@ static int ext4_split_extent_at(handle_t *handle,
 static int ext4_find_delayed_extent(struct inode *inode,
 				    struct extent_status *newes);
 
-static int ext4_ext_truncate_extend_restart(handle_t *handle,
+static const int ext4_ext_truncate_extend_restart(handle_t *handle,
 					    struct inode *inode,
 					    int needed)
 {
@@ -136,7 +136,7 @@ static int ext4_ext_truncate_extend_restart(handle_t *handle,
  *  - EROFS
  *  - ENOMEM
  */
-static int ext4_ext_get_access(handle_t *handle, struct inode *inode,
+static const int ext4_ext_get_access(handle_t *handle, struct inode *inode,
 				struct ext4_ext_path *path)
 {
 	if (path->p_bh) {
@@ -350,7 +350,7 @@ int ext4_ext_calc_metadata_amount(struct inode *inode, ext4_lblk_t lblock)
 	return ext_depth(inode) + 1;
 }
 
-static int
+static const int
 ext4_ext_max_entries(struct inode *inode, int depth)
 {
 	int max;
@@ -370,7 +370,7 @@ ext4_ext_max_entries(struct inode *inode, int depth)
 	return max;
 }
 
-static int ext4_valid_extent(struct inode *inode, struct ext4_extent *ext)
+static const int ext4_valid_extent(struct inode *inode, struct ext4_extent *ext)
 {
 	ext4_fsblk_t block = ext4_ext_pblock(ext);
 	int len = ext4_ext_get_actual_len(ext);
@@ -382,7 +382,7 @@ static int ext4_valid_extent(struct inode *inode, struct ext4_extent *ext)
 	return ext4_data_block_valid(EXT4_SB(inode->i_sb), block, len);
 }
 
-static int ext4_valid_extent_idx(struct inode *inode,
+static const int ext4_valid_extent_idx(struct inode *inode,
 				struct ext4_extent_idx *ext_idx)
 {
 	ext4_fsblk_t block = ext4_idx_pblock(ext_idx);
@@ -390,7 +390,7 @@ static int ext4_valid_extent_idx(struct inode *inode,
 	return ext4_data_block_valid(EXT4_SB(inode->i_sb), block, 1);
 }
 
-static int ext4_valid_extent_entries(struct inode *inode,
+static const int ext4_valid_extent_entries(struct inode *inode,
 				struct ext4_extent_header *eh,
 				int depth)
 {
@@ -436,7 +436,7 @@ static int ext4_valid_extent_entries(struct inode *inode,
 	return 1;
 }
 
-static int __ext4_ext_check(const char *function, unsigned int line,
+static const int __ext4_ext_check(const char *function, unsigned int line,
 			    struct inode *inode, struct ext4_extent_header *eh,
 			    int depth, ext4_fsblk_t pblk)
 {
@@ -950,7 +950,7 @@ err:
  * insert new index [@logical;@ptr] into the block at @curp;
  * check where to insert: before @curp or after @curp
  */
-static int ext4_ext_insert_index(handle_t *handle, struct inode *inode,
+static const int ext4_ext_insert_index(handle_t *handle, struct inode *inode,
 				 struct ext4_ext_path *curp,
 				 int logical, ext4_fsblk_t ptr)
 {
@@ -1026,7 +1026,7 @@ static int ext4_ext_insert_index(handle_t *handle, struct inode *inode,
  *   into the newly allocated blocks
  * - initializes subtree
  */
-static int ext4_ext_split(handle_t *handle, struct inode *inode,
+static const int ext4_ext_split(handle_t *handle, struct inode *inode,
 			  unsigned int flags,
 			  struct ext4_ext_path *path,
 			  struct ext4_extent *newext, int at)
@@ -1267,7 +1267,7 @@ cleanup:
  * - initializes new top-level, creating index that points to the
  *   just created block
  */
-static int ext4_ext_grow_indepth(handle_t *handle, struct inode *inode,
+static const int ext4_ext_grow_indepth(handle_t *handle, struct inode *inode,
 				 unsigned int flags)
 {
 	struct ext4_extent_header *neh;
@@ -1349,7 +1349,7 @@ out:
  * finds empty index and adds new leaf.
  * if no free index is found, then it requests in-depth growing.
  */
-static int ext4_ext_create_new_leaf(handle_t *handle, struct inode *inode,
+static const int ext4_ext_create_new_leaf(handle_t *handle, struct inode *inode,
 				    unsigned int mb_flags,
 				    unsigned int gb_flags,
 				    struct ext4_ext_path **ppath,
@@ -1421,7 +1421,7 @@ out:
  * returns 0 at @phys
  * return value contains 0 (success) or error code
  */
-static int ext4_ext_search_left(struct inode *inode,
+static const int ext4_ext_search_left(struct inode *inode,
 				struct ext4_ext_path *path,
 				ext4_lblk_t *logical, ext4_fsblk_t *phys)
 {
@@ -1486,7 +1486,7 @@ static int ext4_ext_search_left(struct inode *inode,
  * returns 0 at @phys
  * return value contains 0 (success) or error code
  */
-static int ext4_ext_search_right(struct inode *inode,
+static const int ext4_ext_search_right(struct inode *inode,
 				 struct ext4_ext_path *path,
 				 ext4_lblk_t *logical, ext4_fsblk_t *phys,
 				 struct ext4_extent **ret_ex)
@@ -1661,7 +1661,7 @@ static ext4_lblk_t ext4_ext_next_leaf_block(struct ext4_ext_path *path)
  * then we have to correct all indexes above.
  * TODO: do we need to correct tree in all cases?
  */
-static int ext4_ext_correct_indexes(handle_t *handle, struct inode *inode,
+static const int ext4_ext_correct_indexes(handle_t *handle, struct inode *inode,
 				struct ext4_ext_path *path)
 {
 	struct ext4_extent_header *eh;
@@ -1769,7 +1769,7 @@ ext4_can_extents_be_merged(struct inode *inode, struct ext4_extent *ex1,
  * Returns 0 if the extents (ex and ex+1) were _not_ merged and returns
  * 1 if they got merged.
  */
-static int ext4_ext_try_to_merge_right(struct inode *inode,
+static const int ext4_ext_try_to_merge_right(struct inode *inode,
 				 struct ext4_ext_path *path,
 				 struct ext4_extent *ex)
 {
@@ -2154,7 +2154,7 @@ cleanup:
 	return err;
 }
 
-static int ext4_fill_fiemap_extents(struct inode *inode,
+static const int ext4_fill_fiemap_extents(struct inode *inode,
 				    ext4_lblk_t block, ext4_lblk_t num,
 				    struct fiemap_extent_info *fieinfo)
 {
@@ -2361,7 +2361,7 @@ ext4_ext_put_gap_in_cache(struct inode *inode, struct ext4_ext_path *path,
  * ext4_ext_rm_idx:
  * removes index from the index block.
  */
-static int ext4_ext_rm_idx(handle_t *handle, struct inode *inode,
+static const int ext4_ext_rm_idx(handle_t *handle, struct inode *inode,
 			struct ext4_ext_path *path, int depth)
 {
 	int err;
@@ -2482,7 +2482,7 @@ static inline int get_default_free_blocks_flags(struct inode *inode)
 	return 0;
 }
 
-static int ext4_remove_blocks(handle_t *handle, struct inode *inode,
+static const int ext4_remove_blocks(handle_t *handle, struct inode *inode,
 			      struct ext4_extent *ex,
 			      long long *partial_cluster,
 			      ext4_lblk_t from, ext4_lblk_t to)
@@ -2593,7 +2593,7 @@ static int ext4_remove_blocks(handle_t *handle, struct inode *inode,
  * @start:  The first block to remove
  * @end:   The last block to remove
  */
-static int
+static const int
 ext4_ext_rm_leaf(handle_t *handle, struct inode *inode,
 		 struct ext4_ext_path *path,
 		 long long *partial_cluster,
@@ -2806,7 +2806,7 @@ out:
  * ext4_ext_more_to_rm:
  * returns 1 if current index has to be freed (even partial)
  */
-static int
+static const int
 ext4_ext_more_to_rm(struct ext4_ext_path *path)
 {
 	BUG_ON(path->p_idx == NULL);
@@ -3091,7 +3091,7 @@ void ext4_ext_release(struct super_block *sb)
 #endif
 }
 
-static int ext4_zeroout_es(struct inode *inode, struct ext4_extent *ex)
+static const int ext4_zeroout_es(struct inode *inode, struct ext4_extent *ex)
 {
 	ext4_lblk_t  ee_block;
 	ext4_fsblk_t ee_pblock;
@@ -3109,7 +3109,7 @@ static int ext4_zeroout_es(struct inode *inode, struct ext4_extent *ex)
 }
 
 /* FIXME!! we need to try to merge to left or right after zero-out  */
-static int ext4_ext_zeroout(struct inode *inode, struct ext4_extent *ex)
+static const int ext4_ext_zeroout(struct inode *inode, struct ext4_extent *ex)
 {
 	ext4_fsblk_t ee_pblock;
 	unsigned int ee_len;
@@ -3383,7 +3383,7 @@ out:
  *    that are allocated and initialized.
  *    It is guaranteed to be >= map->m_len.
  */
-static int ext4_ext_convert_to_initialized(handle_t *handle,
+static const int ext4_ext_convert_to_initialized(handle_t *handle,
 					   struct inode *inode,
 					   struct ext4_map_blocks *map,
 					   struct ext4_ext_path **ppath,
@@ -3651,7 +3651,7 @@ out:
  *
  * Returns the size of unwritten extent to be written on success.
  */
-static int ext4_split_convert_extents(handle_t *handle,
+static const int ext4_split_convert_extents(handle_t *handle,
 					struct inode *inode,
 					struct ext4_map_blocks *map,
 					struct ext4_ext_path **ppath,
@@ -3694,7 +3694,7 @@ static int ext4_split_convert_extents(handle_t *handle,
 	return ext4_split_extent(handle, inode, ppath, map, split_flag, flags);
 }
 
-static int ext4_convert_unwritten_extents_endio(handle_t *handle,
+static const int ext4_convert_unwritten_extents_endio(handle_t *handle,
 						struct inode *inode,
 						struct ext4_map_blocks *map,
 						struct ext4_ext_path **ppath)
@@ -3768,7 +3768,7 @@ static void unmap_underlying_metadata_blocks(struct block_device *bdev,
 /*
  * Handle EOFBLOCKS_FL flag, clearing it if necessary
  */
-static int check_eofblocks_fl(handle_t *handle, struct inode *inode,
+static const int check_eofblocks_fl(handle_t *handle, struct inode *inode,
 			      ext4_lblk_t lblk,
 			      struct ext4_ext_path *path,
 			      unsigned int len)
@@ -3926,7 +3926,7 @@ get_reserved_cluster_alloc(struct inode *inode, ext4_lblk_t lblk_start,
 	return allocated_clusters;
 }
 
-static int
+static const int
 convert_initialized_extent(handle_t *handle, struct inode *inode,
 			   struct ext4_map_blocks *map,
 			   struct ext4_ext_path **ppath, int flags,
@@ -4000,7 +4000,7 @@ convert_initialized_extent(handle_t *handle, struct inode *inode,
 	return allocated;
 }
 
-static int
+static const int
 ext4_ext_handle_unwritten_extents(handle_t *handle, struct inode *inode,
 			struct ext4_map_blocks *map,
 			struct ext4_ext_path **ppath, int flags,
@@ -4186,7 +4186,7 @@ out2:
  * ext4_ext_map_blocks() will then allocate one or more new clusters
  * by calling ext4_mb_new_blocks().
  */
-static int get_implied_cluster_alloc(struct super_block *sb,
+static const int get_implied_cluster_alloc(struct super_block *sb,
 				     struct ext4_map_blocks *map,
 				     struct ext4_extent *ex,
 				     struct ext4_ext_path *path)
@@ -4671,7 +4671,7 @@ retry:
 	ext4_std_error(inode->i_sb, err);
 }
 
-static int ext4_alloc_file_blocks(struct file *file, ext4_lblk_t offset,
+static const int ext4_alloc_file_blocks(struct file *file, ext4_lblk_t offset,
 				  ext4_lblk_t len, loff_t new_size,
 				  int flags, int mode)
 {
@@ -5124,7 +5124,7 @@ static int ext4_find_delayed_extent(struct inode *inode,
 /* fiemap flags we can handle specified here */
 #define EXT4_FIEMAP_FLAGS	(FIEMAP_FLAG_SYNC|FIEMAP_FLAG_XATTR)
 
-static int ext4_xattr_fiemap(struct inode *inode,
+static const int ext4_xattr_fiemap(struct inode *inode,
 				struct fiemap_extent_info *fieinfo)
 {
 	__u64 physical = 0;
@@ -5217,7 +5217,7 @@ int ext4_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
  * It also checks if there are sufficient credits left in the journal handle
  * to update path.
  */
-static int
+static const int
 ext4_access_path(handle_t *handle, struct inode *inode,
 		struct ext4_ext_path *path)
 {
@@ -5250,7 +5250,7 @@ ext4_access_path(handle_t *handle, struct inode *inode,
  * and EXT_LAST_EXTENT(path[depth].p_hdr) downwards, by subtracting shift
  * from starting block for each extent.
  */
-static int
+static const int
 ext4_ext_shift_path_extents(struct ext4_ext_path *path, ext4_lblk_t shift,
 			    struct inode *inode, handle_t *handle,
 			    ext4_lblk_t *start)
@@ -5326,7 +5326,7 @@ out:
  * block for the file are shifted downwards by shift blocks.
  * On success, 0 is returned, error otherwise.
  */
-static int
+static const int
 ext4_ext_shift_extents(struct inode *inode, handle_t *handle,
 		       ext4_lblk_t start, ext4_lblk_t shift)
 {

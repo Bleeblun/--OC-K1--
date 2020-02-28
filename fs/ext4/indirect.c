@@ -69,7 +69,7 @@ static inline void add_chain(Indirect *p, struct buffer_head *bh, __le32 *v)
  * get there at all.
  */
 
-static int ext4_block_to_path(struct inode *inode,
+static const int ext4_block_to_path(struct inode *inode,
 			      ext4_lblk_t i_block,
 			      ext4_lblk_t offsets[4], int *boundary)
 {
@@ -265,7 +265,7 @@ static ext4_fsblk_t ext4_find_goal(struct inode *inode, ext4_lblk_t block,
  *	return the total number of blocks to be allocate, including the
  *	direct and indirect blocks.
  */
-static int ext4_blks_to_allocate(Indirect *branch, int k, unsigned int blks,
+static const int ext4_blks_to_allocate(Indirect *branch, int k, unsigned int blks,
 				 int blocks_to_boundary)
 {
 	unsigned int count = 0;
@@ -318,7 +318,7 @@ static int ext4_blks_to_allocate(Indirect *branch, int k, unsigned int blks,
  *	ext4_alloc_block() (normally -ENOSPC). Otherwise we set the chain
  *	as described above and return 0.
  */
-static int ext4_alloc_branch(handle_t *handle,
+static const int ext4_alloc_branch(handle_t *handle,
 			     struct ext4_allocation_request *ar,
 			     int indirect_blks, ext4_lblk_t *offsets,
 			     Indirect *branch)
@@ -408,7 +408,7 @@ failed:
  * inode (->i_blocks, etc.). In case of success we end up with the full
  * chain to new block and return 0.
  */
-static int ext4_splice_branch(handle_t *handle,
+static const int ext4_splice_branch(handle_t *handle,
 			      struct ext4_allocation_request *ar,
 			      Indirect *where, int num)
 {
@@ -803,7 +803,7 @@ int ext4_ind_trans_blocks(struct inode *inode, int nrblocks)
  * Returns 0 if we managed to create more room.  If we can't create more
  * room, and the transaction must be restarted we return 1.
  */
-static int try_to_extend_transaction(handle_t *handle, struct inode *inode)
+static const int try_to_extend_transaction(handle_t *handle, struct inode *inode)
 {
 	if (!ext4_handle_valid(handle))
 		return 0;
@@ -922,7 +922,7 @@ no_top:
  * Return 0 on success, 1 on invalid block range
  * and < 0 on fatal error.
  */
-static int ext4_clear_blocks(handle_t *handle, struct inode *inode,
+static const int ext4_clear_blocks(handle_t *handle, struct inode *inode,
 			     struct buffer_head *bh,
 			     ext4_fsblk_t block_to_free,
 			     unsigned long count, __le32 *first,

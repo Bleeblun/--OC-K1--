@@ -348,7 +348,7 @@ static void ext4_es_free_extent(struct inode *inode, struct extent_status *es)
  *  - physical block number is contiguous
  *  - status is equal
  */
-static int ext4_es_can_be_merged(struct extent_status *es1,
+static const int ext4_es_can_be_merged(struct extent_status *es1,
 				 struct extent_status *es2)
 {
 	if (ext4_es_status(es1) != ext4_es_status(es2))

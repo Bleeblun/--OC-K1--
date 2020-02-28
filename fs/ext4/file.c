@@ -202,7 +202,7 @@ errout:
  * threads are at work on the same unwritten block, they must be synchronized
  * or one thread will zero the other's data, causing corruption.
  */
-static int
+static const int
 ext4_unaligned_aio(struct inode *inode, const struct iovec *iov,
 		   unsigned long nr_segs, loff_t pos)
 {
