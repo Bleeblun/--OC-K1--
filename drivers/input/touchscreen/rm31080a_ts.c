@@ -3306,7 +3306,7 @@ static int rm_dev_pm_suspend(struct device *dev)
 	struct rm_tch_ts *ts = dev_get_drvdata(dev);
 	if(!s2w_switch && !dt2w_switch) {
 		if (!g_st_ts.b_is_suspended && !g_st_ts.b_is_disabled) {
-			rm_tch_suspend(ts);
+			rm_tch_resume(ts);
 #if defined(CONFIG_ANDROID)
 			dev_info(ts->dev, "disabled without input powerhal support.\n");
 #endif
