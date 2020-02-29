@@ -352,7 +352,7 @@ static void tegra_kbc_config_pins(struct tegra_kbc *kbc)
 	}
 }
 
-static int tegra_kbc_start(struct tegra_kbc *kbc)
+static const int tegra_kbc_start(struct tegra_kbc *kbc)
 {
 	const struct tegra_kbc_platform_data *pdata = kbc->pdata;
 	unsigned int debounce_cnt;
@@ -491,7 +491,7 @@ tegra_kbc_check_pin_cfg(const struct tegra_kbc_platform_data *pdata,
 }
 
 #ifdef CONFIG_OF
-static struct tegra_kbc_platform_data *tegra_kbc_dt_parse_pdata(
+static const struct tegra_kbc_platform_data *tegra_kbc_dt_parse_pdata(
 	struct platform_device *pdev)
 {
 	struct tegra_kbc_platform_data *pdata;
