@@ -108,7 +108,7 @@ int read_cache_pages(struct address_space *mapping, struct list_head *pages,
 
 EXPORT_SYMBOL(read_cache_pages);
 
-static const int read_pages(struct address_space *mapping, struct file *filp,
+static int read_pages(struct address_space *mapping, struct file *filp,
 		struct list_head *pages, unsigned nr_pages)
 {
 	struct blk_plug plug;
@@ -149,7 +149,7 @@ out:
  *
  * Returns the number of pages requested, or the maximum amount of I/O allowed.
  */
-static const int
+static int
 __do_page_cache_readahead(struct address_space *mapping, struct file *filp,
 			pgoff_t offset, unsigned long nr_to_read,
 			unsigned long lookahead_size)
@@ -360,7 +360,7 @@ static pgoff_t count_history_pages(struct address_space *mapping,
 /*
  * page cache context based read-ahead
  */
-static const int try_context_readahead(struct address_space *mapping,
+static int try_context_readahead(struct address_space *mapping,
 				 struct file_ra_state *ra,
 				 pgoff_t offset,
 				 unsigned long req_size,

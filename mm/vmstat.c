@@ -588,7 +588,7 @@ static void fill_contig_page_info(struct zone *zone,
  * The value can be used to determine if page reclaim or compaction
  * should be used
  */
-static const int __fragmentation_index(unsigned int order, struct contig_page_info *info)
+static int __fragmentation_index(unsigned int order, struct contig_page_info *info)
 {
 	unsigned long requested = 1UL << order;
 
@@ -872,7 +872,7 @@ static void pagetypeinfo_showfree_print(struct seq_file *m,
 }
 
 /* Print out the free pages at each order for each migatetype */
-static const int pagetypeinfo_showfree(struct seq_file *m, void *arg)
+static int pagetypeinfo_showfree(struct seq_file *m, void *arg)
 {
 	int order;
 	pg_data_t *pgdat = (pg_data_t *)arg;
@@ -923,7 +923,7 @@ static void pagetypeinfo_showblockcount_print(struct seq_file *m,
 }
 
 /* Print out the free pages at each order for each migratetype */
-static const int pagetypeinfo_showblockcount(struct seq_file *m, void *arg)
+static int pagetypeinfo_showblockcount(struct seq_file *m, void *arg)
 {
 	int mtype;
 	pg_data_t *pgdat = (pg_data_t *)arg;
@@ -1259,7 +1259,7 @@ module_init(setup_vmstat)
  * Return an index indicating how much of the available free memory is
  * unusable for an allocation of the requested size.
  */
-static const int unusable_free_index(unsigned int order,
+static int unusable_free_index(unsigned int order,
 				struct contig_page_info *info)
 {
 	/* No free memory is interpreted as all free memory is unusable */

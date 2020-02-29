@@ -364,7 +364,7 @@ static long vma_compute_subtree_gap(struct vm_area_struct *vma)
 }
 
 #ifdef CONFIG_DEBUG_VM_RB
-static const int browse_rb(struct rb_root *root)
+static int browse_rb(struct rb_root *root)
 {
 	int i = 0, j, bug = 0;
 	struct rb_node *nd, *pn = NULL;
@@ -530,7 +530,7 @@ anon_vma_interval_tree_post_update_vma(struct vm_area_struct *vma)
 		anon_vma_interval_tree_insert(avc, &avc->anon_vma->rb_root);
 }
 
-static const int find_vma_links(struct mm_struct *mm, unsigned long addr,
+static int find_vma_links(struct mm_struct *mm, unsigned long addr,
 		unsigned long end, struct vm_area_struct **pprev,
 		struct rb_node ***rb_link, struct rb_node **rb_parent)
 {
@@ -945,7 +945,7 @@ static inline int is_mergeable_anon_vma(struct anon_vma *anon_vma1,
  * indices (16TB on ia32) because do_mmap_pgoff() does not permit mmap's which
  * wrap, nor mmaps which cover the final page at index -1UL.
  */
-static const int
+static int
 can_vma_merge_before(struct vm_area_struct *vma, unsigned long vm_flags,
 	struct anon_vma *anon_vma, struct file *file, pgoff_t vm_pgoff,
 	const char __user *anon_name)
@@ -965,7 +965,7 @@ can_vma_merge_before(struct vm_area_struct *vma, unsigned long vm_flags,
  * We cannot merge two vmas if they have differently assigned (non-NULL)
  * anon_vmas, nor if same anon_vma is assigned but offsets incompatible.
  */
-static const int
+static int
 can_vma_merge_after(struct vm_area_struct *vma, unsigned long vm_flags,
 	struct anon_vma *anon_vma, struct file *file, pgoff_t vm_pgoff,
 	const char __user *anon_name)
@@ -1098,7 +1098,7 @@ struct vm_area_struct *vma_merge(struct mm_struct *mm,
  * driver is doing some kind of reference counting. But that doesn't
  * really matter for the anon_vma sharing case.
  */
-static const int anon_vma_compatible(struct vm_area_struct *a, struct vm_area_struct *b)
+static int anon_vma_compatible(struct vm_area_struct *a, struct vm_area_struct *b)
 {
 	return a->vm_end == b->vm_start &&
 		mpol_equal(vma_policy(a), vma_policy(b)) &&
@@ -2069,7 +2069,7 @@ find_vma_prev(struct mm_struct *mm, unsigned long addr,
  * update accounting. This is shared with both the
  * grow-up and grow-down cases.
  */
-static const int acct_stack_growth(struct vm_area_struct *vma, unsigned long size, unsigned long grow)
+static int acct_stack_growth(struct vm_area_struct *vma, unsigned long size, unsigned long grow)
 {
 	struct mm_struct *mm = vma->vm_mm;
 	struct rlimit *rlim = current->signal->rlim;
@@ -2425,7 +2425,7 @@ detach_vmas_to_be_unmapped(struct mm_struct *mm, struct vm_area_struct *vma,
  * __split_vma() bypasses sysctl_max_map_count checking.  We use this on the
  * munmap path where it doesn't make sense to fail.
  */
-static const int __split_vma(struct mm_struct * mm, struct vm_area_struct * vma,
+static int __split_vma(struct mm_struct * mm, struct vm_area_struct * vma,
 	      unsigned long addr, int new_below)
 {
 	struct mempolicy *pol;

@@ -191,7 +191,7 @@ static struct backing_dev_info shmem_backing_dev_info  __read_mostly = {
 static LIST_HEAD(shmem_swaplist);
 static DEFINE_MUTEX(shmem_swaplist_mutex);
 
-static const int shmem_reserve_inode(struct super_block *sb)
+static int shmem_reserve_inode(struct super_block *sb)
 {
 	struct shmem_sb_info *sbinfo = SHMEM_SB(sb);
 	if (sbinfo->max_inodes) {
@@ -247,7 +247,7 @@ static void shmem_recalc_inode(struct inode *inode)
 /*
  * Replace item expected in radix tree by a new item, while holding tree lock.
  */
-static const int shmem_radix_tree_replace(struct address_space *mapping,
+static int shmem_radix_tree_replace(struct address_space *mapping,
 			pgoff_t index, void *expected, void *replacement)
 {
 	void **pslot;
@@ -288,7 +288,7 @@ static bool shmem_confirm_swap(struct address_space *mapping,
 /*
  * Like add_to_page_cache_locked, but error if expected item has gone.
  */
-static const int shmem_add_to_page_cache(struct page *page,
+static int shmem_add_to_page_cache(struct page *page,
 				   struct address_space *mapping,
 				   pgoff_t index, gfp_t gfp, void *expected)
 {
@@ -392,7 +392,7 @@ export:
 /*
  * Remove swap entry from radix tree, free the swap and its page cache.
  */
-static const int shmem_free_swap(struct address_space *mapping,
+static int shmem_free_swap(struct address_space *mapping,
 			   pgoff_t index, void *radswap)
 {
 	int error;
@@ -667,7 +667,7 @@ static void shmem_evict_inode(struct inode *inode)
 /*
  * If swap found in inode, free it and move page from swapcache to filecache.
  */
-static const int shmem_unuse_inode(struct shmem_inode_info *info,
+static int shmem_unuse_inode(struct shmem_inode_info *info,
 			     swp_entry_t swap, struct page **pagep)
 {
 	struct address_space *mapping = info->vfs_inode.i_mapping;
@@ -2249,7 +2249,7 @@ static void shmem_put_link(struct dentry *dentry, struct nameidata *nd, void *co
 /*
  * Callback for security_inode_init_security() for acquiring xattrs.
  */
-static const int shmem_initxattrs(struct inode *inode,
+static int shmem_initxattrs(struct inode *inode,
 			    const struct xattr *xattr_array,
 			    void *fs_info)
 {
@@ -2290,7 +2290,7 @@ static const struct xattr_handler *shmem_xattr_handlers[] = {
 	NULL
 };
 
-static const int shmem_xattr_validate(const char *name)
+static int shmem_xattr_validate(const char *name)
 {
 	struct { const char *prefix; size_t len; } arr[] = {
 		{ XATTR_SECURITY_PREFIX, XATTR_SECURITY_PREFIX_LEN },
@@ -2330,7 +2330,7 @@ static ssize_t shmem_getxattr(struct dentry *dentry, const char *name,
 	return simple_xattr_get(&info->xattrs, name, buffer, size);
 }
 
-static const int shmem_setxattr(struct dentry *dentry, const char *name,
+static int shmem_setxattr(struct dentry *dentry, const char *name,
 			  const void *value, size_t size, int flags)
 {
 	struct shmem_inode_info *info = SHMEM_I(dentry->d_inode);
@@ -2351,7 +2351,7 @@ static const int shmem_setxattr(struct dentry *dentry, const char *name,
 	return simple_xattr_set(&info->xattrs, name, value, size, flags);
 }
 
-static const int shmem_removexattr(struct dentry *dentry, const char *name)
+static int shmem_removexattr(struct dentry *dentry, const char *name)
 {
 	struct shmem_inode_info *info = SHMEM_I(dentry->d_inode);
 	int err;

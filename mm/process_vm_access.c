@@ -39,7 +39,7 @@
  * @bytes_copied: returns number of bytes successfully copied
  * Returns 0 on success, error code otherwise
  */
-static const int process_vm_rw_pages(struct task_struct *task,
+static int process_vm_rw_pages(struct task_struct *task,
 			       struct mm_struct *mm,
 			       struct page **process_pages,
 			       unsigned long pa,
@@ -167,7 +167,7 @@ end:
  * @bytes_copied: returns number of bytes successfully copied
  * Returns 0 on success or on failure error code
  */
-static const int process_vm_rw_single_vec(unsigned long addr,
+static int process_vm_rw_single_vec(unsigned long addr,
 				    unsigned long len,
 				    const struct iovec *lvec,
 				    unsigned long lvec_cnt,

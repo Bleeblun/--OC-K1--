@@ -94,7 +94,7 @@ bool is_swap_fast(swp_entry_t entry)
 }
 
 /* returns 1 if swap entry is freed */
-static const int
+static int
 __try_to_reclaim_swap(struct swap_info_struct *si, unsigned long offset)
 {
 	swp_entry_t entry = swp_entry(si->type, offset);
@@ -123,7 +123,7 @@ __try_to_reclaim_swap(struct swap_info_struct *si, unsigned long offset)
  * swapon tell device that all the old swap contents can be discarded,
  * to allow the swap device to optimize its wear-levelling.
  */
-static const int discard_swap(struct swap_info_struct *si)
+static int discard_swap(struct swap_info_struct *si)
 {
 	struct swap_extent *se;
 	sector_t start_block;
@@ -894,7 +894,7 @@ unsigned int count_swap_pages(int type, int free)
  * just let do_wp_page work it out if a write is requested later - to
  * force COW, vm_page_prot omits write permission from any private vma.
  */
-static const int unuse_pte(struct vm_area_struct *vma, pmd_t *pmd,
+static int unuse_pte(struct vm_area_struct *vma, pmd_t *pmd,
 		unsigned long addr, swp_entry_t entry, struct page *page)
 {
 	struct page *swapcache;
@@ -947,7 +947,7 @@ out_nolock:
 	return ret;
 }
 
-static const int unuse_pte_range(struct vm_area_struct *vma, pmd_t *pmd,
+static int unuse_pte_range(struct vm_area_struct *vma, pmd_t *pmd,
 				unsigned long addr, unsigned long end,
 				swp_entry_t entry, struct page *page)
 {
@@ -1023,7 +1023,7 @@ static inline int unuse_pud_range(struct vm_area_struct *vma, pgd_t *pgd,
 	return 0;
 }
 
-static const int unuse_vma(struct vm_area_struct *vma,
+static int unuse_vma(struct vm_area_struct *vma,
 				swp_entry_t entry, struct page *page)
 {
 	pgd_t *pgd;
@@ -1053,7 +1053,7 @@ static const int unuse_vma(struct vm_area_struct *vma,
 	return 0;
 }
 
-static const int unuse_mm(struct mm_struct *mm,
+static int unuse_mm(struct mm_struct *mm,
 				swp_entry_t entry, struct page *page)
 {
 	struct vm_area_struct *vma;
@@ -1505,7 +1505,7 @@ add_swap_extent(struct swap_info_struct *sis, unsigned long start_page,
  * This is extremely effective.  The average number of iterations in
  * map_swap_page() has been measured at about 0.3 per page.  - akpm.
  */
-static const int setup_swap_extents(struct swap_info_struct *sis, sector_t *span)
+static int setup_swap_extents(struct swap_info_struct *sis, sector_t *span)
 {
 	struct file *swap_file = sis->swap_file;
 	struct address_space *mapping = swap_file->f_mapping;
@@ -1898,7 +1898,7 @@ static struct swap_info_struct *alloc_swap_info(void)
 	return p;
 }
 
-static const int claim_swapfile(struct swap_info_struct *p, struct inode *inode)
+static int claim_swapfile(struct swap_info_struct *p, struct inode *inode)
 {
 	int error;
 
@@ -2000,7 +2000,7 @@ static unsigned long read_swap_header(struct swap_info_struct *p,
 	return maxpages;
 }
 
-static const int setup_swap_map_and_extents(struct swap_info_struct *p,
+static int setup_swap_map_and_extents(struct swap_info_struct *p,
 					union swap_header *swap_header,
 					unsigned char *swap_map,
 					unsigned long maxpages,
@@ -2233,7 +2233,7 @@ void si_swapinfo(struct sysinfo *val)
  * - swap-cache reference is requested but the entry is not used. -> ENOENT
  * - swap-mapped reference requested but needs continued swap count. -> ENOMEM
  */
-static const int __swap_duplicate(swp_entry_t entry, unsigned char usage)
+static int __swap_duplicate(swp_entry_t entry, unsigned char usage)
 {
 	struct swap_info_struct *p;
 	unsigned long offset, type;

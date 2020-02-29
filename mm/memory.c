@@ -179,7 +179,7 @@ static void check_sync_rss_stat(struct task_struct *task)
 
 #ifdef HAVE_GENERIC_MMU_GATHER
 
-static const int tlb_next_batch(struct mmu_gather *tlb)
+static int tlb_next_batch(struct mmu_gather *tlb)
 {
 	struct mmu_gather_batch *batch;
 
@@ -2145,7 +2145,7 @@ pte_t *__get_locked_pte(struct mm_struct *mm, unsigned long addr,
  * old drivers should use this, and they needed to mark their
  * pages reserved for the old functions anyway.
  */
-static const int insert_page(struct vm_area_struct *vma, unsigned long addr,
+static int insert_page(struct vm_area_struct *vma, unsigned long addr,
 			struct page *page, pgprot_t prot)
 {
 	struct mm_struct *mm = vma->vm_mm;
@@ -2223,7 +2223,7 @@ int vm_insert_page(struct vm_area_struct *vma, unsigned long addr,
 }
 EXPORT_SYMBOL(vm_insert_page);
 
-static const int insert_pfn(struct vm_area_struct *vma, unsigned long addr,
+static int insert_pfn(struct vm_area_struct *vma, unsigned long addr,
 			unsigned long pfn, pgprot_t prot)
 {
 	struct mm_struct *mm = vma->vm_mm;
@@ -2326,7 +2326,7 @@ EXPORT_SYMBOL(vm_insert_mixed);
  * mappings are removed. any references to nonexistent pages results
  * in null mappings (currently treated as "copy-on-access")
  */
-static const int remap_pte_range(struct mm_struct *mm, pmd_t *pmd,
+static int remap_pte_range(struct mm_struct *mm, pmd_t *pmd,
 			unsigned long addr, unsigned long end,
 			unsigned long pfn, pgprot_t prot)
 {
@@ -2503,7 +2503,7 @@ int vm_iomap_memory(struct vm_area_struct *vma, phys_addr_t start, unsigned long
 }
 EXPORT_SYMBOL(vm_iomap_memory);
 
-static const int apply_to_pte_range(struct mm_struct *mm, pmd_t *pmd,
+static int apply_to_pte_range(struct mm_struct *mm, pmd_t *pmd,
 				     unsigned long addr, unsigned long end,
 				     pte_fn_t fn, void *data)
 {
@@ -2537,7 +2537,7 @@ static const int apply_to_pte_range(struct mm_struct *mm, pmd_t *pmd,
 	return err;
 }
 
-static const int apply_to_pmd_range(struct mm_struct *mm, pud_t *pud,
+static int apply_to_pmd_range(struct mm_struct *mm, pud_t *pud,
 				     unsigned long addr, unsigned long end,
 				     pte_fn_t fn, void *data)
 {
@@ -2559,7 +2559,7 @@ static const int apply_to_pmd_range(struct mm_struct *mm, pud_t *pud,
 	return err;
 }
 
-static const int apply_to_pud_range(struct mm_struct *mm, pgd_t *pgd,
+static int apply_to_pud_range(struct mm_struct *mm, pgd_t *pgd,
 				     unsigned long addr, unsigned long end,
 				     pte_fn_t fn, void *data)
 {
@@ -2673,7 +2673,7 @@ static inline void cow_user_page(struct page *dst, struct page *src, unsigned lo
  * but allow concurrent faults), with pte both mapped and locked.
  * We return with mmap_sem still held, but pte unmapped and unlocked.
  */
-static const int do_wp_page(struct mm_struct *mm, struct vm_area_struct *vma,
+static int do_wp_page(struct mm_struct *mm, struct vm_area_struct *vma,
 		unsigned long address, pte_t *page_table, pmd_t *pmd,
 		spinlock_t *ptl, pte_t orig_pte, unsigned int flags)
 	__releases(ptl)
@@ -3066,7 +3066,7 @@ EXPORT_SYMBOL(unmap_mapping_range);
  * but allow concurrent faults), and pte mapped but not yet locked.
  * We return with mmap_sem still held, but pte unmapped and unlocked.
  */
-static const int do_swap_page(struct mm_struct *mm, struct vm_area_struct *vma,
+static int do_swap_page(struct mm_struct *mm, struct vm_area_struct *vma,
 		unsigned long address, pte_t *page_table, pmd_t *pmd,
 		unsigned int flags, pte_t orig_pte)
 {
@@ -3286,7 +3286,7 @@ bool is_vma_temporary_stack(struct vm_area_struct *vma);
  * but allow concurrent faults), and pte mapped but not yet locked.
  * We return with mmap_sem still held, but pte unmapped and unlocked.
  */
-static const int do_anonymous_page(struct mm_struct *mm, struct vm_area_struct *vma,
+static int do_anonymous_page(struct mm_struct *mm, struct vm_area_struct *vma,
 		unsigned long address, pte_t *page_table, pmd_t *pmd,
 		unsigned int flags)
 {
@@ -3398,7 +3398,7 @@ void do_set_pte(struct vm_area_struct *vma, unsigned long address,
  * but allow concurrent faults), and pte neither mapped nor locked.
  * We return with mmap_sem still held, but pte unmapped and unlocked.
  */
-static const int __do_fault(struct mm_struct *mm, struct vm_area_struct *vma,
+static int __do_fault(struct mm_struct *mm, struct vm_area_struct *vma,
 		unsigned long address, pmd_t *pmd,
 		pgoff_t pgoff, unsigned int flags, pte_t orig_pte)
 {
@@ -3589,7 +3589,7 @@ uncharge_out:
 	return ret;
 }
 
-static const int do_linear_fault(struct mm_struct *mm, struct vm_area_struct *vma,
+static int do_linear_fault(struct mm_struct *mm, struct vm_area_struct *vma,
 		unsigned long address, pte_t *page_table, pmd_t *pmd,
 		unsigned int flags, pte_t orig_pte)
 {
@@ -3612,7 +3612,7 @@ static const int do_linear_fault(struct mm_struct *mm, struct vm_area_struct *vm
  * but allow concurrent faults), and pte mapped but not yet locked.
  * We return with mmap_sem still held, but pte unmapped and unlocked.
  */
-static const int do_nonlinear_fault(struct mm_struct *mm, struct vm_area_struct *vma,
+static int do_nonlinear_fault(struct mm_struct *mm, struct vm_area_struct *vma,
 		unsigned long address, pte_t *page_table, pmd_t *pmd,
 		unsigned int flags, pte_t orig_pte)
 {
@@ -3703,7 +3703,7 @@ out:
 
 /* NUMA hinting page fault entry point for regular pmds */
 #ifdef CONFIG_NUMA_BALANCING
-static const int do_pmd_numa_page(struct mm_struct *mm, struct vm_area_struct *vma,
+static int do_pmd_numa_page(struct mm_struct *mm, struct vm_area_struct *vma,
 		     unsigned long addr, pmd_t *pmdp)
 {
 	pmd_t pmd;
@@ -3780,7 +3780,7 @@ static const int do_pmd_numa_page(struct mm_struct *mm, struct vm_area_struct *v
 	return 0;
 }
 #else
-static const int do_pmd_numa_page(struct mm_struct *mm, struct vm_area_struct *vma,
+static int do_pmd_numa_page(struct mm_struct *mm, struct vm_area_struct *vma,
 		     unsigned long addr, pmd_t *pmdp)
 {
 	BUG();
@@ -3873,7 +3873,7 @@ unlock:
 /*
  * By the time we get here, we already hold the mm semaphore
  */
-static const int __handle_mm_fault(struct mm_struct *mm, struct vm_area_struct *vma,
+static int __handle_mm_fault(struct mm_struct *mm, struct vm_area_struct *vma,
 			     unsigned long address, unsigned int flags)
 {
 	pgd_t *pgd;
@@ -4056,7 +4056,7 @@ int __pmd_alloc(struct mm_struct *mm, pud_t *pud, unsigned long address)
 #if defined(AT_SYSINFO_EHDR)
 static struct vm_area_struct gate_vma;
 
-static const int __init gate_vma_init(void)
+static int __init gate_vma_init(void)
 {
 	gate_vma.vm_mm = NULL;
 	gate_vma.vm_start = FIXADDR_USER_START;
@@ -4089,7 +4089,7 @@ int in_gate_area_no_mm(unsigned long addr)
 
 #endif	/* __HAVE_ARCH_GATE_AREA */
 
-static const int __follow_pte(struct mm_struct *mm, unsigned long address,
+static int __follow_pte(struct mm_struct *mm, unsigned long address,
 		pte_t **ptepp, spinlock_t **ptlp)
 {
 	pgd_t *pgd;
@@ -4223,7 +4223,7 @@ EXPORT_SYMBOL_GPL(generic_access_phys);
  * Access another process' address space as given in mm.  If non-NULL, use the
  * given task for page fault accounting.
  */
-static const int __access_remote_vm(struct task_struct *tsk, struct mm_struct *mm,
+static int __access_remote_vm(struct task_struct *tsk, struct mm_struct *mm,
 		unsigned long addr, void *buf, int len, int write)
 {
 	struct vm_area_struct *vma;

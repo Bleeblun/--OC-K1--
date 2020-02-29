@@ -740,7 +740,7 @@ out:
 	return referenced;
 }
 
-static const int page_referenced_anon(struct page *page,
+static int page_referenced_anon(struct page *page,
 				struct mem_cgroup *memcg,
 				unsigned long *vm_flags)
 {
@@ -789,7 +789,7 @@ static const int page_referenced_anon(struct page *page,
  *
  * This function is only called from page_referenced for object-based pages.
  */
-static const int page_referenced_file(struct page *page,
+static int page_referenced_file(struct page *page,
 				struct mem_cgroup *memcg,
 				unsigned long *vm_flags)
 {
@@ -887,7 +887,7 @@ out:
 	return referenced;
 }
 
-static const int page_mkclean_one(struct page *page, struct vm_area_struct *vma,
+static int page_mkclean_one(struct page *page, struct vm_area_struct *vma,
 			    unsigned long address)
 {
 	struct mm_struct *mm = vma->vm_mm;
@@ -918,7 +918,7 @@ out:
 	return ret;
 }
 
-static const int page_mkclean_file(struct address_space *mapping, struct page *page)
+static int page_mkclean_file(struct address_space *mapping, struct page *page)
 {
 	pgoff_t pgoff = page->index << (PAGE_CACHE_SHIFT - PAGE_SHIFT);
 	struct vm_area_struct *vma;
@@ -1343,7 +1343,7 @@ out_mlock:
 #define CLUSTER_SIZE	min(32*PAGE_SIZE, PMD_SIZE)
 #define CLUSTER_MASK	(~(CLUSTER_SIZE - 1))
 
-static const int try_to_unmap_cluster(unsigned long cursor, unsigned int *mapcount,
+static int try_to_unmap_cluster(unsigned long cursor, unsigned int *mapcount,
 				struct vm_area_struct *vma,
 				struct page *check_page,
 				enum ttu_flags flags)
@@ -1476,7 +1476,7 @@ bool is_vma_temporary_stack(struct vm_area_struct *vma)
  * vm_flags for that VMA.  That should be OK, because that vma shouldn't be
  * 'LOCKED.
  */
-static const int try_to_unmap_anon(struct page *page, enum ttu_flags flags)
+static int try_to_unmap_anon(struct page *page, enum ttu_flags flags)
 {
 	struct anon_vma *anon_vma;
 	pgoff_t pgoff;
@@ -1529,7 +1529,7 @@ static const int try_to_unmap_anon(struct page *page, enum ttu_flags flags)
  * vm_flags for that VMA.  That should be OK, because that vma shouldn't be
  * 'LOCKED.
  */
-static const int try_to_unmap_file(struct page *page, enum ttu_flags flags)
+static int try_to_unmap_file(struct page *page, enum ttu_flags flags)
 {
 	struct address_space *mapping = page->mapping;
 	pgoff_t pgoff = page->index << (PAGE_CACHE_SHIFT - PAGE_SHIFT);
@@ -1699,7 +1699,7 @@ void __put_anon_vma(struct anon_vma *anon_vma)
  * rmap_walk() and its helpers rmap_walk_anon() and rmap_walk_file():
  * Called by migrate.c to remove migration ptes, but might be used more later.
  */
-static const int rmap_walk_anon(struct page *page, int (*rmap_one)(struct page *,
+static int rmap_walk_anon(struct page *page, int (*rmap_one)(struct page *,
 		struct vm_area_struct *, unsigned long, void *), void *arg)
 {
 	struct anon_vma *anon_vma;
@@ -1728,7 +1728,7 @@ static const int rmap_walk_anon(struct page *page, int (*rmap_one)(struct page *
 	return ret;
 }
 
-static const int rmap_walk_file(struct page *page, int (*rmap_one)(struct page *,
+static int rmap_walk_file(struct page *page, int (*rmap_one)(struct page *,
 		struct vm_area_struct *, unsigned long, void *), void *arg)
 {
 	struct address_space *mapping = page->mapping;

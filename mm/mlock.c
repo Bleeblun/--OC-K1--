@@ -202,7 +202,7 @@ long __mlock_vma_pages_range(struct vm_area_struct *vma,
 /*
  * convert get_user_pages() return value to posix mlock() error
  */
-static const int __mlock_posix_error_return(long retval)
+static int __mlock_posix_error_return(long retval)
 {
 	if (retval == -EFAULT)
 		retval = -ENOMEM;
@@ -274,7 +274,7 @@ void munlock_vma_pages_range(struct vm_area_struct *vma,
  *
  * For vmas that pass the filters, merge/split as appropriate.
  */
-static const int mlock_fixup(struct vm_area_struct *vma, struct vm_area_struct **prev,
+static int mlock_fixup(struct vm_area_struct *vma, struct vm_area_struct **prev,
 	unsigned long start, unsigned long end, vm_flags_t newflags)
 {
 	struct mm_struct *mm = vma->vm_mm;
@@ -333,7 +333,7 @@ out:
 	return ret;
 }
 
-static const int do_mlock(unsigned long start, size_t len, int on)
+static int do_mlock(unsigned long start, size_t len, int on)
 {
 	unsigned long nstart, end, tmp;
 	struct vm_area_struct * vma, * prev;
@@ -489,7 +489,7 @@ SYSCALL_DEFINE2(munlock, unsigned long, start, size_t, len)
 	return ret;
 }
 
-static const int do_mlockall(int flags)
+static int do_mlockall(int flags)
 {
 	struct vm_area_struct * vma, * prev = NULL;
 

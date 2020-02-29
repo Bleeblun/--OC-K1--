@@ -3,7 +3,7 @@
 #include <linux/sched.h>
 #include <linux/hugetlb.h>
 
-static const int walk_pte_range(pmd_t *pmd, unsigned long addr, unsigned long end,
+static int walk_pte_range(pmd_t *pmd, unsigned long addr, unsigned long end,
 			  struct mm_walk *walk)
 {
 	pte_t *pte;
@@ -24,7 +24,7 @@ static const int walk_pte_range(pmd_t *pmd, unsigned long addr, unsigned long en
 	return err;
 }
 
-static const int walk_pmd_range(pud_t *pud, unsigned long addr, unsigned long end,
+static int walk_pmd_range(pud_t *pud, unsigned long addr, unsigned long end,
 			  struct mm_walk *walk)
 {
 	pmd_t *pmd;
@@ -69,7 +69,7 @@ again:
 	return err;
 }
 
-static const int walk_pud_range(pgd_t *pgd, unsigned long addr, unsigned long end,
+static int walk_pud_range(pgd_t *pgd, unsigned long addr, unsigned long end,
 			  struct mm_walk *walk)
 {
 	pud_t *pud;
@@ -105,7 +105,7 @@ static unsigned long hugetlb_entry_end(struct hstate *h, unsigned long addr,
 	return boundary < end ? boundary : end;
 }
 
-static const int walk_hugetlb_range(struct vm_area_struct *vma,
+static int walk_hugetlb_range(struct vm_area_struct *vma,
 			      unsigned long addr, unsigned long end,
 			      struct mm_walk *walk)
 {
@@ -128,7 +128,7 @@ static const int walk_hugetlb_range(struct vm_area_struct *vma,
 }
 
 #else /* CONFIG_HUGETLB_PAGE */
-static const int walk_hugetlb_range(struct vm_area_struct *vma,
+static int walk_hugetlb_range(struct vm_area_struct *vma,
 			      unsigned long addr, unsigned long end,
 			      struct mm_walk *walk)
 {

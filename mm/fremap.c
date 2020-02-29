@@ -53,7 +53,7 @@ static void zap_pte(struct mm_struct *mm, struct vm_area_struct *vma,
  * Install a file pte to a given virtual memory address, release any
  * previously existing mapping.
  */
-static const int install_file_pte(struct mm_struct *mm, struct vm_area_struct *vma,
+static int install_file_pte(struct mm_struct *mm, struct vm_area_struct *vma,
 		unsigned long addr, unsigned long pgoff, pgprot_t prot)
 {
 	int err = -ENOMEM;

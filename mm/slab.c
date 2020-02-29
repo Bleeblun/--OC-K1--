@@ -403,7 +403,7 @@ static void kmem_cache_node_init(struct kmem_cache_node *parent)
  * cachep->size - 1* BYTES_PER_WORD: last caller address
  *					[BYTES_PER_WORD long]
  */
-static const int obj_offset(struct kmem_cache *cachep)
+static int obj_offset(struct kmem_cache *cachep)
 {
 	return cachep->obj_offset;
 }
@@ -957,7 +957,7 @@ static inline void ac_put_obj(struct kmem_cache *cachep, struct array_cache *ac,
  *
  * Return the number of entries transferred.
  */
-static const int transfer_objects(struct array_cache *to,
+static int transfer_objects(struct array_cache *to,
 		struct array_cache *from, unsigned int max)
 {
 	/* Figure out how many entries to transfer */
@@ -1147,7 +1147,7 @@ static inline int cache_free_alien(struct kmem_cache *cachep, void *objp)
  *
  * Must hold slab_mutex.
  */
-static const int init_cache_node_node(int node)
+static int init_cache_node_node(int node)
 {
 	struct kmem_cache *cachep;
 	struct kmem_cache_node *n;
@@ -1249,7 +1249,7 @@ free_array_cache:
 	}
 }
 
-static const int __cpuinit cpuup_prepare(long cpu)
+static int __cpuinit cpuup_prepare(long cpu)
 {
 	struct kmem_cache *cachep;
 	struct kmem_cache_node *n = NULL;
@@ -1400,7 +1400,7 @@ static struct notifier_block __cpuinitdata cpucache_notifier = {
  *
  * Must hold slab_mutex.
  */
-static const int __meminit drain_cache_node_node(int node)
+static int __meminit drain_cache_node_node(int node)
 {
 	struct kmem_cache *cachep;
 	int ret = 0;
@@ -1423,7 +1423,7 @@ static const int __meminit drain_cache_node_node(int node)
 	return ret;
 }
 
-static const int __meminit slab_memory_callback(struct notifier_block *self,
+static int __meminit slab_memory_callback(struct notifier_block *self,
 					unsigned long action, void *arg)
 {
 	struct memory_notify *mnb = arg;
@@ -2131,7 +2131,7 @@ static size_t calculate_slab_order(struct kmem_cache *cachep,
 	return left_over;
 }
 
-static const int __init_refok setup_cpu_cache(struct kmem_cache *cachep, gfp_t gfp)
+static int __init_refok setup_cpu_cache(struct kmem_cache *cachep, gfp_t gfp)
 {
 	if (slab_state >= FULL)
 		return enable_cpucache(cachep, gfp);
@@ -2523,7 +2523,7 @@ out:
 }
 
 /* Called with slab_mutex held to protect against cpu hotplug */
-static const int __cache_shrink(struct kmem_cache *cachep)
+static int __cache_shrink(struct kmem_cache *cachep)
 {
 	int ret = 0, i = 0;
 	struct kmem_cache_node *n;
@@ -2759,7 +2759,7 @@ static void slab_map_pages(struct kmem_cache *cache, struct slab *slab,
  * Grow (by 1) the number of slabs within a cache.  This is called by
  * kmem_cache_alloc() when there are no active objs left in a cache.
  */
-static const int cache_grow(struct kmem_cache *cachep,
+static int cache_grow(struct kmem_cache *cachep,
 		gfp_t flags, int nodeid, void *objp)
 {
 	struct slab *slabp;
@@ -3818,7 +3818,7 @@ EXPORT_SYMBOL(kfree);
 /*
  * This initializes kmem_cache_node or resizes various caches for all nodes.
  */
-static const int alloc_kmemlist(struct kmem_cache *cachep, gfp_t gfp)
+static int alloc_kmemlist(struct kmem_cache *cachep, gfp_t gfp)
 {
 	int node;
 	struct kmem_cache_node *n;
@@ -3921,7 +3921,7 @@ static void do_ccupdate_local(void *info)
 }
 
 /* Always called with the slab_mutex held */
-static const int __do_tune_cpucache(struct kmem_cache *cachep, int limit,
+static int __do_tune_cpucache(struct kmem_cache *cachep, int limit,
 				int batchcount, int shared, gfp_t gfp)
 {
 	struct ccupdate_struct *new;
@@ -3964,7 +3964,7 @@ static const int __do_tune_cpucache(struct kmem_cache *cachep, int limit,
 	return alloc_kmemlist(cachep, gfp);
 }
 
-static const int do_tune_cpucache(struct kmem_cache *cachep, int limit,
+static int do_tune_cpucache(struct kmem_cache *cachep, int limit,
 				int batchcount, int shared, gfp_t gfp)
 {
 	int ret;
@@ -4375,7 +4375,7 @@ static void show_symbol(struct seq_file *m, unsigned long address)
 	seq_printf(m, "%p", (void *)address);
 }
 
-static const int leaks_show(struct seq_file *m, void *p)
+static int leaks_show(struct seq_file *m, void *p)
 {
 	struct kmem_cache *cachep = list_entry(p, struct kmem_cache, list);
 	struct slab *slabp;
@@ -4452,7 +4452,7 @@ static const struct seq_operations slabstats_op = {
 	.show = leaks_show,
 };
 
-static const int slabstats_open(struct inode *inode, struct file *file)
+static int slabstats_open(struct inode *inode, struct file *file)
 {
 	unsigned long *n = kzalloc(PAGE_SIZE, GFP_KERNEL);
 	int ret = -ENOMEM;

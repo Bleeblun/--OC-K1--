@@ -229,7 +229,7 @@ static bool use_deferred_timer;
 #ifdef CONFIG_NUMA
 /* Zeroed when merging across nodes is not allowed */
 static unsigned int ksm_merge_across_nodes = 1;
-static const int ksm_nr_node_ids = 1;
+static int ksm_nr_node_ids = 1;
 #else
 #define ksm_merge_across_nodes	1U
 #define ksm_nr_node_ids		1
@@ -250,7 +250,7 @@ static DEFINE_SPINLOCK(ksm_mmlist_lock);
 		sizeof(struct __struct), __alignof__(struct __struct),\
 		(__flags), NULL)
 
-static const int __init ksm_slab_init(void)
+static int __init ksm_slab_init(void)
 {
 	rmap_item_cache = KSM_KMEM_CACHE(rmap_item, 0);
 	if (!rmap_item_cache)
@@ -363,7 +363,7 @@ static inline bool ksm_test_exit(struct mm_struct *mm)
  * Could a ksm page appear anywhere else?  Actually yes, in a VM_PFNMAP
  * mmap of /dev/mem or /dev/kmem, where we would not want to touch it.
  */
-static const int break_ksm(struct vm_area_struct *vma, unsigned long addr)
+static int break_ksm(struct vm_area_struct *vma, unsigned long addr)
 {
 	struct page *page;
 	int ret = 0;
@@ -683,7 +683,7 @@ static void remove_trailing_rmap_items(struct mm_slot *mm_slot,
  * to the next pass of ksmd - consider, for example, how ksmd might be
  * in cmp_and_merge_page on one of the rmap_items we would be removing.
  */
-static const int unmerge_ksm_pages(struct vm_area_struct *vma,
+static int unmerge_ksm_pages(struct vm_area_struct *vma,
 			     unsigned long start, unsigned long end)
 {
 	unsigned long addr;
@@ -704,7 +704,7 @@ static const int unmerge_ksm_pages(struct vm_area_struct *vma,
 /*
  * Only called through the sysfs control interface:
  */
-static const int remove_stable_node(struct stable_node *stable_node)
+static int remove_stable_node(struct stable_node *stable_node)
 {
 	struct page *page;
 	int err;
@@ -742,7 +742,7 @@ static const int remove_stable_node(struct stable_node *stable_node)
 	return err;
 }
 
-static const int remove_all_stable_nodes(void)
+static int remove_all_stable_nodes(void)
 {
 	struct stable_node *stable_node;
 	struct list_head *this, *next;
@@ -769,7 +769,7 @@ static const int remove_all_stable_nodes(void)
 	return err;
 }
 
-static const int unmerge_and_remove_all_rmap_items(void)
+static int unmerge_and_remove_all_rmap_items(void)
 {
 	struct mm_slot *mm_slot;
 	struct mm_struct *mm;
@@ -843,7 +843,7 @@ static u32 calc_checksum(struct page *page)
 extern int memcmp_ksm(const void *,const void *,__kernel_size_t);
 #endif
 
-static const int memcmp_pages(struct page *page1, struct page *page2)
+static int memcmp_pages(struct page *page1, struct page *page2)
 {
 	char *addr1, *addr2;
 	int ret;
@@ -865,7 +865,7 @@ static inline int pages_identical(struct page *page1, struct page *page2)
 	return !memcmp_pages(page1, page2);
 }
 
-static const int write_protect_page(struct vm_area_struct *vma, struct page *page,
+static int write_protect_page(struct vm_area_struct *vma, struct page *page,
 			      pte_t *orig_pte)
 {
 	struct mm_struct *mm = vma->vm_mm;

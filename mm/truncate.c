@@ -97,7 +97,7 @@ EXPORT_SYMBOL(cancel_dirty_page);
  * its lock, b) when a concurrent invalidate_mapping_pages got there first and
  * c) when tmpfs swizzles a page between a tmpfs inode and swapper_space.
  */
-static const int
+static int
 truncate_complete_page(struct address_space *mapping, struct page *page)
 {
 	if (page->mapping != mapping)
@@ -121,7 +121,7 @@ truncate_complete_page(struct address_space *mapping, struct page *page)
  *
  * Returns non-zero if the page was successfully invalidated.
  */
-static const int
+static int
 invalidate_complete_page(struct address_space *mapping, struct page *page)
 {
 	int ret;
@@ -384,7 +384,7 @@ EXPORT_SYMBOL(invalidate_mapping_pages);
  * shrink_page_list() has a temp ref on them, or because they're transiently
  * sitting in the lru_cache_add() pagevecs.
  */
-static const int
+static int
 invalidate_complete_page2(struct address_space *mapping, struct page *page)
 {
 	if (page->mapping != mapping)
@@ -412,7 +412,7 @@ failed:
 	return 0;
 }
 
-static const int do_launder_page(struct address_space *mapping, struct page *page)
+static int do_launder_page(struct address_space *mapping, struct page *page)
 {
 	if (!PageDirty(page))
 		return 0;

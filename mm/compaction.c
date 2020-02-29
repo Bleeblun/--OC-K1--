@@ -836,7 +836,7 @@ static isolate_migrate_t isolate_migratepages(struct zone *zone,
 	return ISOLATE_SUCCESS;
 }
 
-static const int compact_finished(struct zone *zone,
+static int compact_finished(struct zone *zone,
 			    struct compact_control *cc)
 {
 	unsigned int order;
@@ -939,7 +939,7 @@ unsigned long compaction_suitable(struct zone *zone, int order)
 	return COMPACT_CONTINUE;
 }
 
-static const int compact_zone(struct zone *zone, struct compact_control *cc)
+static int compact_zone(struct zone *zone, struct compact_control *cc)
 {
 	int ret;
 	unsigned long start_pfn = zone->zone_start_pfn;

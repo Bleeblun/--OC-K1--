@@ -341,7 +341,7 @@ static unsigned long __frontswap_curr_pages(void)
 	return totalpages;
 }
 
-static const int __frontswap_unuse_pages(unsigned long total, unsigned long *unused,
+static int __frontswap_unuse_pages(unsigned long total, unsigned long *unused,
 					int *swapid)
 {
 	int ret = -EINVAL;
@@ -381,7 +381,7 @@ static const int __frontswap_unuse_pages(unsigned long total, unsigned long *unu
  * Return 1 when nothing to do, 0 when need to shink pages,
  * error code when there is an error.
  */
-static const int __frontswap_shrink(unsigned long target_pages,
+static int __frontswap_shrink(unsigned long target_pages,
 				unsigned long *pages_to_unuse,
 				int *type)
 {

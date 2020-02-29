@@ -380,7 +380,7 @@ static inline int is_page_cache_freeable(struct page *page)
 	return page_count(page) - page_has_private(page) == 2;
 }
 
-static const int may_write_to_queue(struct backing_dev_info *bdi,
+static int may_write_to_queue(struct backing_dev_info *bdi,
 			      struct scan_control *sc)
 {
 	if (current->flags & PF_SWAPWRITE)
@@ -504,7 +504,7 @@ static pageout_t pageout(struct page *page, struct address_space *mapping,
  * Same as remove_mapping, but if the page is removed from the mapping, it
  * gets returned with a refcount of 0.
  */
-static const int __remove_mapping(struct address_space *mapping, struct page *page)
+static int __remove_mapping(struct address_space *mapping, struct page *page)
 {
 	BUG_ON(!PageLocked(page));
 	BUG_ON(mapping != page_mapping(page));
@@ -1234,7 +1234,7 @@ int isolate_lru_page(struct page *page)
  * the LRU list will go small and be scanned faster than necessary, leading to
  * unnecessary swapping, thrashing and OOM.
  */
-static const int too_many_isolated(struct zone *zone, int file,
+static int too_many_isolated(struct zone *zone, int file,
 		struct scan_control *sc)
 {
 	unsigned long inactive, isolated;
@@ -1592,7 +1592,7 @@ static void shrink_active_list(unsigned long nr_to_scan,
 }
 
 #ifdef CONFIG_SWAP
-static const int inactive_anon_is_low_global(struct zone *zone)
+static int inactive_anon_is_low_global(struct zone *zone)
 {
 	unsigned long active, inactive;
 
@@ -1612,7 +1612,7 @@ static const int inactive_anon_is_low_global(struct zone *zone)
  * Returns true if the zone does not have enough inactive anon pages,
  * meaning some active anon pages need to be deactivated.
  */
-static const int inactive_anon_is_low(struct lruvec *lruvec)
+static int inactive_anon_is_low(struct lruvec *lruvec)
 {
 	/*
 	 * If we don't have swap space, anonymous page deactivation
@@ -1647,7 +1647,7 @@ static inline int inactive_anon_is_low(struct lruvec *lruvec)
  * This uses a different ratio than the anonymous pages, because
  * the page cache uses a use-once replacement algorithm.
  */
-static const int inactive_file_is_low(struct lruvec *lruvec)
+static int inactive_file_is_low(struct lruvec *lruvec)
 {
 	unsigned long inactive;
 	unsigned long active;
@@ -1658,7 +1658,7 @@ static const int inactive_file_is_low(struct lruvec *lruvec)
 	return active > inactive;
 }
 
-static const int inactive_list_is_low(struct lruvec *lruvec, enum lru_list lru)
+static int inactive_list_is_low(struct lruvec *lruvec, enum lru_list lru)
 {
 	if (is_file_lru(lru))
 		return inactive_file_is_low(lruvec);
@@ -1678,7 +1678,7 @@ static unsigned long shrink_list(enum lru_list lru, unsigned long nr_to_scan,
 	return shrink_inactive_list(nr_to_scan, lruvec, sc, lru);
 }
 
-static const int vmscan_swappiness(struct scan_control *sc)
+static int vmscan_swappiness(struct scan_control *sc)
 {
 	if (global_reclaim(sc))
 		return vm_swappiness;
@@ -3380,7 +3380,7 @@ static long zone_pagecache_reclaimable(struct zone *zone)
 /*
  * Try to free up some pages from this zone through reclaim.
  */
-static const int __zone_reclaim(struct zone *zone, gfp_t gfp_mask, unsigned int order)
+static int __zone_reclaim(struct zone *zone, gfp_t gfp_mask, unsigned int order)
 {
 	/* Minimum pages needed in order to stay on node */
 	const unsigned long nr_pages = 1 << order;
