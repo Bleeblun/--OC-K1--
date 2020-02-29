@@ -83,7 +83,7 @@ enum nct1008_sensor_reg_types {
 };
 
 /* Mapping from register type on a given sensor to hardware specific address. */
-static int nct1008_sensor_regs[SENSORS_COUNT][REGS_COUNT] = {
+static const int nct1008_sensor_regs[SENSORS_COUNT][REGS_COUNT] = {
 	[LOC] = {
 		[TEMP_HI_LIMIT_RD] = LOC_TEMP_HI_LIMIT_RD,
 		[TEMP_HI_LIMIT_WR] = LOC_TEMP_HI_LIMIT_WR,
@@ -159,7 +159,7 @@ struct nct1008_data {
 	struct nct1008_sensor_data sensors[SENSORS_COUNT];
 };
 
-static int conv_period_ms_table[] =
+static const int conv_period_ms_table[] =
 	{16000, 8000, 4000, 2000, 1000, 500, 250, 125, 63, 32, 16};
 
 static void nct1008_setup_shutdown_warning(struct nct1008_data *data);
@@ -174,7 +174,7 @@ static inline u8 temperature_to_value(bool extended, s16 temp)
 	return extended ? (u8)(temp + EXTENDED_RANGE_OFFSET) : (u8)temp;
 }
 
-static int nct1008_write_reg(struct i2c_client *client, u8 reg, u16 value)
+static const int nct1008_write_reg(struct i2c_client *client, u8 reg, u16 value)
 {
 	int ret = 0;
 	struct nct1008_data *data = i2c_get_clientdata(client);
@@ -194,7 +194,7 @@ static int nct1008_write_reg(struct i2c_client *client, u8 reg, u16 value)
 	return ret;
 }
 
-static int nct1008_read_reg(struct i2c_client *client, u8 reg)
+static const int nct1008_read_reg(struct i2c_client *client, u8 reg)
 {
 	int ret = 0;
 	struct nct1008_data *data = i2c_get_clientdata(client);
@@ -213,7 +213,7 @@ static int nct1008_read_reg(struct i2c_client *client, u8 reg)
 	return ret;
 }
 
-static int nct1008_get_temp_common(int sensor,
+static const int nct1008_get_temp_common(int sensor,
 					struct nct1008_data *data,
 					long *temp)
 {
