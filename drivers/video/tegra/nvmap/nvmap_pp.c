@@ -556,7 +556,7 @@ static int pool_size_get(char *buff, const struct kernel_param *kp)
 	return param_get_int(buff, kp);
 }
 
-static const struct kernel_param_ops pool_size_ops = {
+static struct kernel_param_ops pool_size_ops = {
 	.get = pool_size_get,
 	.set = pool_size_set,
 };

@@ -42,7 +42,7 @@
 /* private nvmap_handle flag for pinning duplicate detection */
 #define NVMAP_HANDLE_VISITED (0x1ul << 31)
 
-static const phys_addr_t handle_phys(struct nvmap_handle *h)
+static phys_addr_t handle_phys(struct nvmap_handle *h)
 {
 	phys_addr_t addr;
 

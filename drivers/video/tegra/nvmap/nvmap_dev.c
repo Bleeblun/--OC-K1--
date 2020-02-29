@@ -1347,7 +1347,7 @@ static int page_zero_filled(void *ptr)
 	return 1;
 }
 
-static const size_t compress_bytes(struct page *page)
+static size_t compress_bytes(struct page *page)
 {
 	void *addr;
 	size_t clen = 0;
