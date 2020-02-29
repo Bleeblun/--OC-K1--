@@ -209,7 +209,7 @@ static irqreturn_t gpio_event_input_irq_handler(int irq, void *dev_id)
 	return IRQ_HANDLED;
 }
 
-static int gpio_event_input_request_irqs(struct gpio_input_state *ds)
+static const int gpio_event_input_request_irqs(struct gpio_input_state *ds)
 {
 	int i;
 	int err;
