@@ -91,7 +91,7 @@ struct elevator_type
 	size_t icq_size;	/* see iocontext.h */
 	size_t icq_align;	/* ditto */
 	struct elv_fs_entry *elevator_attrs;
-	char elevator_name[ELV_NAME_MAX];
+	const char *elevator_name;
 	struct module *elevator_owner;
 
 	/* managed by elevator core */
