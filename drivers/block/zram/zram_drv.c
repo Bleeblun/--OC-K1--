@@ -251,7 +251,7 @@ static ssize_t comp_algorithm_store(struct device *dev,
 }
 
 /* flag operations needs meta->tb_lock */
-static const int zram_test_flag(struct zram_meta *meta, u32 index,
+static int zram_test_flag(struct zram_meta *meta, u32 index,
 			enum zram_pageflags flag)
 {
 	return meta->table[index].value & BIT(flag);
@@ -356,7 +356,7 @@ static void update_position(u32 *index, int *offset, struct bio_vec *bvec)
 	*offset = (*offset + bvec->bv_len) % PAGE_SIZE;
 }
 
-static const int page_zero_filled(void *ptr)
+static int page_zero_filled(void *ptr)
 {
 	unsigned int pos;
 	unsigned long *page;
@@ -419,7 +419,7 @@ static void zram_free_page(struct zram *zram, size_t index)
 	zram_set_obj_size(meta, index, 0);
 }
 
-static const int zram_decompress_page(struct zram *zram, char *mem, u32 index)
+static int zram_decompress_page(struct zram *zram, char *mem, u32 index)
 {
 	int ret = 0;
 	unsigned char *cmem;
@@ -458,7 +458,7 @@ static const int zram_decompress_page(struct zram *zram, char *mem, u32 index)
 	return 0;
 }
 
-static const int zram_bvec_read(struct zram *zram, struct bio_vec *bvec,
+static int zram_bvec_read(struct zram *zram, struct bio_vec *bvec,
 			  u32 index, int offset, struct bio *bio)
 {
 	int ret;
@@ -524,7 +524,7 @@ static inline void update_used_max(struct zram *zram,
 	} while (old_max != cur_max);
 }
 
-static const int zram_bvec_write(struct zram *zram, struct bio_vec *bvec, u32 index,
+static int zram_bvec_write(struct zram *zram, struct bio_vec *bvec, u32 index,
 			   int offset)
 {
 	int ret = 0;
@@ -654,7 +654,7 @@ out:
 	return ret;
 }
 
-static const int zram_bvec_rw(struct zram *zram, struct bio_vec *bvec, u32 index,
+static int zram_bvec_rw(struct zram *zram, struct bio_vec *bvec, u32 index,
 			int offset, struct bio *bio)
 {
 	int ret;
@@ -1017,7 +1017,7 @@ static const struct attribute_group zram_disk_attr_group = {
 	.attrs = zram_disk_attrs,
 };
 
-static const int create_device(struct zram *zram, int device_id)
+static int create_device(struct zram *zram, int device_id)
 {
 	int ret = -ENOMEM;
 
