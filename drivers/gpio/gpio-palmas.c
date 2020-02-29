@@ -214,7 +214,7 @@ static int palmas_gpio_remove(struct platform_device *pdev)
 	return gpiochip_remove(&palmas_gpio->gpio_chip);
 }
 
-static struct of_device_id of_palmas_gpio_match[] = {
+static const struct of_device_id of_palmas_gpio_match[] = {
 	{ .compatible = "ti,palmas-gpio"},
 	{ .compatible = "ti,tps65913-gpio"},
 	{ .compatible = "ti,tps65914-gpio"},
