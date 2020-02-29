@@ -561,7 +561,7 @@ static struct tegra_gpio_soc_config tegra210_gpio_config = {
 	.debounce_support = true,
 };
 
-static struct of_device_id tegra_gpio_of_match[] = {
+static const struct of_device_id tegra_gpio_of_match[] = {
 	{ .compatible = "nvidia,tegra210-gpio", .data = &tegra210_gpio_config },
 	{ .compatible = "nvidia,tegra124-gpio", .data = &tegra30_gpio_config },
 	{ .compatible = "nvidia,tegra148-gpio", .data = &tegra30_gpio_config },
