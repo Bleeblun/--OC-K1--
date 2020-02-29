@@ -103,8 +103,8 @@ static struct resource all_disp1_resources[] = {
 };
 #endif
 
-static int tegra_dc_add_fakedisp_resources(struct platform_device *ndev,
-						long dc_outtype)
+static const int tegra_dc_add_fakedisp_resources(struct platform_device *ndev,
+						const long dc_outtype)
 {
 	/* Copy the existing fbmem resources locally
 	 * and replace the existing resource pointer
@@ -224,7 +224,7 @@ int tegra_dc_init_fakedp_panel(struct tegra_dc *dc)
 	return 0;
 }
 
-static int tegra_dc_reset_fakedsi_panel(struct tegra_dc *dc, long dc_outtype)
+static const int tegra_dc_reset_fakedsi_panel(struct tegra_dc *dc, const long dc_outtype)
 {
 	struct tegra_dc_out *dc_out = dc->out;
 	if (dc_outtype == TEGRA_DC_OUT_FAKE_DSI_GANGED) {
@@ -245,7 +245,7 @@ static int tegra_dc_reset_fakedsi_panel(struct tegra_dc *dc, long dc_outtype)
 	return 0;
 }
 
-int tegra_dc_init_fakedsi_panel(struct tegra_dc *dc, long dc_outtype)
+int tegra_dc_init_fakedsi_panel(struct tegra_dc *dc, const long dc_outtype)
 {
 	struct tegra_dc_out *dc_out = dc->out;
 	/* Set the needed resources */
@@ -275,7 +275,7 @@ int tegra_dc_init_fakedsi_panel(struct tegra_dc *dc, long dc_outtype)
 }
 
 
-int tegra_dc_destroy_dsi_resources(struct tegra_dc *dc, long dc_outtype)
+int tegra_dc_destroy_dsi_resources(struct tegra_dc *dc, const long dc_outtype)
 {
 	struct tegra_dc_dsi_data *dsi = tegra_dc_get_outdata(dc);
 	int i = 0;
@@ -350,7 +350,7 @@ int tegra_dc_destroy_dsi_resources(struct tegra_dc *dc, long dc_outtype)
 }
 
 
-int tegra_dc_reinit_dsi_resources(struct tegra_dc *dc, long dc_outtype)
+int tegra_dc_reinit_dsi_resources(struct tegra_dc *dc, const long dc_outtype)
 {
 	struct resource *res;
 	struct resource dsi_res;

@@ -506,10 +506,10 @@ static struct tegra_dc_cmu default_limited_cmu = {
 	},
 };
 #elif defined(CONFIG_TEGRA_DC_CMU_V2)
-static struct tegra_dc_cmu default_cmu = {
+static const struct tegra_dc_cmu default_cmu = {
 	{},
 };
-static struct tegra_dc_cmu default_limited_cmu = {
+static const struct tegra_dc_cmu default_limited_cmu = {
 	{},
 };
 #endif
@@ -849,13 +849,13 @@ static void _dump_regs(struct tegra_dc *dc, void *data,
 #undef DUMP_REG
 
 #ifdef DEBUG
-static void dump_regs_print(void *data, const char *str)
+static const const void dump_regs_print(void *data, const char *str)
 {
 	struct tegra_dc *dc = data;
 	dev_dbg(&dc->ndev->dev, "%s", str);
 }
 
-static void dump_regs(struct tegra_dc *dc)
+static const void dump_regs(struct tegra_dc *dc)
 {
 	_dump_regs(dc, dc, dump_regs_print);
 }
@@ -1082,7 +1082,7 @@ static struct tegra_dc_out_info dbg_dc_out_info[TEGRA_DC_OUT_MAX];
 /* array for saving the out_type for each head */
 static int  boot_out_type[] = {-1, -1};
 
-static int is_invalid_dc_out(struct tegra_dc *dc, long dc_outtype)
+static const int is_invalid_dc_out(struct tegra_dc *dc, long dc_outtype)
 {
 	if ((dc_outtype != boot_out_type[dc->ndev->id]) &&
 		(dc_outtype != TEGRA_DC_OUT_FAKE_DP) &&
@@ -1102,7 +1102,7 @@ static int is_invalid_dc_out(struct tegra_dc *dc, long dc_outtype)
 	return 0;
 }
 
-static int is_valid_dsi_out(struct tegra_dc *dc, long dc_outtype)
+static const int is_valid_dsi_out(struct tegra_dc *dc, long dc_outtype)
 {
 	if (((dc_outtype >= TEGRA_DC_OUT_FAKE_DSIA) &&
 		(dc_outtype <= TEGRA_DC_OUT_FAKE_DSI_GANGED)) ||
@@ -1113,7 +1113,7 @@ static int is_valid_dsi_out(struct tegra_dc *dc, long dc_outtype)
 }
 
 
-static int is_valid_fake_support(struct tegra_dc *dc, long dc_outtype)
+static const int is_valid_fake_support(struct tegra_dc *dc, long dc_outtype)
 {
 	if ((dc_outtype == TEGRA_DC_OUT_FAKE_DP) ||
 		(dc_outtype == TEGRA_DC_OUT_FAKE_DSIA) ||
@@ -1125,7 +1125,7 @@ static int is_valid_fake_support(struct tegra_dc *dc, long dc_outtype)
 	return 0;
 }
 
-static int set_avdd(struct tegra_dc *dc, long cur_out, long new_out)
+static const int set_avdd(struct tegra_dc *dc, long cur_out, long new_out)
 {
 #ifdef CONFIG_ARCH_TEGRA_21x_SOC
 	/* T210 macro_clk is failing SOR access
@@ -2112,7 +2112,7 @@ void tegra_dc_enable_general_act(struct tegra_dc *dc)
 }
 
 
-static int tegra_dc_set_next(struct tegra_dc *dc)
+static const int tegra_dc_set_next(struct tegra_dc *dc)
 {
 	int i;
 	int ret = -EBUSY;
@@ -2132,7 +2132,7 @@ static int tegra_dc_set_next(struct tegra_dc *dc)
 	return ret;
 }
 
-static int tegra_dc_set_idx(struct tegra_dc *dc, int index)
+static const int tegra_dc_set_idx(struct tegra_dc *dc, int index)
 {
 	int ret = 0;
 
@@ -2160,7 +2160,7 @@ out:
  * when registering dc in DT case. For non DT case & when removing the device
  * (dc == NULL), index should be accordingly.
  */
-static int tegra_dc_set(struct tegra_dc *dc, int index)
+static const int tegra_dc_set(struct tegra_dc *dc, int index)
 {
 	if ((index == -1) && (dc != NULL)) /* DT register case */
 		return tegra_dc_set_next(dc);
@@ -2431,7 +2431,7 @@ int tegra_dc_update_cmu(struct tegra_dc *dc, struct tegra_dc_cmu *cmu)
 }
 EXPORT_SYMBOL(tegra_dc_update_cmu);
 
-static int _tegra_dc_update_cmu_aligned(struct tegra_dc *dc,
+static const int _tegra_dc_update_cmu_aligned(struct tegra_dc *dc,
 				struct tegra_dc_cmu *cmu,
 				bool force)
 {
@@ -2514,7 +2514,7 @@ u32 tegra_dc_get_syncpt_id(struct tegra_dc *dc, int i)
 }
 EXPORT_SYMBOL(tegra_dc_get_syncpt_id);
 
-static u32 tegra_dc_incr_syncpt_max_locked(struct tegra_dc *dc, int i)
+static const u32 tegra_dc_incr_syncpt_max_locked(struct tegra_dc *dc, int i)
 {
 	u32 max;
 	struct tegra_dc_win *win = tegra_dc_get_window(dc, i);
@@ -3449,7 +3449,7 @@ static void tegra_dc_one_shot_worker(struct work_struct *work)
 #if !defined(CONFIG_TEGRA_NVDISPLAY)
 /* return an arbitrarily large number if count overflow occurs.
  * make it a nice base-10 number to show up in stats output */
-static u64 tegra_dc_underflow_count(struct tegra_dc *dc, unsigned reg)
+static const u64 tegra_dc_underflow_count(struct tegra_dc *dc, unsigned reg)
 {
 	unsigned count = tegra_dc_readl(dc, reg);
 
@@ -3917,7 +3917,7 @@ static void tegra_dc_init_vpulse2_int(struct tegra_dc *dc)
 #endif
 }
 
-static int tegra_dc_init(struct tegra_dc *dc)
+static const int tegra_dc_init(struct tegra_dc *dc)
 {
 	int i;
 	int int_enable;
@@ -4212,7 +4212,7 @@ static bool _tegra_dc_controller_reset_enable(struct tegra_dc *dc)
 }
 #endif
 
-static int _tegra_dc_set_default_videomode(struct tegra_dc *dc)
+static const int _tegra_dc_set_default_videomode(struct tegra_dc *dc)
 {
 	if (dc->mode.pclk == 0) {
 		switch (dc->out->type) {
@@ -5568,7 +5568,7 @@ module_param_call(suspend, suspend_set, suspend_get, &suspend, 0644);
 
 
 #ifdef CONFIG_OF
-static struct of_device_id tegra_display_of_match[] = {
+static const struct of_device_id tegra_display_of_match[] = {
 	{.compatible = "nvidia,tegra114-dc", },
 	{.compatible = "nvidia,tegra124-dc", },
 	{.compatible = "nvidia,tegra210-dc", },
@@ -5596,7 +5596,7 @@ static struct platform_driver tegra_dc_driver = {
 };
 
 #ifndef MODULE
-static int __init parse_disp_params(char *options, struct tegra_dc_mode *mode)
+static const int __init parse_disp_params(char *options, struct tegra_dc_mode *mode)
 {
 	int i, params[11];
 	char *p;
