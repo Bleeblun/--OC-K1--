@@ -19,7 +19,7 @@ static DEFINE_SPINLOCK(percpu_counters_lock);
 
 static struct debug_obj_descr percpu_counter_debug_descr;
 
-static const int percpu_counter_fixup_free(void *addr, enum debug_obj_state state)
+static int percpu_counter_fixup_free(void *addr, enum debug_obj_state state)
 {
 	struct percpu_counter *fbc = addr;
 

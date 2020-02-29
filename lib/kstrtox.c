@@ -83,7 +83,7 @@ unsigned int _parse_integer(const char *s, unsigned int base, unsigned long long
 	return rv;
 }
 
-static const int _kstrtoull(const char *s, unsigned int base, unsigned long long *res)
+static int _kstrtoull(const char *s, unsigned int base, unsigned long long *res)
 {
 	unsigned long long _res;
 	unsigned int rv;

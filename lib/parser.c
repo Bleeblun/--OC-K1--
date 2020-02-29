@@ -23,7 +23,7 @@
  * match extremely simple token=arg style patterns. If the pattern is found,
  * the location(s) of the arguments will be returned in the @args array.
  */
-static const int match_one(char *s, const char *p, substring_t args[])
+static int match_one(char *s, const char *p, substring_t args[])
 {
 	char *meta;
 	int argc = 0;
@@ -124,7 +124,7 @@ int match_token(char *s, const match_table_t table, substring_t args[])
  * as a number in that base. On success, sets @result to the integer represented
  * by the string and returns 0. Returns -ENOMEM, -EINVAL, or -ERANGE on failure.
  */
-static const int match_number(substring_t *s, int *result, int base)
+static int match_number(substring_t *s, int *result, int base)
 {
 	char *endp;
 	char *buf;

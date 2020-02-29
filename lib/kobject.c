@@ -27,7 +27,7 @@
  * object registration that loops through the default attributes of the
  * subsystem and creates attributes files for them in sysfs.
  */
-static const int populate_dir(struct kobject *kobj)
+static int populate_dir(struct kobject *kobj)
 {
 	struct kobj_type *t = get_ktype(kobj);
 	struct attribute *attr;
@@ -44,7 +44,7 @@ static const int populate_dir(struct kobject *kobj)
 	return error;
 }
 
-static const int create_dir(struct kobject *kobj)
+static int create_dir(struct kobject *kobj)
 {
 	int error = 0;
 	error = sysfs_create_dir(kobj);
@@ -56,7 +56,7 @@ static const int create_dir(struct kobject *kobj)
 	return error;
 }
 
-static const int get_kobj_path_length(struct kobject *kobj)
+static int get_kobj_path_length(struct kobject *kobj)
 {
 	int length = 1;
 	struct kobject *parent = kobj;
@@ -153,7 +153,7 @@ static void kobject_init_internal(struct kobject *kobj)
 }
 
 
-static const int kobject_add_internal(struct kobject *kobj)
+static int kobject_add_internal(struct kobject *kobj)
 {
 	int error = 0;
 	struct kobject *parent;
@@ -294,7 +294,7 @@ error:
 }
 EXPORT_SYMBOL(kobject_init);
 
-static const int kobject_add_varg(struct kobject *kobj, struct kobject *parent,
+static int kobject_add_varg(struct kobject *kobj, struct kobject *parent,
 			    const char *fmt, va_list vargs)
 {
 	int retval;

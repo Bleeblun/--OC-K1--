@@ -22,7 +22,7 @@
  *	the values[M, M+1, ..., N] into the ints array in get_options.
  */
 
-static const int get_range(char **str, int *pint)
+static int get_range(char **str, int *pint)
 {
 	int x, inc_counter, upper_range;
 

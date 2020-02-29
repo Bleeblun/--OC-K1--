@@ -44,7 +44,7 @@ static inline size_t chunk_size(const struct gen_pool_chunk *chunk)
 	return chunk->end_addr - chunk->start_addr + 1;
 }
 
-static const int set_bits_ll(unsigned long *addr, unsigned long mask_to_set)
+static int set_bits_ll(unsigned long *addr, unsigned long mask_to_set)
 {
 	unsigned long val, nval;
 
@@ -59,7 +59,7 @@ static const int set_bits_ll(unsigned long *addr, unsigned long mask_to_set)
 	return 0;
 }
 
-static const int clear_bits_ll(unsigned long *addr, unsigned long mask_to_clear)
+static int clear_bits_ll(unsigned long *addr, unsigned long mask_to_clear)
 {
 	unsigned long val, nval;
 
@@ -85,7 +85,7 @@ static const int clear_bits_ll(unsigned long *addr, unsigned long mask_to_clear)
  * users set the same bit, one user will return remain bits, otherwise
  * return 0.
  */
-static const int bitmap_set_ll(unsigned long *map, int start, int nr)
+static int bitmap_set_ll(unsigned long *map, int start, int nr)
 {
 	unsigned long *p = map + BIT_WORD(start);
 	const int size = start + nr;
@@ -120,7 +120,7 @@ static const int bitmap_set_ll(unsigned long *map, int start, int nr)
  * users clear the same bit, one user will return remain bits,
  * otherwise return 0.
  */
-static const int bitmap_clear_ll(unsigned long *map, int start, int nr)
+static int bitmap_clear_ll(unsigned long *map, int start, int nr)
 {
 	unsigned long *p = map + BIT_WORD(start);
 	const int size = start + nr;

@@ -202,7 +202,7 @@ static void klist_release(struct kref *kref)
 	knode_set_klist(n, NULL);
 }
 
-static const int klist_dec_and_del(struct klist_node *n)
+static int klist_dec_and_del(struct klist_node *n)
 {
 	return kref_put(&n->n_ref, klist_release);
 }

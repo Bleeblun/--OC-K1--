@@ -47,7 +47,7 @@
 
 #include "lz4defs.h"
 
-static const int lz4_uncompress(const char *source, char *dest, int osize)
+static int lz4_uncompress(const char *source, char *dest, int osize)
 {
 	const BYTE *ip = (const BYTE *) source;
 	const BYTE *ref;
@@ -162,7 +162,7 @@ _output_error:
 	return -1;
 }
 
-static const int lz4_uncompress_unknownoutputsize(const char *source, char *dest,
+static int lz4_uncompress_unknownoutputsize(const char *source, char *dest,
 				int isize, size_t maxoutputsize)
 {
 	const BYTE *ip = (const BYTE *) source;

@@ -103,7 +103,7 @@ static int kobj_bcast_filter(struct sock *dsk, struct sk_buff *skb, void *data)
 }
 #endif
 
-static const int kobj_usermode_filter(struct kobject *kobj)
+static int kobj_usermode_filter(struct kobject *kobj)
 {
 	const struct kobj_ns_type_operations *ops;
 
