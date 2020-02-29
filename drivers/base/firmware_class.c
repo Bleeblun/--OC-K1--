@@ -193,7 +193,7 @@ static struct firmware_buf *__fw_lookup_buf(const char *fw_name)
 	return NULL;
 }
 
-static const int fw_lookup_and_allocate_buf(const char *fw_name,
+static int fw_lookup_and_allocate_buf(const char *fw_name,
 				      struct firmware_cache *fwc,
 				      struct firmware_buf **buf)
 {
@@ -284,7 +284,7 @@ module_param_string(path, fw_path_para, sizeof(fw_path_para), 0644);
 MODULE_PARM_DESC(path, "customized firmware image search path with a higher priority than default path");
 
 /* Don't inline this: 'struct kstat' is biggish */
-static const noinline_for_stack long fw_file_size(struct file *file)
+static noinline_for_stack long fw_file_size(struct file *file)
 {
 	struct kstat st;
 	if (vfs_getattr(&file->f_path, &st))

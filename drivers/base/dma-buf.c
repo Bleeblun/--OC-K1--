@@ -915,7 +915,7 @@ static const struct file_operations dma_buf_debug_fops = {
 
 static struct dentry *dma_buf_debugfs_dir;
 
-static const int dma_buf_init_debugfs(void)
+static int dma_buf_init_debugfs(void)
 {
 	int err = 0;
 	dma_buf_debugfs_dir = debugfs_create_dir("dma_buf", NULL);

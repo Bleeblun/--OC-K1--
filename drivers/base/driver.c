@@ -123,7 +123,7 @@ void driver_remove_file(struct device_driver *drv,
 }
 EXPORT_SYMBOL_GPL(driver_remove_file);
 
-static const int driver_add_groups(struct device_driver *drv,
+static int driver_add_groups(struct device_driver *drv,
 			     const struct attribute_group **groups)
 {
 	int error = 0;

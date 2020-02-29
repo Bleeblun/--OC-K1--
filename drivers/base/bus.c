@@ -185,7 +185,7 @@ static ssize_t driver_unbind(struct device_driver *drv,
 	bus_put(bus);
 	return err;
 }
-static const DRIVER_ATTR(unbind, S_IWUSR, NULL, driver_unbind);
+static DRIVER_ATTR(unbind, S_IWUSR, NULL, driver_unbind);
 
 /*
  * Manually attach a device to a driver.
@@ -221,7 +221,7 @@ static ssize_t driver_bind(struct device_driver *drv,
 	bus_put(bus);
 	return err;
 }
-static const DRIVER_ATTR(bind, S_IWUSR, NULL, driver_bind);
+static DRIVER_ATTR(bind, S_IWUSR, NULL, driver_bind);
 
 static ssize_t show_drivers_autoprobe(struct bus_type *bus, char *buf)
 {
@@ -586,7 +586,7 @@ void bus_remove_device(struct device *dev)
 	bus_put(dev->bus);
 }
 
-static const int driver_add_attrs(struct bus_type *bus, struct device_driver *drv)
+static int driver_add_attrs(struct bus_type *bus, struct device_driver *drv)
 {
 	int error = 0;
 	int i;
@@ -617,7 +617,7 @@ static void driver_remove_attrs(struct bus_type *bus,
 	}
 }
 
-static const int __must_check add_bind_files(struct device_driver *drv)
+static int __must_check add_bind_files(struct device_driver *drv)
 {
 	int ret;
 
@@ -640,7 +640,7 @@ static BUS_ATTR(drivers_probe, S_IWUSR, NULL, store_drivers_probe);
 static BUS_ATTR(drivers_autoprobe, S_IWUSR | S_IRUGO,
 		show_drivers_autoprobe, store_drivers_autoprobe);
 
-static const int add_probe_files(struct bus_type *bus)
+static int add_probe_files(struct bus_type *bus)
 {
 	int retval;
 
@@ -670,7 +670,7 @@ static ssize_t driver_uevent_store(struct device_driver *drv,
 		kobject_uevent(&drv->p->kobj, action);
 	return count;
 }
-static const DRIVER_ATTR(uevent, S_IWUSR, NULL, driver_uevent_store);
+static DRIVER_ATTR(uevent, S_IWUSR, NULL, driver_uevent_store);
 
 /**
  * bus_add_driver - Add a driver to the bus.
@@ -842,7 +842,7 @@ struct bus_type *find_bus(char *name)
  * @bus: Bus that has just been registered.
  */
 
-static const int bus_add_attrs(struct bus_type *bus)
+static int bus_add_attrs(struct bus_type *bus)
 {
 	int error = 0;
 	int i;
@@ -1208,7 +1208,7 @@ static void system_root_device_release(struct device *dev)
 	kfree(dev);
 }
 
-static const int subsys_register(struct bus_type *subsys,
+static int subsys_register(struct bus_type *subsys,
 			   const struct attribute_group **groups,
 			   struct kobject *parent_of_root)
 {

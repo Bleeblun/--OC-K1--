@@ -39,7 +39,7 @@ struct devres_group {
 };
 
 #ifdef CONFIG_DEBUG_DEVRES
-static const int log_devres = 0;
+static int log_devres = 0;
 module_param_named(log, log_devres, int, S_IRUGO | S_IWUSR);
 
 static void set_node_dbginfo(struct devres_node *node, const char *name,
@@ -100,7 +100,7 @@ static void remove_from_devres_list(struct device *dev)
 	kfree(node);
 }
 
-static const int devres_mt_show(struct seq_file *m, void *v)
+static int devres_mt_show(struct seq_file *m, void *v)
 {
 	struct dnode *node;
 	size_t total = 0;
@@ -125,7 +125,7 @@ static const int devres_mt_show(struct seq_file *m, void *v)
 	return 0;
 }
 
-static const int devres_mt_open(struct inode *inode, struct file *file)
+static int devres_mt_open(struct inode *inode, struct file *file)
 {
 	return single_open(file, devres_mt_show, inode->i_private);
 }
@@ -136,7 +136,7 @@ static const struct file_operations devres_memtrack_fops = {
 	.release = single_release,
 };
 
-static const int __init devres_memtrack_init(void)
+static int __init devres_memtrack_init(void)
 {
 	struct dentry *root, *devres_mt;
 
@@ -506,7 +506,7 @@ int devres_release(struct device *dev, dr_release_t release,
 }
 EXPORT_SYMBOL_GPL(devres_release);
 
-static const int remove_nodes(struct device *dev,
+static int remove_nodes(struct device *dev,
 			struct list_head *first, struct list_head *end,
 			struct list_head *todo)
 {
@@ -575,7 +575,7 @@ static const int remove_nodes(struct device *dev,
 	return cnt;
 }
 
-static const int release_nodes(struct device *dev, struct list_head *first,
+static int release_nodes(struct device *dev, struct list_head *first,
 			 struct list_head *end, unsigned long flags)
 	__releases(&dev->devres_lock)
 {

@@ -217,7 +217,7 @@ static void driver_bound(struct device *dev)
 					     BUS_NOTIFY_BOUND_DRIVER, dev);
 }
 
-static const int driver_sysfs_add(struct device *dev)
+static int driver_sysfs_add(struct device *dev)
 {
 	int ret;
 
@@ -275,7 +275,7 @@ EXPORT_SYMBOL_GPL(device_bind_driver);
 static atomic_t probe_count = ATOMIC_INIT(0);
 static DECLARE_WAIT_QUEUE_HEAD(probe_waitqueue);
 
-static const int really_probe(struct device *dev, struct device_driver *drv)
+static int really_probe(struct device *dev, struct device_driver *drv)
 {
 	int ret = 0;
 	int local_trigger_count = atomic_read(&deferred_trigger_count);

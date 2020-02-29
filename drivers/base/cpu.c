@@ -84,7 +84,7 @@ static ssize_t __ref store_online(struct device *dev,
 		ret = count;
 	return ret;
 }
-static const DEVICE_ATTR(online, 0644, show_online, store_online);
+static DEVICE_ATTR(online, 0644, show_online, store_online);
 
 static void __cpuinit register_cpu_control(struct cpu *cpu)
 {
@@ -120,8 +120,8 @@ static ssize_t cpu_release_store(struct device *dev,
 	return arch_cpu_release(buf, count);
 }
 
-static const DEVICE_ATTR(probe, S_IWUSR, NULL, cpu_probe_store);
-static const DEVICE_ATTR(release, S_IWUSR, NULL, cpu_release_store);
+static DEVICE_ATTR(probe, S_IWUSR, NULL, cpu_probe_store);
+static DEVICE_ATTR(release, S_IWUSR, NULL, cpu_release_store);
 #endif /* CONFIG_ARCH_CPU_PROBE_RELEASE */
 
 #else /* ... !CONFIG_HOTPLUG_CPU */
@@ -153,7 +153,7 @@ static ssize_t show_crash_notes(struct device *dev, struct device_attribute *att
 	rc = sprintf(buf, "%Lx\n", addr);
 	return rc;
 }
-static const DEVICE_ATTR(crash_notes, 0400, show_crash_notes, NULL);
+static DEVICE_ATTR(crash_notes, 0400, show_crash_notes, NULL);
 
 static ssize_t show_crash_notes_size(struct device *dev,
 				     struct device_attribute *attr,
@@ -164,7 +164,7 @@ static ssize_t show_crash_notes_size(struct device *dev,
 	rc = sprintf(buf, "%zu\n", sizeof(note_buf_t));
 	return rc;
 }
-static const DEVICE_ATTR(crash_notes_size, 0400, show_crash_notes_size, NULL);
+static DEVICE_ATTR(crash_notes_size, 0400, show_crash_notes_size, NULL);
 #endif
 
 /*
@@ -288,7 +288,7 @@ static ssize_t print_cpu_modalias(struct device *dev,
 #define print_cpu_modalias	arch_print_cpu_modalias
 #endif
 
-static const int cpu_uevent(struct device *dev, struct kobj_uevent_env *env)
+static int cpu_uevent(struct device *dev, struct kobj_uevent_env *env)
 {
 	char *buf = kzalloc(PAGE_SIZE, GFP_KERNEL);
 	if (buf) {
@@ -367,7 +367,7 @@ static struct attribute *cpu_root_attrs[] = {
 	NULL
 };
 
-static const struct attribute_group cpu_root_attr_group = {
+static struct attribute_group cpu_root_attr_group = {
 	.attrs = cpu_root_attrs,
 };
 
@@ -384,7 +384,7 @@ bool cpu_is_hotpluggable(unsigned cpu)
 EXPORT_SYMBOL_GPL(cpu_is_hotpluggable);
 
 #ifdef CONFIG_GENERIC_CPU_DEVICES
-static const DEFINE_PER_CPU(struct cpu, cpu_devices);
+static DEFINE_PER_CPU(struct cpu, cpu_devices);
 #endif
 
 static void __init cpu_dev_register_generic(void)

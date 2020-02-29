@@ -136,13 +136,13 @@ static struct attribute *default_attrs[] = {
 	NULL
 };
 
-static const struct attribute_group topology_attr_group = {
+static struct attribute_group topology_attr_group = {
 	.attrs = default_attrs,
 	.name = "topology"
 };
 
 /* Add/Remove cpu_topology interface for CPU device */
-static const int __cpuinit topology_add_dev(unsigned int cpu)
+static int __cpuinit topology_add_dev(unsigned int cpu)
 {
 	struct device *dev = get_cpu_device(cpu);
 

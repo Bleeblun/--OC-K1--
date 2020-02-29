@@ -232,7 +232,7 @@ skip_mapping:
 }
 EXPORT_SYMBOL(dma_declare_coherent_memory);
 
-static const int declare_coherent_heap(struct device *dev, phys_addr_t base,
+static int declare_coherent_heap(struct device *dev, phys_addr_t base,
 					size_t size)
 {
 	int err;
@@ -335,7 +335,7 @@ fail:
 }
 EXPORT_SYMBOL(dma_declare_coherent_resizable_cma_memory);
 
-static const phys_addr_t alloc_from_contiguous_heap(
+static phys_addr_t alloc_from_contiguous_heap(
 				struct heap_info *h,
 				phys_addr_t base, size_t len)
 {
@@ -497,7 +497,7 @@ static int update_vpr_config(struct heap_info *h)
 }
 
 /* retval: !0 on success, 0 on failure */
-static const int dma_alloc_from_coherent_dev_at(struct device *dev, ssize_t size,
+static int dma_alloc_from_coherent_dev_at(struct device *dev, ssize_t size,
 				       dma_addr_t *dma_handle, void **ret,
 				       struct dma_attrs *attrs, ulong start)
 {
@@ -557,7 +557,7 @@ err:
 	return mem->flags & DMA_MEMORY_EXCLUSIVE;
 }
 
-static const int dma_alloc_from_coherent_dev(struct device *dev, ssize_t size,
+static int dma_alloc_from_coherent_dev(struct device *dev, ssize_t size,
 				       dma_addr_t *dma_handle, void **ret,
 				       struct dma_attrs *attrs)
 {
@@ -566,7 +566,7 @@ static const int dma_alloc_from_coherent_dev(struct device *dev, ssize_t size,
 }
 
 /* retval: !0 on success, 0 on failure */
-static const int dma_alloc_from_coherent_heap_dev(struct device *dev, size_t len,
+static int dma_alloc_from_coherent_heap_dev(struct device *dev, size_t len,
 					dma_addr_t *dma_handle, void **ret,
 					struct dma_attrs *attrs)
 {
@@ -601,7 +601,7 @@ out:
 }
 
 /* retval: !0 on success, 0 on failure */
-static const int dma_release_from_coherent_dev(struct device *dev, size_t size,
+static int dma_release_from_coherent_dev(struct device *dev, size_t size,
 					void *vaddr, struct dma_attrs *attrs)
 {
 	struct dma_coherent_mem *mem = dev ? dev->dma_mem : NULL;
@@ -634,7 +634,7 @@ static const int dma_release_from_coherent_dev(struct device *dev, size_t size,
 	return 0;
 }
 
-static const int dma_release_from_coherent_heap_dev(struct device *dev, size_t len,
+static int dma_release_from_coherent_heap_dev(struct device *dev, size_t len,
 					void *base, struct dma_attrs *attrs)
 {
 	int idx = 0;
@@ -780,7 +780,7 @@ static void shrink_timeout(unsigned long __data)
 	wake_up_process(p);
 }
 
-static  int shrink_thread(void *arg)
+static int shrink_thread(void *arg)
 {
 	struct heap_info *h = arg;
 
