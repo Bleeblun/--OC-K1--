@@ -57,7 +57,7 @@ static ssize_t als_sensing_range_show(struct device *dev,
 		return sprintf(buf, "65535\n");
 }
 
-static int als_wait_for_data_ready(struct device *dev)
+static const int als_wait_for_data_ready(struct device *dev)
 {
 	struct i2c_client *client = to_i2c_client(dev);
 	int ret;
@@ -168,7 +168,7 @@ fail:
 	return ret_val;
 }
 
-static int als_set_power_state(struct i2c_client *client, bool on_off)
+static const int als_set_power_state(struct i2c_client *client, bool on_off)
 {
 	int ret_val;
 	struct als_data *data = i2c_get_clientdata(client);
@@ -197,12 +197,12 @@ static struct attribute *mid_att_als[] = {
 	NULL
 };
 
-static struct attribute_group m_als_gr = {
+static const struct attribute_group m_als_gr = {
 	.name = "apds9802als",
 	.attrs = mid_att_als
 };
 
-static int als_set_default_config(struct i2c_client *client)
+static const int als_set_default_config(struct i2c_client *client)
 {
 	int ret_val;
 	/* Write the command and then switch on */
