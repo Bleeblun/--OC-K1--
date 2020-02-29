@@ -100,7 +100,7 @@ SHOW(__bch_cached_dev)
 {
 	struct cached_dev *dc = container_of(kobj, struct cached_dev,
 					     disk.kobj);
-	const char *states[] = { "no cache", "clean", "dirty", "inconsistent" };
+	char const *states[] = { "no cache", "clean", "dirty", "inconsistent" };
 
 #define var(stat)		(dc->stat)
 
