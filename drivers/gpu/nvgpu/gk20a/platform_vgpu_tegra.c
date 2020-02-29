@@ -19,7 +19,7 @@
 #include "hal_gk20a.h"
 #include "platform_gk20a.h"
 
-static const int gk20a_tegra_probe(struct platform_device *dev)
+static int gk20a_tegra_probe(struct platform_device *dev)
 {
 	struct gk20a_platform *platform = gk20a_get_platform(dev);
 	struct device_node *np = dev->dev.of_node;

@@ -53,7 +53,7 @@ int gk20a_ctrl_dev_release(struct inode *inode, struct file *filp)
 	return 0;
 }
 
-static const long
+static long
 gk20a_ctrl_ioctl_gpu_characteristics(
 	struct gk20a *g,
 	struct nvgpu_gpu_get_characteristics *request)
@@ -78,7 +78,7 @@ gk20a_ctrl_ioctl_gpu_characteristics(
 	return err;
 }
 
-static const int gk20a_ctrl_prepare_compressible_read(
+static int gk20a_ctrl_prepare_compressible_read(
 		struct gk20a *g,
 		struct nvgpu_gpu_prepare_compressible_read_args *args)
 {
@@ -128,7 +128,7 @@ static const int gk20a_ctrl_prepare_compressible_read(
 	return 0;
 }
 
-static const int gk20a_ctrl_mark_compressible_write(
+static int gk20a_ctrl_mark_compressible_write(
 		struct gk20a *g,
 		struct nvgpu_gpu_mark_compressible_write_args *args)
 {
@@ -140,7 +140,7 @@ static const int gk20a_ctrl_mark_compressible_write(
 	return ret;
 }
 
-static const int gk20a_ctrl_alloc_as(
+static int gk20a_ctrl_alloc_as(
 		struct gk20a *g,
 		struct nvgpu_alloc_as_args *args)
 {
@@ -184,7 +184,7 @@ clean_up:
 	return err;
 }
 
-static const int gk20a_ctrl_open_tsg(struct gk20a *g,
+static int gk20a_ctrl_open_tsg(struct gk20a *g,
 			       struct nvgpu_gpu_open_tsg_args *args)
 {
 	struct platform_device *dev = g->dev;
@@ -223,7 +223,7 @@ clean_up:
 	return err;
 }
 
-static const int gk20a_ctrl_get_tpc_masks(struct gk20a *g,
+static int gk20a_ctrl_get_tpc_masks(struct gk20a *g,
 				    struct nvgpu_gpu_get_tpc_masks_args *args)
 {
 	struct gr_gk20a *gr = &g->gr;
@@ -262,7 +262,7 @@ static int nvgpu_gpu_ioctl_l2_fb_ops(struct gk20a *g,
 }
 
 /* Invalidate i-cache for kepler & maxwell */
-static const int nvgpu_gpu_ioctl_inval_icache(
+static int nvgpu_gpu_ioctl_inval_icache(
 		struct gk20a *g,
 		struct nvgpu_gpu_inval_icache_args *args)
 {
@@ -309,7 +309,7 @@ end:
 	return err;
 }
 
-static const int nvgpu_gpu_ioctl_set_mmu_debug_mode(
+static int nvgpu_gpu_ioctl_set_mmu_debug_mode(
 		struct gk20a *g,
 		struct nvgpu_gpu_mmu_debug_mode_args *args)
 {
@@ -341,7 +341,7 @@ static const int nvgpu_gpu_ioctl_set_mmu_debug_mode(
 	return err;
 }
 
-static const int nvgpu_gpu_ioctl_set_debug_mode(
+static int nvgpu_gpu_ioctl_set_debug_mode(
 		struct gk20a *g,
 		struct nvgpu_gpu_sm_debug_mode_args *args)
 {
@@ -396,7 +396,7 @@ static const int nvgpu_gpu_ioctl_set_debug_mode(
 	return err;
 }
 
-static const int nvgpu_gpu_ioctl_wait_for_pause(
+static int nvgpu_gpu_ioctl_wait_for_pause(
 		struct gk20a *g,
 		struct nvgpu_gpu_wait_pause_args *args)
 {
@@ -465,7 +465,7 @@ end:
 	return err;
 }
 
-static const int nvgpu_gpu_ioctl_has_any_exception(
+static int nvgpu_gpu_ioctl_has_any_exception(
 		struct gk20a *g,
 		struct nvgpu_gpu_tpc_exception_en_status_args *args)
 {
@@ -493,7 +493,7 @@ static const int nvgpu_gpu_ioctl_has_any_exception(
 	return err;
 }
 
-static const int gk20a_ctrl_get_num_vsms(struct gk20a *g,
+static int gk20a_ctrl_get_num_vsms(struct gk20a *g,
 				    struct nvgpu_gpu_num_vsms *args)
 {
 	struct gr_gk20a *gr = &g->gr;
@@ -501,7 +501,7 @@ static const int gk20a_ctrl_get_num_vsms(struct gk20a *g,
 	return 0;
 }
 
-static const int gk20a_ctrl_vsm_mapping(struct gk20a *g,
+static int gk20a_ctrl_vsm_mapping(struct gk20a *g,
 				    struct nvgpu_gpu_vsms_mapping *args)
 {
 	int err = 0;
@@ -515,7 +515,7 @@ static const int gk20a_ctrl_vsm_mapping(struct gk20a *g,
 	return err;
 }
 
-static const int nvgpu_gpu_get_gpu_time(
+static int nvgpu_gpu_get_gpu_time(
 	struct gk20a *g,
 	struct nvgpu_gpu_get_gpu_time_args *args)
 {

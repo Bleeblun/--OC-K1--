@@ -123,7 +123,7 @@ struct gk20a_dmabuf_priv {
 
 static void gk20a_vm_remove_support_nofree(struct vm_gk20a *vm);
 
-static const int gk20a_comptaglines_alloc(struct gk20a_comptag_allocator *allocator,
+static int gk20a_comptaglines_alloc(struct gk20a_comptag_allocator *allocator,
 		u32 *offset, u32 len)
 {
 	unsigned long addr;
@@ -251,7 +251,7 @@ void gk20a_get_comptags(struct device *dev, struct dma_buf *dmabuf,
 	*comptags = priv->comptags;
 }
 
-static const int gk20a_alloc_comptags(struct gk20a *g,
+static int gk20a_alloc_comptags(struct gk20a *g,
 				struct device *dev,
 				struct dma_buf *dmabuf,
 				struct gk20a_comptag_allocator *allocator,
@@ -374,7 +374,7 @@ static const int gk20a_alloc_comptags(struct gk20a *g,
 
 
 
-static const int gk20a_init_mm_reset_enable_hw(struct gk20a *g)
+static int gk20a_init_mm_reset_enable_hw(struct gk20a *g)
 {
 	gk20a_dbg_fn("");
 
@@ -518,7 +518,7 @@ int gk20a_init_mm_support(struct gk20a *g)
 	return err;
 }
 
-static const int alloc_gmmu_phys_pages(struct vm_gk20a *vm, u32 order,
+static int alloc_gmmu_phys_pages(struct vm_gk20a *vm, u32 order,
 				 struct gk20a_mm_entry *entry)
 {
 	u32 num_pages = 1 << order;
@@ -571,7 +571,7 @@ static void free_gmmu_phys_pages(struct vm_gk20a *vm,
 	entry->sgt = NULL;
 }
 
-static const int map_gmmu_phys_pages(struct gk20a_mm_entry *entry)
+static int map_gmmu_phys_pages(struct gk20a_mm_entry *entry)
 {
 	FLUSH_CPU_DCACHE(entry->cpu_va,
 			 sg_phys(entry->sgt->sgl),
@@ -586,7 +586,7 @@ static void unmap_gmmu_phys_pages(struct gk20a_mm_entry *entry)
 			 entry->sgt->sgl->length);
 }
 
-static const int alloc_gmmu_pages(struct vm_gk20a *vm, u32 order,
+static int alloc_gmmu_pages(struct vm_gk20a *vm, u32 order,
 			    struct gk20a_mm_entry *entry)
 {
 	struct device *d = dev_from_vm(vm);
@@ -742,7 +742,7 @@ void unmap_gmmu_pages(struct gk20a_mm_entry *entry)
  * the whole range is zeroed so it's "invalid"/will fault
  */
 
-static const int gk20a_zalloc_gmmu_page_table(struct vm_gk20a *vm,
+static int gk20a_zalloc_gmmu_page_table(struct vm_gk20a *vm,
 				 enum gmmu_pgsz_gk20a pgsz_idx,
 				 const struct gk20a_mmu_level *l,
 				 struct gk20a_mm_entry *entry)
@@ -1017,7 +1017,7 @@ int gk20a_vm_free_va(struct vm_gk20a *vm,
 	return 0;
 }
 
-static const int insert_mapped_buffer(struct rb_root *root,
+static int insert_mapped_buffer(struct rb_root *root,
 				struct mapped_buffer_node *mapped_buffer)
 {
 	struct rb_node **new_node = &(root->rb_node), *parent = NULL;
@@ -1144,7 +1144,7 @@ static void gmmu_select_page_size(struct vm_gk20a *vm,
 		}
 }
 
-static const int setup_buffer_kind_and_compression(struct vm_gk20a *vm,
+static int setup_buffer_kind_and_compression(struct vm_gk20a *vm,
 					     u32 flags,
 					     struct buffer_attrs *bfr,
 					     enum gmmu_pgsz_gk20a pgsz_idx)
@@ -1194,7 +1194,7 @@ static const int setup_buffer_kind_and_compression(struct vm_gk20a *vm,
 	return 0;
 }
 
-static const int validate_fixed_buffer(struct vm_gk20a *vm,
+static int validate_fixed_buffer(struct vm_gk20a *vm,
 				 struct buffer_attrs *bfr,
 				 u64 map_offset, u64 map_size,
 				 struct vm_reserved_va_node **pva_node)
@@ -1364,7 +1364,7 @@ void gk20a_locked_gmmu_unmap(struct vm_gk20a *vm,
 	}
 }
 
-static const u64 gk20a_vm_map_duplicate_locked(struct vm_gk20a *vm,
+static u64 gk20a_vm_map_duplicate_locked(struct vm_gk20a *vm,
 					 struct dma_buf *dmabuf,
 					 u64 offset_align,
 					 u32 flags,
@@ -2401,7 +2401,7 @@ static int update_gmmu_pte_locked(struct vm_gk20a *vm,
 	return 0;
 }
 
-static const int update_gmmu_level_locked(struct vm_gk20a *vm,
+static int update_gmmu_level_locked(struct vm_gk20a *vm,
 				    struct gk20a_mm_entry *pte,
 				    enum gmmu_pgsz_gk20a pgsz_idx,
 				    struct scatterlist **sgl,
@@ -3219,7 +3219,7 @@ out:
 
 }
 
-static const int gk20a_dmabuf_get_kind(struct dma_buf *dmabuf)
+static int gk20a_dmabuf_get_kind(struct dma_buf *dmabuf)
 {
 	int kind = 0;
 #ifdef CONFIG_TEGRA_NVMAP

@@ -512,7 +512,7 @@ int exec_regops_gk20a(struct dbg_session_gk20a *dbg_s,
 }
 
 
-static const int validate_reg_op_info(struct dbg_session_gk20a *dbg_s,
+static int validate_reg_op_info(struct dbg_session_gk20a *dbg_s,
 				struct nvgpu_dbg_gpu_reg_op *op)
 {
 	int err = 0;
@@ -622,7 +622,7 @@ static bool check_whitelists(struct dbg_session_gk20a *dbg_s,
 }
 
 /* note: the op here has already been through validate_reg_op_info */
-static const int validate_reg_op_offset(struct dbg_session_gk20a *dbg_s,
+static int validate_reg_op_offset(struct dbg_session_gk20a *dbg_s,
 				  struct nvgpu_dbg_gpu_reg_op *op)
 {
 	int err;

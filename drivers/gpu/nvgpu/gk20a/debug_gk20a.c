@@ -32,7 +32,7 @@
 #include "hw_pbdma_gk20a.h"
 
 unsigned int gk20a_debug_trace_cmdbuf;
-static const struct platform_device *gk20a_device;
+static struct platform_device *gk20a_device;
 
 struct ch_state {
 	int pid;
@@ -262,7 +262,7 @@ void gk20a_debug_show_dump(struct gk20a *g, struct gk20a_debug_output *o)
 	kfree(ch_state);
 }
 
-static const int gk20a_gr_dump_regs(struct platform_device *pdev,
+static int gk20a_gr_dump_regs(struct platform_device *pdev,
 		struct gk20a_debug_output *o)
 {
 	struct gk20a_platform *platform = gk20a_get_platform(pdev);

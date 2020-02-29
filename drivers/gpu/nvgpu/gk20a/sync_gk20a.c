@@ -60,7 +60,7 @@ struct gk20a_sync_pt_inst {
  *	    0 if a = b (a and b trigger at the same time)
  *	    1 if a > b (b triggers before a)
  */
-static const int __gk20a_sync_pt_compare_ref(
+static int __gk20a_sync_pt_compare_ref(
 	u32 ref,
 	u32 a,
 	u32 b)
@@ -273,7 +273,7 @@ static int gk20a_sync_pt_compare(struct sync_pt *a, struct sync_pt *b)
 			pt_a->thresh, pt_b->thresh);
 }
 
-static const u32 gk20a_sync_timeline_current(struct gk20a_sync_timeline *obj)
+static u32 gk20a_sync_timeline_current(struct gk20a_sync_timeline *obj)
 {
 	return obj->min;
 }

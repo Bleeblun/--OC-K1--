@@ -80,7 +80,7 @@ static ssize_t elcg_enable_read(struct device *device,
 	return sprintf(buf, "%d\n", g->elcg_enabled ? 1 : 0);
 }
 
-static const DEVICE_ATTR(elcg_enable, ROOTRW, elcg_enable_read, elcg_enable_store);
+static DEVICE_ATTR(elcg_enable, ROOTRW, elcg_enable_read, elcg_enable_store);
 
 static ssize_t blcg_enable_store(struct device *device,
 	struct device_attribute *attr, const char *buf, size_t count)
@@ -133,7 +133,7 @@ static ssize_t blcg_enable_read(struct device *device,
 }
 
 
-static const DEVICE_ATTR(blcg_enable, ROOTRW, blcg_enable_read, blcg_enable_store);
+static DEVICE_ATTR(blcg_enable, ROOTRW, blcg_enable_read, blcg_enable_store);
 
 static ssize_t slcg_enable_store(struct device *device,
 	struct device_attribute *attr, const char *buf, size_t count)
@@ -199,7 +199,7 @@ static ssize_t slcg_enable_read(struct device *device,
 	return sprintf(buf, "%d\n", g->slcg_enabled ? 1 : 0);
 }
 
-static const DEVICE_ATTR(slcg_enable, ROOTRW, slcg_enable_read, slcg_enable_store);
+static DEVICE_ATTR(slcg_enable, ROOTRW, slcg_enable_read, slcg_enable_store);
 
 static ssize_t ptimer_scale_factor_show(struct device *dev,
 						struct device_attribute *attr,
@@ -218,7 +218,7 @@ static ssize_t ptimer_scale_factor_show(struct device *dev,
 	return res;
 }
 
-static const DEVICE_ATTR(ptimer_scale_factor,
+static DEVICE_ATTR(ptimer_scale_factor,
 			S_IRUGO,
 			ptimer_scale_factor_show,
 			NULL);
@@ -277,7 +277,7 @@ static ssize_t railgate_enable_read(struct device *device,
 	return sprintf(buf, "%d\n", platform->can_railgate ? 1 : 0);
 }
 
-static const DEVICE_ATTR(railgate_enable, ROOTRW, railgate_enable_read,
+static DEVICE_ATTR(railgate_enable, ROOTRW, railgate_enable_read,
 			railgate_enable_store);
 #endif
 
@@ -317,7 +317,7 @@ static ssize_t railgate_delay_show(struct device *dev,
 	struct gk20a_platform *platform = dev_get_drvdata(dev);
 	return snprintf(buf, PAGE_SIZE, "%d\n", platform->railgate_delay);
 }
-static const DEVICE_ATTR(railgate_delay, ROOTRW, railgate_delay_show,
+static DEVICE_ATTR(railgate_delay, ROOTRW, railgate_delay_show,
 		   railgate_delay_store);
 
 static ssize_t is_railgated_show(struct device *dev,
@@ -331,7 +331,7 @@ static ssize_t is_railgated_show(struct device *dev,
 
 	return snprintf(buf, PAGE_SIZE, "%s\n", is_railgated ? "yes" : "no");
 }
-static const DEVICE_ATTR(is_railgated, S_IRUGO, is_railgated_show, NULL);
+static DEVICE_ATTR(is_railgated, S_IRUGO, is_railgated_show, NULL);
 
 static ssize_t clockgate_delay_store(struct device *dev,
 				     struct device_attribute *attr,
@@ -356,7 +356,7 @@ static ssize_t clockgate_delay_show(struct device *dev,
 	struct gk20a_platform *platform = dev_get_drvdata(dev);
 	return snprintf(buf, PAGE_SIZE, "%d\n", platform->clockgate_delay);
 }
-static const DEVICE_ATTR(clockgate_delay, ROOTRW, clockgate_delay_show,
+static DEVICE_ATTR(clockgate_delay, ROOTRW, clockgate_delay_show,
 		   clockgate_delay_store);
 
 static ssize_t counters_show(struct device *dev,
@@ -373,7 +373,7 @@ static ssize_t counters_show(struct device *dev,
 
 	return res;
 }
-static const DEVICE_ATTR(counters, S_IRUGO, counters_show, NULL);
+static DEVICE_ATTR(counters, S_IRUGO, counters_show, NULL);
 
 static ssize_t counters_show_reset(struct device *dev,
 				   struct device_attribute *attr, char *buf)
@@ -386,7 +386,7 @@ static ssize_t counters_show_reset(struct device *dev,
 
 	return res;
 }
-static const DEVICE_ATTR(counters_reset, S_IRUGO, counters_show_reset, NULL);
+static DEVICE_ATTR(counters_reset, S_IRUGO, counters_show_reset, NULL);
 
 static ssize_t gk20a_load_show(struct device *dev,
 				     struct device_attribute *attr,
@@ -414,7 +414,7 @@ static ssize_t gk20a_load_show(struct device *dev,
 
 	return res;
 }
-static const DEVICE_ATTR(load, S_IRUGO, gk20a_load_show, NULL);
+static DEVICE_ATTR(load, S_IRUGO, gk20a_load_show, NULL);
 
 static ssize_t elpg_enable_store(struct device *device,
 	struct device_attribute *attr, const char *buf, size_t count)
@@ -459,7 +459,7 @@ static ssize_t elpg_enable_read(struct device *device,
 	return sprintf(buf, "%d\n", g->elpg_enabled ? 1 : 0);
 }
 
-static const DEVICE_ATTR(elpg_enable, ROOTRW, elpg_enable_read, elpg_enable_store);
+static DEVICE_ATTR(elpg_enable, ROOTRW, elpg_enable_read, elpg_enable_store);
 
 static ssize_t aelpg_param_store(struct device *device,
 	struct device_attribute *attr, const char *buf, size_t count)
@@ -514,7 +514,7 @@ static ssize_t aelpg_param_read(struct device *device,
 		g->pmu.aelpg_param[3], g->pmu.aelpg_param[4]);
 }
 
-static const DEVICE_ATTR(aelpg_param, S_IRWXUGO,
+static DEVICE_ATTR(aelpg_param, S_IRWXUGO,
 		aelpg_param_read, aelpg_param_store);
 
 static ssize_t aelpg_enable_store(struct device *device,
@@ -566,7 +566,7 @@ static ssize_t aelpg_enable_read(struct device *device,
 	return sprintf(buf, "%d\n", g->aelpg_enabled ? 1 : 0);
 }
 
-static const DEVICE_ATTR(aelpg_enable, ROOTRW,
+static DEVICE_ATTR(aelpg_enable, ROOTRW,
 		aelpg_enable_read, aelpg_enable_store);
 
 
@@ -596,7 +596,7 @@ static ssize_t allow_all_enable_store(struct device *device,
 	return count;
 }
 
-static const DEVICE_ATTR(allow_all, ROOTRW,
+static DEVICE_ATTR(allow_all, ROOTRW,
 		allow_all_enable_read, allow_all_enable_store);
 
 static ssize_t emc3d_ratio_store(struct device *device,
@@ -623,7 +623,7 @@ static ssize_t emc3d_ratio_read(struct device *device,
 	return sprintf(buf, "%d\n", g->emc3d_ratio);
 }
 
-static const DEVICE_ATTR(emc3d_ratio, ROOTRW, emc3d_ratio_read, emc3d_ratio_store);
+static DEVICE_ATTR(emc3d_ratio, ROOTRW, emc3d_ratio_read, emc3d_ratio_store);
 
 static ssize_t fmax_at_vmin_safe_read(struct device *device,
 	struct device_attribute *attr, char *buf)
@@ -638,7 +638,7 @@ static ssize_t fmax_at_vmin_safe_read(struct device *device,
 	return sprintf(buf, "%d\n", (int)(gpu_fmax_at_vmin_hz));
 }
 
-static const DEVICE_ATTR(fmax_at_vmin_safe, S_IRUGO, fmax_at_vmin_safe_read, NULL);
+static DEVICE_ATTR(fmax_at_vmin_safe, S_IRUGO, fmax_at_vmin_safe_read, NULL);
 
 #ifdef CONFIG_PM_RUNTIME
 static ssize_t force_idle_store(struct device *device,
@@ -688,7 +688,7 @@ static ssize_t force_idle_read(struct device *device,
 	return sprintf(buf, "%d\n", g->forced_idle ? 1 : 0);
 }
 
-static const DEVICE_ATTR(force_idle, ROOTRW, force_idle_read, force_idle_store);
+static DEVICE_ATTR(force_idle, ROOTRW, force_idle_read, force_idle_store);
 #endif
 
 static ssize_t tpc_fs_mask_store(struct device *device,
@@ -745,7 +745,7 @@ static ssize_t tpc_fs_mask_read(struct device *device,
 	return sprintf(buf, "0x%x\n", tpc_fs_mask);
 }
 
-static const DEVICE_ATTR(tpc_fs_mask, S_IRWXUGO, tpc_fs_mask_read, tpc_fs_mask_store);
+static DEVICE_ATTR(tpc_fs_mask, S_IRWXUGO, tpc_fs_mask_read, tpc_fs_mask_store);
 
 void gk20a_remove_sysfs(struct device *dev)
 {

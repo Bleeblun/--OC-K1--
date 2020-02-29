@@ -25,7 +25,7 @@
 #include "gr_ctx_gk20a.h"
 #include "hw_gr_gk20a.h"
 
-static const int gr_gk20a_alloc_load_netlist_u32(u32 *src, u32 len,
+static int gr_gk20a_alloc_load_netlist_u32(u32 *src, u32 len,
 			struct u32_list_gk20a *u32_list)
 {
 	u32_list->count = (len + sizeof(u32) - 1) / sizeof(u32);
@@ -37,7 +37,7 @@ static const int gr_gk20a_alloc_load_netlist_u32(u32 *src, u32 len,
 	return 0;
 }
 
-static const int gr_gk20a_alloc_load_netlist_av(u32 *src, u32 len,
+static int gr_gk20a_alloc_load_netlist_av(u32 *src, u32 len,
 			struct av_list_gk20a *av_list)
 {
 	av_list->count = len / sizeof(struct av_gk20a);
@@ -49,7 +49,7 @@ static const int gr_gk20a_alloc_load_netlist_av(u32 *src, u32 len,
 	return 0;
 }
 
-static const int gr_gk20a_alloc_load_netlist_aiv(u32 *src, u32 len,
+static int gr_gk20a_alloc_load_netlist_aiv(u32 *src, u32 len,
 			struct aiv_list_gk20a *aiv_list)
 {
 	aiv_list->count = len / sizeof(struct aiv_gk20a);
@@ -105,7 +105,7 @@ static bool gr_gk20a_is_firmware_defined(void)
 #endif
 }
 
-static const int gr_gk20a_init_ctx_vars_fw(struct gk20a *g, struct gr_gk20a *gr)
+static int gr_gk20a_init_ctx_vars_fw(struct gk20a *g, struct gr_gk20a *gr)
 {
 	struct device *d = dev_from_gk20a(g);
 	const struct firmware *netlist_fw;
