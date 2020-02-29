@@ -324,7 +324,7 @@ static struct attribute *gpio_keys_attrs[] = {
 	NULL,
 };
 
-static struct attribute_group gpio_keys_attr_group = {
+static const struct attribute_group gpio_keys_attr_group = {
 	.attrs = gpio_keys_attrs,
 };
 
@@ -448,7 +448,7 @@ out:
 	return IRQ_HANDLED;
 }
 
-static int gpio_keys_setup_key(struct platform_device *pdev,
+static const int gpio_keys_setup_key(struct platform_device *pdev,
 				struct input_dev *input,
 				struct gpio_button_data *bdata,
 				const struct gpio_keys_button *button)
@@ -601,7 +601,7 @@ static void gpio_keys_close(struct input_dev *input)
 /*
  * Translate OpenFirmware node properties into platform_data
  */
-static struct gpio_keys_platform_data *
+static const struct gpio_keys_platform_data *
 gpio_keys_get_devtree_pdata(struct device *dev)
 {
 	struct device_node *node, *pp;
