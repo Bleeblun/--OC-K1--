@@ -1612,7 +1612,7 @@ static u64 cfqg_prfill_weight_device(struct seq_file *sf,
 	return __blkg_prfill_u64(sf, pd, cfqg->dev_weight);
 }
 
-static const int cfqg_print_weight_device(struct cgroup *cgrp, struct cftype *cft,
+static int cfqg_print_weight_device(struct cgroup *cgrp, struct cftype *cft,
 				    struct seq_file *sf)
 {
 	blkcg_print_blkgs(sf, cgroup_to_blkcg(cgrp),
@@ -1631,7 +1631,7 @@ static u64 cfqg_prfill_leaf_weight_device(struct seq_file *sf,
 	return __blkg_prfill_u64(sf, pd, cfqg->dev_leaf_weight);
 }
 
-static const int cfqg_print_leaf_weight_device(struct cgroup *cgrp,
+static int cfqg_print_leaf_weight_device(struct cgroup *cgrp,
 					 struct cftype *cft,
 					 struct seq_file *sf)
 {
@@ -1641,14 +1641,14 @@ static const int cfqg_print_leaf_weight_device(struct cgroup *cgrp,
 	return 0;
 }
 
-static const int cfq_print_weight(struct cgroup *cgrp, struct cftype *cft,
+static int cfq_print_weight(struct cgroup *cgrp, struct cftype *cft,
 			    struct seq_file *sf)
 {
 	seq_printf(sf, "%u\n", cgroup_to_blkcg(cgrp)->cfq_weight);
 	return 0;
 }
 
-static const int cfq_print_leaf_weight(struct cgroup *cgrp, struct cftype *cft,
+static int cfq_print_leaf_weight(struct cgroup *cgrp, struct cftype *cft,
 				 struct seq_file *sf)
 {
 	seq_printf(sf, "%u\n",
@@ -1656,7 +1656,7 @@ static const int cfq_print_leaf_weight(struct cgroup *cgrp, struct cftype *cft,
 	return 0;
 }
 
-static const int __cfqg_set_weight_device(struct cgroup *cgrp, struct cftype *cft,
+static int __cfqg_set_weight_device(struct cgroup *cgrp, struct cftype *cft,
 				    const char *buf, bool is_leaf_weight)
 {
 	struct blkcg *blkcg = cgroup_to_blkcg(cgrp);
@@ -1685,19 +1685,19 @@ static const int __cfqg_set_weight_device(struct cgroup *cgrp, struct cftype *cf
 	return ret;
 }
 
-static const int cfqg_set_weight_device(struct cgroup *cgrp, struct cftype *cft,
+static int cfqg_set_weight_device(struct cgroup *cgrp, struct cftype *cft,
 				  const char *buf)
 {
 	return __cfqg_set_weight_device(cgrp, cft, buf, false);
 }
 
-static const int cfqg_set_leaf_weight_device(struct cgroup *cgrp, struct cftype *cft,
+static int cfqg_set_leaf_weight_device(struct cgroup *cgrp, struct cftype *cft,
 				       const char *buf)
 {
 	return __cfqg_set_weight_device(cgrp, cft, buf, true);
 }
 
-static const int __cfq_set_weight(struct cgroup *cgrp, struct cftype *cft, u64 val,
+static int __cfq_set_weight(struct cgroup *cgrp, struct cftype *cft, u64 val,
 			    bool is_leaf_weight)
 {
 	struct blkcg *blkcg = cgroup_to_blkcg(cgrp);
@@ -1732,17 +1732,17 @@ static const int __cfq_set_weight(struct cgroup *cgrp, struct cftype *cft, u64 v
 	return 0;
 }
 
-static const int cfq_set_weight(struct cgroup *cgrp, struct cftype *cft, u64 val)
+static int cfq_set_weight(struct cgroup *cgrp, struct cftype *cft, u64 val)
 {
 	return __cfq_set_weight(cgrp, cft, val, false);
 }
 
-static const int cfq_set_leaf_weight(struct cgroup *cgrp, struct cftype *cft, u64 val)
+static int cfq_set_leaf_weight(struct cgroup *cgrp, struct cftype *cft, u64 val)
 {
 	return __cfq_set_weight(cgrp, cft, val, true);
 }
 
-static const int cfqg_print_stat(struct cgroup *cgrp, struct cftype *cft,
+static int cfqg_print_stat(struct cgroup *cgrp, struct cftype *cft,
 			   struct seq_file *sf)
 {
 	struct blkcg *blkcg = cgroup_to_blkcg(cgrp);
@@ -1752,7 +1752,7 @@ static const int cfqg_print_stat(struct cgroup *cgrp, struct cftype *cft,
 	return 0;
 }
 
-static const int cfqg_print_rwstat(struct cgroup *cgrp, struct cftype *cft,
+static int cfqg_print_rwstat(struct cgroup *cgrp, struct cftype *cft,
 			     struct seq_file *sf)
 {
 	struct blkcg *blkcg = cgroup_to_blkcg(cgrp);
@@ -1778,7 +1778,7 @@ static u64 cfqg_prfill_rwstat_recursive(struct seq_file *sf,
 	return __blkg_prfill_rwstat(sf, pd, &sum);
 }
 
-static const int cfqg_print_stat_recursive(struct cgroup *cgrp, struct cftype *cft,
+static int cfqg_print_stat_recursive(struct cgroup *cgrp, struct cftype *cft,
 				     struct seq_file *sf)
 {
 	struct blkcg *blkcg = cgroup_to_blkcg(cgrp);
@@ -1788,7 +1788,7 @@ static const int cfqg_print_stat_recursive(struct cgroup *cgrp, struct cftype *c
 	return 0;
 }
 
-static const int cfqg_print_rwstat_recursive(struct cgroup *cgrp, struct cftype *cft,
+static int cfqg_print_rwstat_recursive(struct cgroup *cgrp, struct cftype *cft,
 				       struct seq_file *sf)
 {
 	struct blkcg *blkcg = cgroup_to_blkcg(cgrp);
@@ -1815,7 +1815,7 @@ static u64 cfqg_prfill_avg_queue_size(struct seq_file *sf,
 }
 
 /* print avg_queue_size */
-static const int cfqg_print_avg_queue_size(struct cgroup *cgrp, struct cftype *cft,
+static int cfqg_print_avg_queue_size(struct cgroup *cgrp, struct cftype *cft,
 				     struct seq_file *sf)
 {
 	struct blkcg *blkcg = cgroup_to_blkcg(cgrp);
@@ -2829,7 +2829,7 @@ cfq_prio_to_maxrq(struct cfq_data *cfqd, struct cfq_queue *cfqq)
 /*
  * Must be called with the queue_lock held.
  */
-static const int cfqq_process_refs(struct cfq_queue *cfqq)
+static int cfqq_process_refs(struct cfq_queue *cfqq)
 {
 	int process_refs, io_refs;
 
@@ -3131,7 +3131,7 @@ keep_queue:
 	return cfqq;
 }
 
-static const int __cfq_forced_dispatch_cfqq(struct cfq_queue *cfqq)
+static int __cfq_forced_dispatch_cfqq(struct cfq_queue *cfqq)
 {
 	int dispatched = 0;
 
@@ -3151,7 +3151,7 @@ static const int __cfq_forced_dispatch_cfqq(struct cfq_queue *cfqq)
  * Drain our current requests. Used for barriers and when switching
  * io schedulers on-the-fly.
  */
-static const int cfq_forced_dispatch(struct cfq_data *cfqd)
+static int cfq_forced_dispatch(struct cfq_data *cfqd)
 {
 	struct cfq_queue *cfqq;
 	int dispatched = 0;

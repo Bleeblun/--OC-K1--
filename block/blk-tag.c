@@ -85,7 +85,7 @@ void blk_queue_free_tags(struct request_queue *q)
 }
 EXPORT_SYMBOL(blk_queue_free_tags);
 
-static const int
+static int
 init_tag_map(struct request_queue *q, struct blk_queue_tag *tags, int depth)
 {
 	struct request **tag_index;

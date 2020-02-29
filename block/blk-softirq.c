@@ -56,7 +56,7 @@ static void trigger_softirq(void *data)
 /*
  * Setup and invoke a run of 'trigger_softirq' on the given cpu.
  */
-static const int raise_blk_irq(int cpu, struct request *rq)
+static int raise_blk_irq(int cpu, struct request *rq)
 {
 	if (cpu_online(cpu)) {
 		struct call_single_data *data = &rq->csd;
@@ -72,13 +72,13 @@ static const int raise_blk_irq(int cpu, struct request *rq)
 	return 1;
 }
 #else /* CONFIG_SMP */
-static const int raise_blk_irq(int cpu, struct request *rq)
+static int raise_blk_irq(int cpu, struct request *rq)
 {
 	return 1;
 }
 #endif
 
-static const int __cpuinit blk_cpu_notify(struct notifier_block *self,
+static int __cpuinit blk_cpu_notify(struct notifier_block *self,
 				    unsigned long action, void *hcpu)
 {
 	/*

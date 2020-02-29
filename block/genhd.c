@@ -375,7 +375,7 @@ static struct kobj_map *bdev_map;
  * CONTEXT:
  * Don't care.
  */
-static const int blk_mangle_minor(int minor)
+static int blk_mangle_minor(int minor)
 {
 #ifdef CONFIG_DEBUG_BLOCK_EXT_DEVT
 	int i;

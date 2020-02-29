@@ -1620,7 +1620,7 @@ static void handle_bad_sector(struct bio *bio)
 
 static DECLARE_FAULT_ATTR(fail_make_request);
 
-static const int __init setup_fail_make_request(char *str)
+static int __init setup_fail_make_request(char *str)
 {
 	return setup_fault_attr(&fail_make_request, str);
 }
@@ -1631,7 +1631,7 @@ static bool should_fail_request(struct hd_struct *part, unsigned int bytes)
 	return part->make_it_fail && should_fail(&fail_make_request, bytes);
 }
 
-static const int __init fail_make_request_debugfs(void)
+static int __init fail_make_request_debugfs(void)
 {
 	struct dentry *dir = fault_create_debugfs_attr("fail_make_request",
 						NULL, &fail_make_request);

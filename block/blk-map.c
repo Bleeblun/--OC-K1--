@@ -25,7 +25,7 @@ int blk_rq_append_bio(struct request_queue *q, struct request *rq,
 	return 0;
 }
 
-static const int __blk_rq_unmap_user(struct bio *bio)
+static int __blk_rq_unmap_user(struct bio *bio)
 {
 	int ret = 0;
 
@@ -39,7 +39,7 @@ static const int __blk_rq_unmap_user(struct bio *bio)
 	return ret;
 }
 
-static const int __blk_rq_map_user(struct request_queue *q, struct request *rq,
+static int __blk_rq_map_user(struct request_queue *q, struct request *rq,
 			     struct rq_map_data *map_data, void __user *ubuf,
 			     unsigned int len, gfp_t gfp_mask)
 {
