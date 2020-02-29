@@ -176,7 +176,7 @@ static unsigned int num_clusters_in_group(struct super_block *sb,
 }
 
 /* Initializes an uninitialized block bitmap */
-static const int ext4_init_block_bitmap(struct super_block *sb,
+static int ext4_init_block_bitmap(struct super_block *sb,
 				   struct buffer_head *bh,
 				   ext4_group_t block_group,
 				   struct ext4_group_desc *gdp)
@@ -525,7 +525,7 @@ ext4_read_block_bitmap(struct super_block *sb, ext4_group_t block_group)
  * Check if filesystem has nclusters free & available for allocation.
  * On success return 1, return 0 on failure.
  */
-static const int ext4_has_free_clusters(struct ext4_sb_info *sbi,
+static int ext4_has_free_clusters(struct ext4_sb_info *sbi,
 				  s64 nclusters, unsigned int flags)
 {
 	s64 free_clusters, dirty_clusters, rsv, resv_clusters;

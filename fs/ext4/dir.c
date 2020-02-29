@@ -38,7 +38,7 @@ static int ext4_dx_readdir(struct file *, struct dir_context *);
  *
  * Return 1 if it is a dx dir, 0 if not
  */
-static const int is_dx_dir(struct inode *inode)
+static int is_dx_dir(struct inode *inode)
 {
 	struct super_block *sb = inode->i_sb;
 
@@ -496,7 +496,7 @@ int ext4_htree_store_dirent(struct file *dir_file, __u32 hash,
  * for all entres on the fname linked list.  (Normally there is only
  * one entry on the linked list, unless there are 62 bit hash collisions.)
  */
-static const int call_filldir(struct file *file, struct dir_context *ctx,
+static int call_filldir(struct file *file, struct dir_context *ctx,
 			struct fname *fname)
 {
 	struct dir_private_info *info = file->private_data;

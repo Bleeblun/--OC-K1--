@@ -54,7 +54,7 @@ static inline int can_merge(struct ext4_system_zone *entry1,
  * is, filesystem metadata blocks which should never be used by
  * inodes.
  */
-static const int add_system_zone(struct ext4_sb_info *sbi,
+static int add_system_zone(struct ext4_sb_info *sbi,
 			   ext4_fsblk_t start_blk,
 			   unsigned int count)
 {

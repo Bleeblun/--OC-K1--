@@ -409,7 +409,7 @@ static void get_orlov_stats(struct super_block *sb, ext4_group_t g,
  * free inodes than average (starting at parent's group).
  */
 
-static const int find_group_orlov(struct super_block *sb, struct inode *parent,
+static int find_group_orlov(struct super_block *sb, struct inode *parent,
 			    ext4_group_t *group, umode_t mode,
 			    const struct qstr *qstr)
 {
@@ -557,7 +557,7 @@ fallback_retry:
 	return -1;
 }
 
-static const int find_group_other(struct super_block *sb, struct inode *parent,
+static int find_group_other(struct super_block *sb, struct inode *parent,
 			    ext4_group_t *group, umode_t mode)
 {
 	ext4_group_t parent_group = EXT4_I(parent)->i_block_group;
@@ -662,7 +662,7 @@ static const int find_group_other(struct super_block *sb, struct inode *parent,
 #define RECENTCY_MIN	5
 #define RECENTCY_DIRTY	30
 
-static const int recently_deleted(struct super_block *sb, ext4_group_t group, int ino)
+static int recently_deleted(struct super_block *sb, ext4_group_t group, int ino)
 {
 	struct ext4_group_desc	*gdp;
 	struct ext4_inode	*raw_inode;
