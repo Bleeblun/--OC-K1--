@@ -56,7 +56,7 @@ static inline int is_event_supported(unsigned int code,
 	return code <= max && test_bit(code, bm);
 }
 
-static int input_defuzz_abs_event(int value, int old_val, int fuzz)
+static const int input_defuzz_abs_event(int value, int old_val, int fuzz)
 {
 	if (fuzz) {
 		if (value > old_val - fuzz / 2 && value < old_val + fuzz / 2)
@@ -206,7 +206,7 @@ static void input_repeat_key(unsigned long data)
 #define INPUT_FLUSH		8
 #define INPUT_PASS_TO_ALL	(INPUT_PASS_TO_HANDLERS | INPUT_PASS_TO_DEVICE)
 
-static int input_handle_abs_event(struct input_dev *dev,
+static const int input_handle_abs_event(struct input_dev *dev,
 				  unsigned int code, int *pval)
 {
 	struct input_mt *mt = dev->mt;
@@ -256,7 +256,7 @@ static int input_handle_abs_event(struct input_dev *dev,
 	return INPUT_PASS_TO_HANDLERS;
 }
 
-static int input_get_disposition(struct input_dev *dev,
+static const int input_get_disposition(struct input_dev *dev,
 			  unsigned int type, unsigned int code, int *pval)
 {
 	int disposition = INPUT_IGNORE_EVENT;
@@ -751,7 +751,7 @@ EXPORT_SYMBOL(input_scancode_to_scalar);
  * defined. In this case, an array indexed by the scancode is used.
  */
 
-static unsigned int input_fetch_keycode(struct input_dev *dev,
+static const unsigned int input_fetch_keycode(struct input_dev *dev,
 					unsigned int index)
 {
 	switch (dev->keycodesize) {
@@ -981,7 +981,7 @@ static const struct input_device_id *input_match_device(struct input_handler *ha
 	return NULL;
 }
 
-static int input_attach_handler(struct input_dev *dev, struct input_handler *handler)
+static const int input_attach_handler(struct input_dev *dev, struct input_handler *handler)
 {
 	const struct input_device_id *id;
 	int error;
@@ -1000,7 +1000,7 @@ static int input_attach_handler(struct input_dev *dev, struct input_handler *han
 
 #ifdef CONFIG_COMPAT
 
-static int input_bits_to_string(char *buf, int buf_size,
+static const int input_bits_to_string(char *buf, int buf_size,
 				unsigned long bits, bool skip_empty)
 {
 	int len = 0;
@@ -1024,7 +1024,7 @@ static int input_bits_to_string(char *buf, int buf_size,
 
 #else /* !CONFIG_COMPAT */
 
-static int input_bits_to_string(char *buf, int buf_size,
+static const int input_bits_to_string(char *buf, int buf_size,
 				unsigned long bits, bool skip_empty)
 {
 	return bits || !skip_empty ?
@@ -1306,7 +1306,7 @@ INPUT_DEV_STRING_ATTR_SHOW(name);
 INPUT_DEV_STRING_ATTR_SHOW(phys);
 INPUT_DEV_STRING_ATTR_SHOW(uniq);
 
-static int input_print_modalias_bits(char *buf, int size,
+static const int input_print_modalias_bits(char *buf, int size,
 				     char name, unsigned long *bm,
 				     unsigned int min_bit, unsigned int max_bit)
 {
@@ -1319,7 +1319,7 @@ static int input_print_modalias_bits(char *buf, int size,
 	return len;
 }
 
-static int input_print_modalias(char *buf, int size, struct input_dev *id,
+static const int input_print_modalias(char *buf, int size, struct input_dev *id,
 				int add_cr)
 {
 	int len;
@@ -1429,7 +1429,7 @@ static struct attribute *input_dev_attrs[] = {
 	NULL
 };
 
-static struct attribute_group input_dev_attr_group = {
+static const struct attribute_group input_dev_attr_group = {
 	.attrs	= input_dev_attrs,
 };
 
@@ -1457,7 +1457,7 @@ static struct attribute *input_dev_id_attrs[] = {
 	NULL
 };
 
-static struct attribute_group input_dev_id_attr_group = {
+static const struct attribute_group input_dev_id_attr_group = {
 	.name	= "id",
 	.attrs	= input_dev_id_attrs,
 };
@@ -1527,7 +1527,7 @@ static struct attribute *input_dev_caps_attrs[] = {
 	NULL
 };
 
-static struct attribute_group input_dev_caps_attr_group = {
+static const struct attribute_group input_dev_caps_attr_group = {
 	.name	= "capabilities",
 	.attrs	= input_dev_caps_attrs,
 };
@@ -1746,7 +1746,7 @@ static const struct dev_pm_ops input_dev_pm_ops = {
 };
 #endif /* CONFIG_PM */
 
-static struct device_type input_dev_type = {
+static const struct device_type input_dev_type = {
 	.groups		= input_dev_attr_groups,
 	.release	= input_dev_release,
 	.uevent		= input_dev_uevent,
@@ -1951,7 +1951,7 @@ void input_set_capability(struct input_dev *dev, unsigned int type, unsigned int
 }
 EXPORT_SYMBOL(input_set_capability);
 
-static unsigned int input_estimate_events_per_packet(struct input_dev *dev)
+static const unsigned int input_estimate_events_per_packet(struct input_dev *dev)
 {
 	int mt_slots;
 	int i;
