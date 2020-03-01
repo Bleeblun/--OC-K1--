@@ -35,7 +35,7 @@ static struct regulator *vmm_lcd;
 static struct device *dc_dev;
 static u16 en_panel_rst;
 
-static int dsi_s_wuxga_8_0_regulator_get(struct device *dev)
+static const int dsi_s_wuxga_8_0_regulator_get(struct device *dev)
 {
 	int err = 0;
 
