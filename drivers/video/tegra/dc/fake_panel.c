@@ -261,8 +261,8 @@ int tegra_dc_init_fakedsi_panel(struct tegra_dc *dc, const long dc_outtype)
 	dc_out->postpoweron = NULL;
 	dc_out->disable = NULL;
 	dc_out->postsuspend	= NULL;
-	dc_out->width = 217;
-	dc_out->height = 135;
+	dc_out->width = 1920;
+	dc_out->height = 1200;
 	dc_out->flags = DC_CTRL_MODE;
 	tegra_dc_reset_fakedsi_panel(dc, dc_outtype);
 

@@ -21,7 +21,7 @@
 
 #include "mm_gk20a.h"
 
-#define MAX_CDE_BUFS		10
+#define MAX_CDE_BUFS		12
 #define MAX_CDE_PARAMS		64
 #define MAX_CDE_USER_PARAMS	40
 #define MAX_CDE_ARRAY_ENTRIES	9
@@ -32,7 +32,7 @@
  * wait on the previous job to that channel, so increasing this value
  * reduces the likelihood of stalls.
  */
-#define NUM_CDE_CONTEXTS	4
+#define NUM_CDE_CONTEXTS	6
 
 struct dma_buf;
 struct gk20a;

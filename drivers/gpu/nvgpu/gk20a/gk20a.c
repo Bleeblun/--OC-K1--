@@ -2078,7 +2078,7 @@ int gk20a_init_gpu_characteristics(struct gk20a *g)
 	gpu->cbc_cache_line_size = g->gr.cacheline_size;
 	gpu->cbc_comptags_per_line = g->gr.comptags_per_cacheline;
 
-	gpu->map_buffer_batch_limit = 256;
+	gpu->map_buffer_batch_limit = 1024;
 
 	return 0;
 }
