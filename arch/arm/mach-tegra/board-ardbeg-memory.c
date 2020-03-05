@@ -30,7 +30,7 @@ static struct tegra12_emc_table ardbeg_ddr3_emc_table_pm358[] = {
 	{
 		0x18,       /* V5.0.12 */
 		"03_12750_02_V5.0.12_V0.9", /* DVFS table version */
-		12800,      /* SDRAM frequency */
+		12750,      /* SDRAM frequency */
 		800,        /* min voltage */
 		800,        /* gpu min voltage */
 		"pllp_out0", /* clock source id */
@@ -3659,7 +3659,7 @@ static struct tegra12_emc_table ardbeg_emc_table[] = {
 	{
 		0x19,       /* V5.0.14 */
 		"09_12750_03_V5.0.14_V1.1", /* DVFS table version */
-		12800,      /* SDRAM frequency */
+		12750,      /* SDRAM frequency */
 		800,        /* min voltage */
 		800,        /* gpu min voltage */
 		"pllp_out0", /* clock source id */
@@ -6386,7 +6386,7 @@ static struct tegra12_emc_table ardbeg_4GB_emc_table[] = {
 	{
 		0x19,       /* V5.0.14 */
 		"03_12750_02_V5.0.14_V1.1", /* DVFS table version */
-		12800,      /* SDRAM frequency */
+		12750,      /* SDRAM frequency */
 		800,        /* min voltage */
 		800,        /* gpu min voltage */
 		"pllp_out0", /* clock source id */
@@ -8886,7 +8886,7 @@ static struct tegra12_emc_table ardbeg_lpddr3_emc_table[] = {
 	{
 		0x19,       /* V5.0.14 */
 		"09_12750_04_V5.0.14_V1.1", /* DVFS table version */
-		12800,      /* SDRAM frequency */
+		12750,      /* SDRAM frequency */
 		800,        /* min voltage */
 		800,        /* gpu min voltage */
 		"pllp_out0", /* clock source id */
@@ -11613,7 +11613,7 @@ static struct tegra12_emc_table ardbeg_lpddr3_emc_table_der[] = {
 	{
 		0x19,       /* V5.0.16 */
 		"09_12750_04_V5.0.16_V1.1", /* DVFS table version */
-		12800,      /* SDRAM frequency */
+		12750,      /* SDRAM frequency */
 		800,        /* min voltage */
 		800,        /* gpu min voltage */
 		"pllp_out0", /* clock source id */
@@ -14795,7 +14795,7 @@ static struct tegra12_emc_table jetson_tk1_ddr3_emc_table[] = {
 	{
 		0x19,       /* V5.0.17 */
 		"01_12750_01_V5.0.17_V1.1", /* DVFS table version */
-		12800,      /* SDRAM frequency */
+		12750,      /* SDRAM frequency */
 		800,        /* min voltage */
 		800,        /* gpu min voltage */
 		"pllp_out0", /* clock source id */
@@ -17522,7 +17522,7 @@ static struct tegra12_emc_table pm375_ddr3_emc_table[] = {
 	{
 		0x19,       /* V5.0.14 */
 		"04_12750_03_V5.0.14_V1.1", /* DVFS table version */
-		12800,      /* SDRAM frequency */
+		12750,      /* SDRAM frequency */
 		800,        /* min voltage */
 		800,        /* gpu min voltage */
 		"pllp_out0", /* clock source id */

@@ -163,7 +163,7 @@ void __init tegra12x_vdd_cpu_align(int step_uv, int offset_uv)
 }
 
 /* CPU DVFS tables */
-static const unsigned long cpu_max_freq[] = {
+static unsigned long cpu_max_freq[] = {
 /* speedo_id   0   1        2        3        4        5        6        7        8*/
 #if defined(CONFIG_TEGRA_CPU_OVERCLOCK)
 		2014500, 2320500, 2116500, 2524500, 1811000, 2499000, 1912500, 1912500, 2116500,
@@ -783,7 +783,7 @@ static int resolve_core_override(int min_override_mv)
 }
 
 /* GPU DVFS tables */
-static const unsigned long gpu_max_freq[] = {
+static unsigned long gpu_max_freq[] = {
 /* speedo_id 0	1		 2	 	  3		  4		  5		  6*/
 #if defined(CONFIG_TEGRA_GPU_OVERCLOCK)
 		648000, 924000, 1008000, 780000, 804000, 756000, 924000

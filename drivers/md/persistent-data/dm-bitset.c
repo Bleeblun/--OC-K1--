@@ -40,11 +40,11 @@ int dm_bitset_empty(struct dm_disk_bitset *info, dm_block_t *root)
 EXPORT_SYMBOL_GPL(dm_bitset_empty);
 
 int dm_bitset_resize(struct dm_disk_bitset *info, dm_block_t root,
-		     const uint32_t old_nr_entries, const uint32_t new_nr_entries,
+		     uint32_t old_nr_entries, uint32_t new_nr_entries,
 		     bool default_value, dm_block_t *new_root)
 {
-	const uint32_t old_blocks = dm_div_up(old_nr_entries, BITS_PER_ARRAY_ENTRY);
-	const uint32_t new_blocks = dm_div_up(new_nr_entries, BITS_PER_ARRAY_ENTRY);
+	uint32_t old_blocks = dm_div_up(old_nr_entries, BITS_PER_ARRAY_ENTRY);
+	uint32_t new_blocks = dm_div_up(new_nr_entries, BITS_PER_ARRAY_ENTRY);
 	__le64 value = default_value ? cpu_to_le64(~0) : cpu_to_le64(0);
 
 	__dm_bless_for_disk(&value);
@@ -81,8 +81,8 @@ int dm_bitset_flush(struct dm_disk_bitset *info, dm_block_t root,
 }
 EXPORT_SYMBOL_GPL(dm_bitset_flush);
 
-static const int read_bits(struct dm_disk_bitset *info, dm_block_t root,
-		     const uint32_t array_index)
+static int read_bits(struct dm_disk_bitset *info, dm_block_t root,
+		     uint32_t array_index)
 {
 	int r;
 	__le64 value;
@@ -97,11 +97,11 @@ static const int read_bits(struct dm_disk_bitset *info, dm_block_t root,
 	return 0;
 }
 
-static const int get_array_entry(struct dm_disk_bitset *info, dm_block_t root,
-			   const uint32_t index, dm_block_t *new_root)
+static int get_array_entry(struct dm_disk_bitset *info, dm_block_t root,
+			   uint32_t index, dm_block_t *new_root)
 {
 	int r;
-	const unsigned array_index = index / BITS_PER_ARRAY_ENTRY;
+	unsigned array_index = index / BITS_PER_ARRAY_ENTRY;
 
 	if (info->current_index_set) {
 		if (info->current_index == array_index)
@@ -116,10 +116,10 @@ static const int get_array_entry(struct dm_disk_bitset *info, dm_block_t root,
 }
 
 int dm_bitset_set_bit(struct dm_disk_bitset *info, dm_block_t root,
-		      const uint32_t index, dm_block_t *new_root)
+		      uint32_t index, dm_block_t *new_root)
 {
 	int r;
-	const unsigned b = index % BITS_PER_ARRAY_ENTRY;
+	unsigned b = index % BITS_PER_ARRAY_ENTRY;
 
 	r = get_array_entry(info, root, index, new_root);
 	if (r)
@@ -131,10 +131,10 @@ int dm_bitset_set_bit(struct dm_disk_bitset *info, dm_block_t root,
 EXPORT_SYMBOL_GPL(dm_bitset_set_bit);
 
 int dm_bitset_clear_bit(struct dm_disk_bitset *info, dm_block_t root,
-			const uint32_t index, dm_block_t *new_root)
+			uint32_t index, dm_block_t *new_root)
 {
 	int r;
-	const unsigned b = index % BITS_PER_ARRAY_ENTRY;
+	unsigned b = index % BITS_PER_ARRAY_ENTRY;
 
 	r = get_array_entry(info, root, index, new_root);
 	if (r)
@@ -146,10 +146,10 @@ int dm_bitset_clear_bit(struct dm_disk_bitset *info, dm_block_t root,
 EXPORT_SYMBOL_GPL(dm_bitset_clear_bit);
 
 int dm_bitset_test_bit(struct dm_disk_bitset *info, dm_block_t root,
-		      const uint32_t index, dm_block_t *new_root, bool *result)
+		       uint32_t index, dm_block_t *new_root, bool *result)
 {
 	int r;
-	const unsigned b = index % BITS_PER_ARRAY_ENTRY;
+	unsigned b = index % BITS_PER_ARRAY_ENTRY;
 
 	r = get_array_entry(info, root, index, new_root);
 	if (r)

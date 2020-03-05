@@ -24,7 +24,7 @@
 #include "channel_gk20a.h"
 #include "tsg_gk20a.h"
 
-#define MAX_RUNLIST_BUFFERS	6
+#define MAX_RUNLIST_BUFFERS	2
 
 /* generally corresponds to the "pbdma" engine */
 

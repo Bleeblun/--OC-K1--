@@ -128,7 +128,7 @@ int dm_array_del(struct dm_array_info *info, dm_block_t root);
  * -ENODATA will be returned if the index is out of bounds.
  */
 int dm_array_get_value(struct dm_array_info *info, dm_block_t root,
-		       const uint32_t index, void *value);
+		       uint32_t index, void *value);
 
 /*
  * Set an entry in the array.
@@ -146,7 +146,7 @@ int dm_array_get_value(struct dm_array_info *info, dm_block_t root,
  * -ENODATA will be returned if the index is out of bounds.
  */
 int dm_array_set_value(struct dm_array_info *info, dm_block_t root,
-		       const uint32_t index, const void *value, dm_block_t *new_root)
+		       uint32_t index, const void *value, dm_block_t *new_root)
 	__dm_written_to_disk(value);
 
 /*
